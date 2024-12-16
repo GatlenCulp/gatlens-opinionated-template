@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/all-options/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/contributing/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/opinions/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/related/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/using-the-template/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/v1/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+    <url>
+         <loc>https://cookiecutter-data-science.drivendata.org/why/</loc>
+         <lastmod>2024-12-16</lastmod>
+    </url>
+</urlset>

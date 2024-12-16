@@ -1,0 +1,696 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A project template and directory structure for Python data science projects.">
+      
+      
+      
+        <link rel="canonical" href="https://cookiecutter-data-science.drivendata.org/using-the-template/">
+      
+      
+        <link rel="prev" href="../opinions/">
+      
+      
+        <link rel="next" href="../all-options/">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Using the template - Cookiecutter Data Science</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:300,300i,400,400i,700,700i%7CSpace+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Work Sans";--md-code-font:"Space Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+      <link rel="stylesheet" href="../termynal.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DX14MC19WY"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DX14MC19WY",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DX14MC19WY",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-the-template" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Cookiecutter Data Science" class="md-header__button md-logo" aria-label="Cookiecutter Data Science" data-md-component="logo">
+      
+  <img src="../ccds.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cookiecutter Data Science
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Using the template
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/drivendataorg/cookiecutter-data-science" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Cookiecutter Data Science" class="md-nav__button md-logo" aria-label="Cookiecutter Data Science" data-md-component="logo">
+      
+  <img src="../ccds.png" alt="logo">
+
+    </a>
+    Cookiecutter Data Science
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/drivendataorg/cookiecutter-data-science" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../why/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Why ccds?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opinions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Opinions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Using the template
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Using the template
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#set-up-version-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set up version control
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-as-a-task-runner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make as a task runner
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-python-virtual-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Python virtual environment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-your-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add your data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-out-a-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check out a branch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-a-notebook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Open a notebook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refactoring-code-into-shared-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Refactoring code into shared modules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-your-code-reviewable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make your code reviewable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-the-makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing the Makefile
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-make-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing Make on Windows
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../all-options/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    All options
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../related/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Related projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../v1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    v1 Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav><a href="https://drivendata.co/open-source.html" target="_blank" style="border-bottom: 0; padding-top: 3rem; display: block">
+  <img style="width: 60%" src="https://s3.amazonaws.com/drivendata/images/drivendata-logo.svg">
+</a>
+<p style="width: 60%">
+  Cookiecutter Data Science is a DrivenData project.
+</p>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="using-the-template">Using the template</h1>
+<p>You've <a href="../#starting-a-new-project">created</a> your project. You've <a href="../opinions/">read the opinions section</a>. You're ready to start doing some work.</p>
+<p>Here's a quick guide of the kinds of things we do once our project is ready to go. We'll walk through this example using git and GitHub for version control and jupyter notebooks for exploration, but you can use whatever tools you like.</p>
+<h2 id="set-up-version-control">Set up version control</h2>
+<p>Often, we start by initializing a <code>git</code> repository to track the code we write in version control and collaborate with teammates. At the command line, you can do this with the following commands which do the following: turn the folder into a git repository, add all of the files and folders created by CCDS into source control (except for what is in the <code>.gitignore</code> file), and then make a commit to the repository.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># From inside your newly created project directory</span>
+git<span class="w"> </span>init
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;CCDS defaults&quot;</span>
+</code></pre></div>
+<p>We usually commit the entire default CCDS structure so it is easy to track the changes we make to the structure in version history.</p>
+<p>Now that the default layout is committed, you should push it to a shared repository. You can do this through the interface of whatever source control platform you use. This may be GitHub, GitLab, Bitbucket, or something else.</p>
+<p>If you use GitHub and have the <a href="https://cli.github.com/">gh cli tool</a> you can easily create a new repository for the project from the commandline.</p>
+<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>repo<span class="w"> </span>create
+</code></pre></div>
+<p>You'll be asked a series of questions to set up the repository on GitHub. Once you're done you'll be able to push the changes in your local repository to GitHub.</p>
+<h2 id="make-as-a-task-runner">Make as a task runner</h2>
+<p><a href="https://www.gnu.org/software/make/">GNU Make</a> is a tool that is typically pre-installed on Linux and macOS systems, and we use it as a "task runner" for CCDS projects. This means that when we have a series of shell commands we might want to run, such setting up a virtual environment or syncing the data to cloud storage, we set them up as recipes in the <code>Makefile</code>. To use a recipe, simply call</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>RECIPE_NAME
+</code></pre></div>
+<p>where <code>RECIPE_NAME</code> is the same of a recipe like <code>requirements</code> or <code>sync_data_up</code>. Projects created by CCDS include a <code>Makefile</code> with several recipes we've predefined. You'll see them referenced in the sections below. To see a list of all available commands, just call</p>
+<div class="highlight"><pre><span></span><code>make
+</code></pre></div>
+<p>on its own.</p>
+<div class="admonition note">
+<p class="admonition-title">Using Windows?</p>
+<p>If you are using Windows, you may need to install Make. See the <a href="#installing-make-on-windows">"Installing Make on Windows"</a> section below.</p>
+</div>
+<h2 id="create-a-python-virtual-environment">Create a Python virtual environment</h2>
+<p>We often use Python for our data science projects. We use a virtual environment to manage the packages we use in our project. This is a way to keep the packages we use in our project separate from the packages we use in other projects. This is especially important when we are working on multiple projects at the same time.</p>
+<p>Cookicutter Data Science supports <a href="../opinions/#build-from-the-environment-up">a few options</a> for Python virtual environment management, but no matter which you choose, you can create an environment with the following commands:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>create_environment
+</code></pre></div>
+<p>Once the environment is created, you'll want to make sure to activate it. You'll have to do this following the instructions for your specific environment manager. We recommend using a shell prompt that shows you which environment you are in, so you can easily tell if you are in the right environment, for example <a href="https://starship.rs/">starship</a>. You can also use the command <code>which python</code> to make sure that your shell is pointing to the version of Python associated with your virtual environment.</p>
+<p>Once you are sure that your environment is activated in your shell, you can install the packages you need for your project. You can do this with the following command:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>requirements
+</code></pre></div>
+<h2 id="add-your-data">Add your data</h2>
+<p>There's no universal advice for how to manage your data, but here are some recommendations for starting points depending on where the data comes from:</p>
+<ul>
+<li><strong>Flat files (e.g., CSVs or spreadsheets) that are static</strong> - Put these files into your <code>data/raw</code> folder and then run <code>make sync_data_up</code> to push the raw data to your cloud provider.</li>
+<li><strong>Flat files that change and are extracted from somewhere</strong> - Add a Python script to your source module in <code>data/make_dataset.py</code> that downloads the data and puts it in the <code>data/raw</code> folder. Then you can use this to get the latest and push it up to your cloud host as it changes (be careful not to <a href="../opinions/#data-analysis-is-a-directed-acyclic-graph">override your raw data</a>).</li>
+<li><strong>Databases you connect to with credentials</strong> - Store your credentials in <code>.env</code>. We recommend adding a <code>db.py</code> file or similar to your <code>data</code> module that connects to the database and pulls data. If your queries generally fit into memory, you can just have functions in the <code>db.py</code> to load data that you use in analysis. If not, you'll want to add a script like above to download the data to the <code>data/raw</code> folder.</li>
+</ul>
+<h2 id="check-out-a-branch">Check out a branch</h2>
+<p>We'll talk about code review later, but it's a good practice to use feature branches and pull requests to keep your development organized. Now that you have source control configured, you can check out a branch to work with:</p>
+<div class="highlight"><pre><span></span><code>git checkout -b initial-exploration
+</code></pre></div>
+<h2 id="open-a-notebook">Open a notebook</h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following assumes you're using a Jupyter notebook, but while the specific commands for another notebook tool may look a little bit different, the process guidance still applies.</p>
+</div>
+<p>Now you're ready to do some analysis! Make sure that your project-specific environment is activated (you can check with <code>which jupyter</code>) and run <code>jupyter notebook notebooks</code> to open a Jupyter notebook in the <code>notebooks/</code> folder. You can start by creating a new notebook and doing some exploratory data analysis. We often name notebooks with a scheme that looks like this:</p>
+<div class="highlight"><pre><span></span><code>0.01-pjb-data-source-1.ipynb
+</code></pre></div>
+<ul>
+<li><code>0.01</code> - Helps leep work in chronological order. The structure is <code>PHASE.NOTEBOOK</code>. <code>NOTEBOOK</code> is just the Nth notebook in that phase to be created. For phases of the project, we generally use a scheme like the following, but you are welcome to design your own conventions:<ul>
+<li><code>0</code> - Data exploration - often just for exploratory work</li>
+<li><code>1</code> - Data cleaning and feature creation - often writes data to <code>data/processed</code> or <code>data/interim</code></li>
+<li><code>2</code> - Visualizations - often writes publication-ready viz to <code>reports</code></li>
+<li><code>3</code> - Modeling - training machine learning models</li>
+<li><code>4</code> - Publication - Notebooks that get turned directly into reports</li>
+</ul>
+</li>
+<li><code>pjb</code> - Your initials; this is helpful for knowing who created the notebook and prevents collisions from people working in the same notebook.</li>
+<li><code>data-source-1</code> - A description of what the notebook covers</li>
+</ul>
+<p>Now that you have your notebook going, start your analysis!</p>
+<h2 id="refactoring-code-into-shared-modules">Refactoring code into shared modules</h2>
+<p>As your project goes on, you'll want to refactor your code in a way that makes it easy to share between notebooks and scripts. We recommend creating a module in the <code>{{ cookiecutter.module_name }}</code> folder that contains the code you use in your project. This is a good way to make sure that you can use the same code in multiple places without having to copy and paste it.</p>
+<p>Because the default structure is a Python package and is installed by default, you can do the following to make that code available to you within a Jupyter notebook.</p>
+<p>First, we recommend turning on the <code>autoreload</code> extension. This will make Jupyter always go back to the source code for the module rather than caching it in memory. If your notebook isn't reflecting the latest changes from your changes to a <code>.py</code> file, try restarting the kernel and make sure <code>autoreload</code> is on. We add a cell at the top of the notebook with the following:</p>
+<div class="highlight"><pre><span></span><code>%load_ext autoreload
+%autoreload 2
+</code></pre></div>
+<p>Now all your code should be importable. At the start of the CCDS project, you picked a module name. It's the same name as the folder that is in the root project directory. For example, if the module name were <code>my_project</code> you could use code by importing it like:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">my_project.data</span> <span class="kn">import</span> <span class="n">make_dataset</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">make_dataset</span><span class="p">()</span>
+</code></pre></div>
+<p>Now it should be easy to do any refactoring you need to do to make your code more modular and reusable.</p>
+<h2 id="make-your-code-reviewable">Make your code reviewable</h2>
+<p>We try to review every line of code written at DrivenData. Data science code in particular has the risk of executing without erroring, but not being "correct" (for example, you use standard deviation in a calculation rather than variance). We've found the best way to catch these kinds of mistakes is a second set of eyes looking at the code.</p>
+<p>Right now on GitHub, it is hard to observe and comment on changes that happen in Jupyter notebooks. We develop and maintain a tool called <a href="https://nbautoexport.drivendata.org/stable/"><code>nbautoexport</code></a> that automatically exports a <code>.py</code> version of your Jupyter notebook every time you save it. This means that you can commit both the <code>.ipynb</code> and the <code>.py</code> to source control so that reviewers can leave line-by-line comments on your notebook code. To use it, you will need to add <code>nbautoexport</code> to your requirements file and then run <code>make requirements</code> to install it.</p>
+<p>Once <code>nbautoexport</code> is installed, you can setup the nbautoexport tool for your project with the following commands at the commandline:</p>
+<div class="highlight"><pre><span></span><code>nbautoexport install
+nbautoexport configure notebooks
+</code></pre></div>
+<p>Once you're done with your work, you'll want to add it to a commit and push it to GitHub so you can open a pull request. You can do that with the following commandline commands</p>
+<div class="highlight"><pre><span></span><code>git add .  # stage all changed files to include them in the commit
+git commit -m &quot;Initial exploration&quot;  # commit the changes with a message
+git push  # publish the changes
+</code></pre></div>
+<p>Now you'll be able to <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request">create a Pull Request in GitHub</a>.</p>
+<h2 id="changing-the-makefile">Changing the <code>Makefile</code></h2>
+<p>There's no magic in the <code>Makefile</code>. We often add project-specific commands or update the existing ones over the course of a project. For example, we've added scripts to generate reports with pandoc, build and serve documentation, publish static sites from assets, package code for distribution, and more.</p>
+<h2 id="installing-make-on-windows">Installing Make on Windows</h2>
+<p>Unfortunately, GNU Make is not typically pre-installed on Windows. Here are a few different options for getting Make:</p>
+<ul>
+<li><strong>Use a package manager.</strong> You will need to install the package manager first if you don't already have it.<ul>
+<li><a href="https://community.chocolatey.org/">chocolatey</a> (<a href="https://community.chocolatey.org/packages/make">entry for Make</a>)
+  <div class="highlight"><pre><span></span><code>choco<span class="w"> </span>install<span class="w"> </span>make
+</code></pre></div></li>
+<li><a href="https://winget.run/">winget</a> (<a href="https://winget.run/pkg/GnuWin32/Make">entry for Make</a>)
+  <div class="highlight"><pre><span></span><code>winget<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>--id<span class="w"> </span>GnuWin32.Make
+</code></pre></div></li>
+<li><a href="https://scoop.sh/">scoop</a> (<a href="https://scoop.sh/#/apps?q=make&amp;id=c43ff861c0f1713336e5304d85334a29ffb86317">entry for Make</a>)
+  <div class="highlight"><pre><span></span><code>scoop<span class="w"> </span>install<span class="w"> </span>main/make
+</code></pre></div></li>
+</ul>
+</li>
+<li><strong>Windows Subsystem for Linux</strong>. WSL is a full, non-virtualized Linux environment inside Windows. You can use it to run all of your data science workflows on Ubuntu, and it will have Make included. See instructions for installing WSL <a href="https://learn.microsoft.com/en-us/windows/wsl/install">here</a>.</li>
+<li><strong>Cygwin</strong>. A Unix-like development environment that includes Make. See instructions about installing Cygwin <a href="https://www.cygwin.com/install.html">here</a>.</li>
+<li><strong>MinGW</strong>. A GNU development environment that runs on Windows and includes Make. See information about installing MinGW <a href="https://www.mingw-w64.org/downloads/">here</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Project maintained by the friendly folks at <a target=_blanks href="https://www.drivendata.org">DrivenData</a>.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "toc.integrate"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../js/extra.js"></script>
+      
+        <script src="../termynal.js"></script>
+      
+    
+  </body>
+</html>

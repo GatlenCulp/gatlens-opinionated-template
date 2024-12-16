@@ -1,0 +1,643 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A project template and directory structure for Python data science projects.">
+      
+      
+      
+        <link rel="canonical" href="https://cookiecutter-data-science.drivendata.org/opinions/">
+      
+      
+        <link rel="prev" href="../why/">
+      
+      
+        <link rel="next" href="../using-the-template/">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Opinions - Cookiecutter Data Science</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:300,300i,400,400i,700,700i%7CSpace+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Work Sans";--md-code-font:"Space Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+      <link rel="stylesheet" href="../termynal.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DX14MC19WY"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DX14MC19WY",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DX14MC19WY",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#opinions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Cookiecutter Data Science" class="md-header__button md-logo" aria-label="Cookiecutter Data Science" data-md-component="logo">
+      
+  <img src="../ccds.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cookiecutter Data Science
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Opinions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/drivendataorg/cookiecutter-data-science" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Cookiecutter Data Science" class="md-nav__button md-logo" aria-label="Cookiecutter Data Science" data-md-component="logo">
+      
+  <img src="../ccds.png" alt="logo">
+
+    </a>
+    Cookiecutter Data Science
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/drivendataorg/cookiecutter-data-science" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../why/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Why ccds?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Opinions
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Opinions
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#notebooks-are-for-exploration-and-communication-source-files-are-for-repetition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notebooks are for exploration and communication, source files are for repetition
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keep-your-modeling-organized" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keep your modeling organized
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-from-the-environment-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build from the environment up
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keep-secrets-and-configuration-out-of-version-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keep secrets and configuration out of version control
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encourage-adaptation-from-a-consistent-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encourage adaptation from a consistent default
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../using-the-template/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using the template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../all-options/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    All options
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../related/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Related projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../v1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    v1 Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav><a href="https://drivendata.co/open-source.html" target="_blank" style="border-bottom: 0; padding-top: 3rem; display: block">
+  <img style="width: 60%" src="https://s3.amazonaws.com/drivendata/images/drivendata-logo.svg">
+</a>
+<p style="width: 60%">
+  Cookiecutter Data Science is a DrivenData project.
+</p>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="opinions">Opinions</h1>
+<p>The default project structure reflects certain opinions about how to do collaborative data science work. These opinions grew out of our own experiences with what works and what doesn't. Some of these opinions are about workflows, and others are about tools that can make the process easier. These opinions are discussed below. If you have any thoughts, please <a href="../contributing/">contribute or share them</a>.</p>
+<h3 id="data-analysis-is-a-directed-acyclic-graph">Data analysis is a directed acyclic graph</h3>
+<p><em>Don't ever edit your raw data. Especially not manually. And especially not in Excel.</em></p>
+<p>The most important features of a quality data analysis are correctness and reproducibility—anyone should be able to re-run your analysis using only your code and raw data and produce the same final products. The best way to ensure correctness is to test your analysis code. <strong>The best way to ensure reproducibility is to treat your data analysis pipeline as a directed acyclic graph (<a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>)</strong>. This means each step of your analysis is a node in a directed graph with no loops. You can run through the graph forwards to recreate any analysis output, or you can trace backwards from an output to examine the combination of code and data that created it.</p>
+<h3 id="raw-data-is-immutable">Raw data is immutable</h3>
+<p>That proper data analysis is a DAG means that <strong>raw data must be treated as immutable</strong>—it's okay to read and copy raw data to manipulate it into new outputs, but never okay to change it in place. This informs the design of the default <code>data/</code> directory subfolders in which data originates from <code>raw/</code> and <code>external/</code>, intermediate analytical outputs get serialized or cached in <code>interim/</code>, and final products end up in <code>processed/</code> (the number or names of these folders is less important than flow of data between them). </p>
+<p>Some <strong>do</strong>s and <strong>don't</strong>s that follow from treating data analysis as a DAG:</p>
+<ul>
+<li>✅ <strong>Do</strong> write code that moves the raw data through a pipeline to your final analysis.</li>
+<li>✅ <strong>Do</strong> serialize or cache the intermediate outputs of long-running steps.</li>
+<li>
+<p>✅ <strong>Do</strong> make it possible (and ideally, documented and automated) for anyone to reproduce your final data products with only the code in <code>{{ cookiecutter.module_name }}</code> and the data in <code>data/raw/</code> (and <code>data/external/</code>).</p>
+</li>
+<li>
+<p>⛔ <strong>Don't</strong> <em>ever</em> edit your raw data, especially not manually, and <em>especially</em> not in Excel. This includes changing file formats or fixing errors that might break a tool that's trying to read your data file.</p>
+</li>
+<li>⛔ <strong>Don't</strong> overwrite your raw data with a newly processed or cleaned version.</li>
+<li>⛔ <strong>Don't</strong> save multiple versions of the raw data. </li>
+</ul>
+<h3 id="data-should-mostly-not-be-kept-in-source-control">Data should (mostly) not be kept in source control</h3>
+<p>Another consequence of treating data as immutable is that data doesn't need source control in the same way that code does. Therefore, <strong>by default, the <code>data/</code> folder is included in the <code>.gitignore</code> file.</strong> If you have a small amount of data that rarely changes, you <em>may</em> want to include the data in the repository. GitHub <a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github#file-size-limits">currently</a> warns you if files are over 50MB and rejects any files over 100MB. </p>
+<p>If you have larger amounts of data, consider storing and syncing with a cloud service like <a href="https://aws.amazon.com/s3/">Amazon S3</a>, <a href="https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview">Azure Blob Storage</a>, or <a href="https://cloud.google.com/storage/docs/introduction">Google Cloud Storage</a>. We've had a good experience with Amazon S3, if you're not tied to any particular cloud provider. Syncing tools can help you manage the data. Some examples:</p>
+<ul>
+<li>Amazon S3: <a href="https://aws.amazon.com/cli/"><code>awscli</code></a>, <a href="https://s3tools.org/s3cmd"><code>s3cmd</code></a>, <a href="https://github.com/peak/s5cmd"><code>s5cmd</code></a>, <a href="https://github.com/yandex-cloud/geesefs"><code>geesefs</code></a></li>
+<li>Azure Blob Storage: <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10"><code>azcopy</code></a></li>
+<li>Google Cloud Platform: <a href="https://cloud.google.com/storage/docs/discover-object-storage-gcloud"><code>gcloud</code></a></li>
+<li>Supports multiple clouds: <a href="https://github.com/drivendataorg/cloudpathlib"><code>cloudpathlib</code></a>, <a href="https://filesystem-spec.readthedocs.io/en/stable/"><code>fsspec</code></a></li>
+</ul>
+<p>There is also the <a href="https://git-lfs.github.com/">Git Large File Storage (LFS)</a> extension which lets you track large files in git but stores the files on a separate server. GitHub provides <a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage">some storage compatible with Git LFS</a>.</p>
+<h3 id="tools-for-dags">Tools for DAGs</h3>
+<p>DAGs are so common in data and software processes that many tools have been built to manage them. We prefer <a href="https://www.gnu.org/software/make/"><code>make</code></a> for managing steps that depend on each other, especially the long-running   ones. Make is a common tool on Unix-based platforms (and is available for Windows via <a href="https://community.chocolatey.org/packages/make">chocolatey</a>). Following the <a href="https://www.gnu.org/software/make/"><code>make</code> documentation</a>, <a href="https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html#Makefile-Conventions">Makefile conventions</a>, and <a href="https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/Portable-Make.html#Portable-Make">portability guide</a> will help ensure your Makefiles work effectively across systems. Here are <a href="https://blog.kaggle.com/2012/10/15/make-for-data-scientists/">some examples</a> to <a href="https://web.archive.org/web/20150206054212/https://www.bioinformaticszen.com/post/decomplected-workflows-makefiles/">get started</a>. A number of data folks use <code>make</code> as their tool of choice, including <a href="https://bost.ocks.org/mike/make/">Mike Bostock</a>.</p>
+<p>There are other tools for managing DAGs that are written in Python, instead of their own language. Popular ones include <a href="https://airflow.apache.org/index.html">Airflow</a>, <a href="https://luigi.readthedocs.org/en/stable/index.html">Luigi</a>, <a href="https://snakemake.readthedocs.io/en/stable/">Snakemake</a>, <a href="https://github.com/PrefectHQ/prefect">Prefect</a>, <a href="https://github.com/dagster-io/dagster">Dagster</a>, and <a href="https://joblib.readthedocs.io/en/latest/memory.html">Joblib</a>. Feel free to use these if they are more appropriate for your analysis.</p>
+<h2 id="notebooks-are-for-exploration-and-communication-source-files-are-for-repetition">Notebooks are for exploration and communication, source files are for repetition</h2>
+<blockquote>
+<p>Source code is superior for replicability because it is more portable, can be tested more easily, and is easier to code review.</p>
+</blockquote>
+<p><a href="https://jupyter.org/">Jupyter Notebook</a>, <a href="https://zeppelin.apache.org/">Apache Zeppelin</a>, and other literate programming tools are very effective for exploratory data analysis because they enable rapid iteration and visualization of results. However, these tools can be less effective for reproducing an analysis. Source code is superior for replicability because it is more portable, can be tested more easily, and is easier to code review. </p>
+<p>When we use notebooks in our work, we often subdivide the <code>notebooks/</code> folder to keep things organized and legible. For example, <code>notebooks/exploratory/</code> contains initial explorations, whereas <code>notebooks/reports/</code> is more polished work that can be exported as html to the <code>reports/</code> directory. We also recommend that you follow a naming convention that shows the owner and the order the analysis was done in. We use the format <code>&lt;step&gt;-&lt;ghuser&gt;-&lt;description&gt;.ipynb</code> (e.g., <code>0.3-bull-visualize-distributions.ipynb</code>). Since notebooks are challenging objects for source control (e.g., diffs of the <code>json</code> are often not human-readable and merging is near impossible), we recommended not collaborating directly with others on Jupyter notebooks. We also recommend using a tool like <a href="https://github.com/drivendataorg/nbautoexport"><code>nbautoexport</code></a> to make reviewing changes to notebooks easier. </p>
+<h3 id="refactor-the-good-parts-into-source-code">Refactor the good parts into source code</h3>
+<p>Don't write code to do the same task in multiple notebooks. If it's a data preprocessing task, put it in the pipeline at <code>{{ cookiecutter.module_name }}/data/make_dataset.py</code> and load data from <code>data/interim/</code>. If it's useful utility code, refactor it to <code>{{ cookiecutter.module_name }}</code>. Classic signs that you are ready to move from a notebook to source code include duplicating old notebooks to start new ones, copy/pasting functions between notebooks, and creating object-oriented classes within notebooks.</p>
+<p>We make it easy to refactor notebook code because the ccds template makes your project a Python package by default and installs it locally in the requirements file of your chosen environment manager. This enables you to import your project's source code and use it in notebooks with a cell like the following:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># OPTIONAL: Load the &quot;autoreload&quot; extension so that code can change</span>
+<span class="o">%</span><span class="n">load_ext</span> <span class="n">autoreload</span>
+
+<span class="c1"># OPTIONAL: always reload modules so that as you change code</span>
+<span class="c1"># in {{ cookiecutter.module_name }}, it gets loaded</span>
+<span class="o">%</span><span class="n">autoreload</span> <span class="mi">2</span>
+
+<span class="kn">from</span> <span class="p">{{</span> <span class="n">cookiecutter</span><span class="o">.</span><span class="n">module_name</span> <span class="p">}}</span><span class="o">.</span><span class="n">data</span> <span class="kn">import</span> <span class="nn">make_dataset</span>
+</code></pre></div>
+<h2 id="keep-your-modeling-organized">Keep your modeling organized</h2>
+<p>Different modeling pipelines are different, so we don't provide a lot of baked-in structure to the <code>models/</code> directory. However, documenting modeling experiments is critical to enable reproducibility, continuous learning, and improvement. You should implement experiment documentation procedures that enable you to, at minimum, identify the provenance of the data and the version of the code that the experiment used, as well as the metrics used to measure performance.</p>
+<p>For smaller projects, it's fine to start with homegrown tracking using file formats like JSON that are both human- and machine-readable. You can graduate to experiment tracking tools (e.g., <a href="https://mlflow.org/">MLflow</a>) if it's warranted or if they're standard for your team.</p>
+<h2 id="build-from-the-environment-up">Build from the environment up</h2>
+<p>The first step in reproducing an analysis is always replicating the computational environment it was run in. You need the same tools, the same libraries, and the same versions to make everything play nicely together.</p>
+<p>Doing so in Python requires choosing and configuring an environment management tool. The ecosystem for this tooling has evolved a lot in recent years. </p>
+<p>For data science work, we prefer to use the <strong>conda</strong> package manager because it also manages non-Python packages, including system library dependencies that you often run into in data science. Our recommended way to install conda is with <a href="https://github.com/conda-forge/miniforge">Miniforge</a>, though the <a href="https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html">Miniconda and Anaconda installers</a> from Anaconda are also popular. </p>
+<p>You can also use Python-only environment managers. Popular tools in this category include <a href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>, <a href="https://virtualenvwrapper.readthedocs.io/en/stable/">virtualenvwrapper</a>, <a href="https://python-poetry.org/">Poetry</a>, <a href="https://pipenv.pypa.io/en/latest/">Pipenv</a>, and others.</p>
+<p>Cookiecutter v2 lets you pick from among many of these, or to initialize your project without one so you can roll your own. </p>
+<p>If you have more complex requirements for recreating your environment, consider a virtual machine based approach such as <a href="https://www.docker.com/">Docker</a> or <a href="https://www.vagrantup.com/">Vagrant</a>. Both of these tools use text-based formats (Dockerfile and Vagrantfile respectively) that you can easily add to source control to describe how to create a virtual machine with the requirements you need. You might also consider using <a href="https://github.com/jazzband/pip-tools"><code>pip-tools</code></a> or <a href="https://github.com/conda/conda-lock"><code>conda-lock</code></a> to generate a file that appropriately pins your dependencies.</p>
+<h2 id="keep-secrets-and-configuration-out-of-version-control">Keep secrets and configuration out of version control</h2>
+<p>You <em>really</em> don't want to leak your AWS secret key or Postgres username and password on Github—see the <a href="https://12factor.net/config">Twelve Factor App</a> principles on this point. Here's one way to do this:</p>
+<h3 id="store-your-secrets-and-config-variables-in-a-special-file">Store your secrets and config variables in a special file</h3>
+<p>Create a <code>.env</code> file in the project root folder. Thanks to the <code>.gitignore</code>, this file should never get committed into the version control repository. Here's an example:</p>
+<div class="highlight"><pre><span></span><code># example .env file
+DATABASE_URL=postgres://username:password@localhost:5432/dbname
+AWS_ACCESS_KEY=myaccesskey
+AWS_SECRET_ACCESS_KEY=mysecretkey
+OTHER_VARIABLE=something
+</code></pre></div>
+<h3 id="use-a-package-to-load-these-variables-automatically">Use a package to load these variables automatically.</h3>
+<p>If you look at the stub script in <code>{{ cookiecutter.module_name }}/data/make_dataset.py</code>, it uses a package called <a href="https://github.com/theskumar/python-dotenv">python-dotenv</a> to load up all the entries in this file as environment variables so they are accessible with <code>os.environ.get</code>. Here's an example snippet adapted from the <code>python-dotenv</code> documentation:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># {{ cookiecutter.module_name }}/data/dotenv_example.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span> <span class="n">find_dotenv</span>
+
+<span class="c1"># find .env automagically by walking up directories until it&#39;s found</span>
+<span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">find_dotenv</span><span class="p">()</span>
+
+<span class="c1"># load up the entries as environment variables</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">dotenv_path</span><span class="p">)</span>
+
+<span class="n">database_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">)</span>
+<span class="n">other_variable</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OTHER_VARIABLE&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="aws-cli-configuration">AWS CLI configuration</h3>
+<p>When using Amazon S3 to store data, a simple method of managing AWS access is to set your access keys to environment variables. However, managing mutiple sets of keys on a single machine (e.g. when working on multiple projects) it is best to use a <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html">credentials file</a>, typically located in <code>~/.aws/credentials</code>. A typical file might look like:
+<div class="highlight"><pre><span></span><code>[default]
+aws_access_key_id=myaccesskey
+aws_secret_access_key=mysecretkey
+
+[another_project]
+aws_access_key_id=myprojectaccesskey
+aws_secret_access_key=myprojectsecretkey
+</code></pre></div></p>
+<p>You can add the profile name when initialising a project; assuming no applicable environment variables are set, the profile credentials will be used be default.</p>
+<h2 id="encourage-adaptation-from-a-consistent-default">Encourage adaptation from a consistent default</h2>
+<p>To keep this structure broadly applicable for many different kinds of projects, we think the best approach is to be liberal in changing the folders around for <em>your</em> project, but be conservative in modifying the default cookiecutter structure for <em>all</em> projects.</p>
+<p>We've created a <span class="label label-info">folder-layout</span> label specifically for issues proposing to add, subtract, rename, or move folders around. More generally, we've also created a <span class="label label-warning">needs-discussion</span> label for issues that should have some careful discussion and broad support before being implemented.</p>
+<h3 id="examples-of-template-adaptation-and-evolution">Examples of template adaptation and evolution</h3>
+<p>A project's organizational needs may differ from the start and can change over time. Here are some examples of directions to go in evolving your project structure. </p>
+<h4 id="example-1-simplifying">Example 1: Simplifying</h4>
+<p>Some projects don't require multiple sub-directories to organize their module code. When a few python files can effectively accomplish all that is required, flattening folders into files can make things easier to track and maintain. You can see an example of this in our <a href="https://github.com/drivendataorg/cyfi/tree/main/cyfi">cyfi package</a>. If it's in the template but you don't need it, delete it!</p>
+<h4 id="example-2-expanding">Example 2: Expanding</h4>
+<p>By contrast, we've added more folders to organize module code on more complex projects. A good example of this is our <a href="https://github.com/drivendataorg/zamba/tree/master/zamba">zamba package</a> for which we've introduced new folders to handle task-specific portions of the codebase.</p>
+<h4 id="example-3-re-organizing">Example 3: Re-organizing</h4>
+<p>On long-running projects, the <code>notebooks</code> folder can get congested. One adaptation we've employed is to add a top-level <code>research/</code> folder (and a corresponding <code>data/research</code> data folder) that contains sub-folders for individual experiments. These sub-folders can contain their own notebooks, code, and even their own Makefiles that inherit from the parent project <code>Makefile</code>.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Project maintained by the friendly folks at <a target=_blanks href="https://www.drivendata.org">DrivenData</a>.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "toc.integrate"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../js/extra.js"></script>
+      
+        <script src="../termynal.js"></script>
+      
+    
+  </body>
+</html>
