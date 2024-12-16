@@ -441,9 +441,23 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a></p>
 <h2 id="quickstart">Quickstart</h2>
-<p>Cookiecutter Data Science v2 requires Python 3.8+. Since this is a cross-project utility application, we recommend installing it with <a href="https://pypa.github.io/pipx/">pipx</a>. Installation command options:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="with-pipx-recommended" name="__tabbed_1" type="radio" /><input id="with-pip" name="__tabbed_1" type="radio" /><input id="with-conda-coming-soon" name="__tabbed_1" type="radio" /><input id="use-the-v1-template" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="with-pipx-recommended">With pipx (recommended)</label><label for="with-pip">With pip</label><label for="with-conda-coming-soon">With conda (coming soon!)</label><label for="use-the-v1-template">Use the v1 template</label></div>
+<p>Cookiecutter Data Science v2 requires Python 3.8+. I recommend installing it with <a href="https://github.com/astral-sh/uv">UV</a>. Installation command options:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:5"><input checked="checked" id="with-uv-recommended" name="__tabbed_1" type="radio" /><input id="with-pipx" name="__tabbed_1" type="radio" /><input id="with-pipx-recommended" name="__tabbed_1" type="radio" /><input id="with-pip" name="__tabbed_1" type="radio" /><input id="with-conda-coming-soon" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="with-uv-recommended">With uv (recommended)</label><label for="with-pipx">With pipx</label><label for="with-pipx-recommended">With pipx (recommended)</label><label for="with-pip">With pip</label><label for="with-conda-coming-soon">With conda (coming soon!)</label></div>
 <div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
+
+<span class="c1"># From the parent directory where you want your project</span>
+ccds
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
+
+<span class="c1"># From the parent directory where you want your project</span>
+ccds
+</code></pre></div>
+</div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
 
@@ -463,13 +477,6 @@ ccds
 
 <span class="c1"># From the parent directory where you want your project</span>
 <span class="c1"># ccds</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>cookiecutter
-
-<span class="c1"># From the parent directory where you want your project</span>
-cookiecutter<span class="w"> </span>https://github.com/drivendataorg/cookiecutter-data-science<span class="w"> </span>-c<span class="w"> </span>v1
 </code></pre></div>
 </div>
 </div>
