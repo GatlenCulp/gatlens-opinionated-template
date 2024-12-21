@@ -442,17 +442,10 @@
 </a></p>
 <h2 id="quickstart">Quickstart</h2>
 <p>Cookiecutter Data Science v2 requires Python 3.8+. I recommend installing it with <a href="https://github.com/astral-sh/uv">UV</a>. Installation command options:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:5"><input checked="checked" id="with-uv-recommended" name="__tabbed_1" type="radio" /><input id="with-pipx" name="__tabbed_1" type="radio" /><input id="with-pipx-recommended" name="__tabbed_1" type="radio" /><input id="with-pip" name="__tabbed_1" type="radio" /><input id="with-conda-coming-soon" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="with-uv-recommended">With uv (recommended)</label><label for="with-pipx">With pipx</label><label for="with-pipx-recommended">With pipx (recommended)</label><label for="with-pip">With pip</label><label for="with-conda-coming-soon">With conda (coming soon!)</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="with-uv-recommended" name="__tabbed_1" type="radio" /><input id="with-pipx" name="__tabbed_1" type="radio" /><input id="with-pip" name="__tabbed_1" type="radio" /><input id="with-conda-coming-soon" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="with-uv-recommended">With uv (recommended)</label><label for="with-pipx">With pipx</label><label for="with-pip">With pip</label><label for="with-conda-coming-soon">With conda (coming soon!)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
-
-<span class="c1"># From the parent directory where you want your project</span>
-ccds
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
 
 <span class="c1"># From the parent directory where you want your project</span>
 ccds
@@ -500,11 +493,11 @@ ccds
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">module_name <span style="font-weight: bold; color: #00aaaa">(my_analysis)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt=""></span>
 <span data-ty class="newline"></span>
-<span data-ty class="inline-input">author_name <span style="font-weight: bold; color: #00aaaa">(Your name (or your organization/company/team))</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">Dat A. Scientist</span>
+<span data-ty class="inline-input">author_name <span style="font-weight: bold; color: #00aaaa">(Your name, organization, company, or team))</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">Dat A. Scientist</span>
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">description <span style="font-weight: bold; color: #00aaaa">(A short description of the project.)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">This is my analysis of the data.</span>
 <span data-ty class="newline"></span>
-<span data-ty class="inline-input">python_version_number <span style="font-weight: bold; color: #00aaaa">(3.10)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">3.12</span>
+<span data-ty class="inline-input">python_version_number <span style="font-weight: bold; color: #00aaaa">(3.12)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">3.12</span>
 <span data-ty class="newline"></span>
 <span data-ty>Select dataset_storage
 <span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">none</span>
@@ -518,11 +511,12 @@ ccds
 <span data-ty class="inline-input">aws_profile <span style="font-weight: bold; color: #00aaaa">(default)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt=""></span>
 <span data-ty class="newline"></span>
 <span data-ty>Select environment_manager
-<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">virtualenv</span>
-<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">conda</span>
-<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">pipenv</span>
-<span style="font-weight: bold; color: #E850A8">4</span> - <span style="font-weight: bold">none</span></span>
-<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3/4]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">2</span>
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">uv</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">virtualenv</span>
+<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">conda</span>
+<span style="font-weight: bold; color: #E850A8">4</span> - <span style="font-weight: bold">pipenv</span>
+<span style="font-weight: bold; color: #E850A8">5</span> - <span style="font-weight: bold">none</span></span>
+<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3/4/5]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">2</span>
 <span data-ty class="newline"></span>
 <span data-ty>Select dependency_file
 <span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">requirements.txt</span>
@@ -574,7 +568,7 @@ ccds
 │                         the creator&#39;s initials, and a short `-` delimited description, e.g.
 │                         `1.0-jqp-initial-data-exploration`.
 │
-├── pyproject.toml     &lt;- Project configuration file with package metadata for 
+├── pyproject.toml     &lt;- Project configuration file with package metadata for
 │                         {{ cookiecutter.module_name }} and configuration for tools like black
 │
 ├── references         &lt;- Data dictionaries, manuals, and all other explanatory materials.
@@ -597,12 +591,12 @@ ccds
     │
     ├── features.py             &lt;- Code to create features for modeling
     │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          &lt;- Code to run model inference with trained models          
+    ├── modeling
+    │   ├── __init__.py
+    │   ├── predict.py          &lt;- Code to run model inference with trained models
     │   └── train.py            &lt;- Code to train models
     │
-    └── plots.py                &lt;- Code to create visualizations   
+    └── plots.py                &lt;- Code to create visualizations
 </code></pre></div>
 
 

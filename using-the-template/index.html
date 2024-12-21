@@ -551,14 +551,12 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <div class="highlight"><pre><span></span><code>0.01-pjb-data-source-1.ipynb
 </code></pre></div>
 <ul>
-<li><code>0.01</code> - Helps leep work in chronological order. The structure is <code>PHASE.NOTEBOOK</code>. <code>NOTEBOOK</code> is just the Nth notebook in that phase to be created. For phases of the project, we generally use a scheme like the following, but you are welcome to design your own conventions:<ul>
+<li><code>0.01</code> - Helps leep work in chronological order. The structure is <code>PHASE.NOTEBOOK</code>. <code>NOTEBOOK</code> is just the Nth notebook in that phase to be created. For phases of the project, we generally use a scheme like the following, but you are welcome to design your own conventions:</li>
 <li><code>0</code> - Data exploration - often just for exploratory work</li>
 <li><code>1</code> - Data cleaning and feature creation - often writes data to <code>data/processed</code> or <code>data/interim</code></li>
 <li><code>2</code> - Visualizations - often writes publication-ready viz to <code>reports</code></li>
 <li><code>3</code> - Modeling - training machine learning models</li>
 <li><code>4</code> - Publication - Notebooks that get turned directly into reports</li>
-</ul>
-</li>
 <li><code>pjb</code> - Your initials; this is helpful for knowing who created the notebook and prevents collisions from people working in the same notebook.</li>
 <li><code>data-source-1</code> - A description of what the notebook covers</li>
 </ul>
@@ -594,18 +592,16 @@ git push  # publish the changes
 <h2 id="installing-make-on-windows">Installing Make on Windows</h2>
 <p>Unfortunately, GNU Make is not typically pre-installed on Windows. Here are a few different options for getting Make:</p>
 <ul>
-<li><strong>Use a package manager.</strong> You will need to install the package manager first if you don't already have it.<ul>
+<li><strong>Use a package manager.</strong> You will need to install the package manager first if you don't already have it.</li>
 <li><a href="https://community.chocolatey.org/">chocolatey</a> (<a href="https://community.chocolatey.org/packages/make">entry for Make</a>)
-  <div class="highlight"><pre><span></span><code>choco<span class="w"> </span>install<span class="w"> </span>make
+    <div class="highlight"><pre><span></span><code>choco<span class="w"> </span>install<span class="w"> </span>make
 </code></pre></div></li>
 <li><a href="https://winget.run/">winget</a> (<a href="https://winget.run/pkg/GnuWin32/Make">entry for Make</a>)
-  <div class="highlight"><pre><span></span><code>winget<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>--id<span class="w"> </span>GnuWin32.Make
+    <div class="highlight"><pre><span></span><code>winget<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>--id<span class="w"> </span>GnuWin32.Make
 </code></pre></div></li>
 <li><a href="https://scoop.sh/">scoop</a> (<a href="https://scoop.sh/#/apps?q=make&amp;id=c43ff861c0f1713336e5304d85334a29ffb86317">entry for Make</a>)
-  <div class="highlight"><pre><span></span><code>scoop<span class="w"> </span>install<span class="w"> </span>main/make
+    <div class="highlight"><pre><span></span><code>scoop<span class="w"> </span>install<span class="w"> </span>main/make
 </code></pre></div></li>
-</ul>
-</li>
 <li><strong>Windows Subsystem for Linux</strong>. WSL is a full, non-virtualized Linux environment inside Windows. You can use it to run all of your data science workflows on Ubuntu, and it will have Make included. See instructions for installing WSL <a href="https://learn.microsoft.com/en-us/windows/wsl/install">here</a>.</li>
 <li><strong>Cygwin</strong>. A Unix-like development environment that includes Make. See instructions about installing Cygwin <a href="https://www.cygwin.com/install.html">here</a>.</li>
 <li><strong>MinGW</strong>. A GNU development environment that runs on Windows and includes Make. See information about installing MinGW <a href="https://www.mingw-w64.org/downloads/">here</a>.</li>
