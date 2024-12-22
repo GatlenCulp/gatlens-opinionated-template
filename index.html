@@ -14,7 +14,7 @@
       
       
       
-        <link rel="next" href="why/">
+        <link rel="next" href="core-tools/">
       
       
       <link rel="icon" href="favicon.ico">
@@ -125,7 +125,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              🏠 Home
             
           </span>
         </div>
@@ -219,7 +219,7 @@
           
   
   <span class="md-ellipsis">
-    Home
+    🏠 Home
   </span>
   
 
@@ -230,7 +230,7 @@
         
   
   <span class="md-ellipsis">
-    Home
+    🏠 Home
   </span>
   
 
@@ -302,11 +302,31 @@
   
   
     <li class="md-nav__item">
+      <a href="core-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛠️ Core Tools
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="why/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Why ccds?
+    ❓ Why ccds?
   </span>
   
 
@@ -326,7 +346,7 @@
         
   
   <span class="md-ellipsis">
-    Opinions
+    🗯️ Opinions
   </span>
   
 
@@ -346,7 +366,7 @@
         
   
   <span class="md-ellipsis">
-    Using the template
+    📑 Using the template
   </span>
   
 
@@ -366,7 +386,7 @@
         
   
   <span class="md-ellipsis">
-    All options
+    ⚙️ All options
   </span>
   
 
@@ -386,7 +406,7 @@
         
   
   <span class="md-ellipsis">
-    Contributing
+    ❤️ Contributing
   </span>
   
 
@@ -406,7 +426,7 @@
         
   
   <span class="md-ellipsis">
-    Related projects
+    🔗 Related projects
   </span>
   
 
@@ -442,28 +462,30 @@
 </a></p>
 <h2 id="quickstart">Quickstart</h2>
 <p>Gatlen's Opinionated Template (GOTem) works on all platforms w/ Python 3.10+. While I try my best to keep in-sync with the upstream <a href="https://cookiecutter-data-science.drivendata.org/">CookieCutter Data Science (CCDS) V2</a>, being a one-man-maintainer on this project means I may neglect features I tend not to use and deviations from what I use may not receive as thorough testing. If you wish to change any of the defaults, I recommend forking this project.</p>
-<p>I recommend installing gotem it with <a href="https://github.com/astral-sh/uv">UV</a>. GOTem is <a href="https://pypi.org/project/gatlens-opinionated-template/">Available on PyPi here</a>.</p>
+<p>I recommend installing gotem it with <a href="https://github.com/astral-sh/uv">uv</a>. GOTem is <a href="https://pypi.org/project/gatlens-opinionated-template/">Available on PyPi here</a>.</p>
+<!-- uvx --from gatlens-opinionated-template gotem -->
+
 <div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="with-uv-recommended" name="__tabbed_1" type="radio" /><input id="with-pipx" name="__tabbed_1" type="radio" /><input id="with-pip" name="__tabbed_1" type="radio" /><input id="with-conda-coming-soon" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="with-uv-recommended">With uv (recommended)</label><label for="with-pipx">With pipx</label><label for="with-pip">With pip</label><label for="with-conda-coming-soon">With conda (coming soon!)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>gatlens-opinionated-template
 
 <span class="c1"># From the parent directory where you want your project</span>
-ccds
+gotem
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>gatlens-opinionated-template
 
 <span class="c1"># From the parent directory where you want your project</span>
-ccds
+gotem
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>gatlens-opinionated-template
-<span class="sb">`</span>
+
 <span class="c1"># From the parent directory where you want your project</span>
-ccds
+gotem
 </code></pre></div>
 </div>
 <div class="tabbed-block">
