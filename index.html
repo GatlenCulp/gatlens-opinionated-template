@@ -108,7 +108,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Gatlen&#39;s Opinionated Template (GOTem)" class="md-header__button md-logo" aria-label="Gatlen's Opinionated Template (GOTem)" data-md-component="logo">
       
-  <img src="ccds.png" alt="logo">
+  <img src="gotem.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -179,7 +179,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Gatlen&#39;s Opinionated Template (GOTem)" class="md-nav__button md-logo" aria-label="Gatlen's Opinionated Template (GOTem)" data-md-component="logo">
       
-  <img src="ccds.png" alt="logo">
+  <img src="gotem.png" alt="logo">
 
     </a>
     Gatlen's Opinionated Template (GOTem)
@@ -441,25 +441,26 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a></p>
 <h2 id="quickstart">Quickstart</h2>
-<p>Cookiecutter Data Science v2 requires Python 3.8+. I recommend installing it with <a href="https://github.com/astral-sh/uv">UV</a>. Installation command options:</p>
+<p>Gatlen's Opinionated Template (GOTem) works on all platforms w/ Python 3.10+. While I try my best to keep in-sync with the upstream <a href="https://cookiecutter-data-science.drivendata.org/">CookieCutter Data Science (CCDS) V2</a>, being a one-man-maintainer on this project means I may neglect features I tend not to use and deviations from what I use may not receive as thorough testing. If you wish to change any of the defaults, I recommend forking this project.</p>
+<p>I recommend installing gotem it with <a href="https://github.com/astral-sh/uv">UV</a>. GOTem is <a href="https://pypi.org/project/gatlens-opinionated-template/">Available on PyPi here</a>.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="with-uv-recommended" name="__tabbed_1" type="radio" /><input id="with-pipx" name="__tabbed_1" type="radio" /><input id="with-pip" name="__tabbed_1" type="radio" /><input id="with-conda-coming-soon" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="with-uv-recommended">With uv (recommended)</label><label for="with-pipx">With pipx</label><label for="with-pip">With pip</label><label for="with-conda-coming-soon">With conda (coming soon!)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>gatlens-opinionated-template
 
 <span class="c1"># From the parent directory where you want your project</span>
 ccds
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>gatlens-opinionated-template
 
 <span class="c1"># From the parent directory where you want your project</span>
 ccds
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>cookiecutter-data-science
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>gatlens-opinionated-template
 <span class="sb">`</span>
 <span class="c1"># From the parent directory where you want your project</span>
 ccds
@@ -474,30 +475,28 @@ ccds
 </div>
 </div>
 </div>
-<div class="admonition info">
-<p class="admonition-title">Use the ccds command-line tool</p>
-<p>Cookiecutter Data Science v2 now requires installing the new <code>cookiecutter-data-science</code> Python package, which extends the functionality of the <a href="https://cookiecutter.readthedocs.io/en/stable/README.html"><code>cookiecutter</code></a> templating utility. Use the provided <code>ccds</code> command-line program instead of <code>cookiecutter</code>.</p>
-</div>
 <h2 id="starting-a-new-project">Starting a new project</h2>
 <p>Starting a new project is as easy as running this command at the command line. No need to create a directory first, the cookiecutter will do it for you.</p>
-<div class="highlight"><pre><span></span><code>ccds
+<div class="highlight"><pre><span></span><code>gotem
 </code></pre></div>
-<p>The <code>ccds</code> commandline tool defaults to the Cookiecutter Data Science template, but you can pass your own template as the first argument if you want.</p>
+<p>The <code>gotem</code> commandline tool defaults to the GOTem template, but you can pass your own template as the first argument if you want. The CCDS team has built significant tooling around Cookiecutter to make it easier to use and more customizable.</p>
 <h2 id="example">Example</h2>
 <div id="termynal" data-termynal class="termy" data-ty-macos data-ty-lineDelay="100" data-ty-typeDelay="50" title="Cookiecutter Data Science">
 <span data-ty="input" data-ty-prompt="$"> ccds https://github.com/drivendataorg/cookiecutter-data-science
 </span>
+<span data-ty>/Users/gat/.local/share/uv/tools/cookiecutter-data-science/lib/python3.13/site-packages/cookiecutter/generate.py:143: UserWarning: Invalid default received: none provided for choice variable dataset_storage, but the choices are [OrderedDict({'none': 'none'}), OrderedDict({'azure': OrderedDict({'container': 'container-name'})}), OrderedDict({'s3': OrderedDict({'bucket': 'bucket-name', 'aws_profile': 'default'})}), OrderedDict({'gcs': OrderedDict({'bucket': 'bucket-name'})})].
+warnings.warn(f"Invalid default received: {error}")</span>
 <span data-ty class="inline-input">project_name <span style="font-weight: bold; color: #00aaaa">(project_name)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">My Analysis</span>
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">repo_name <span style="font-weight: bold; color: #00aaaa">(my_analysis)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">my_analysis</span>
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">module_name <span style="font-weight: bold; color: #00aaaa">(my_analysis)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt=""></span>
 <span data-ty class="newline"></span>
-<span data-ty class="inline-input">author_name <span style="font-weight: bold; color: #00aaaa">(Your name, organization, company, or team))</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">Dat A. Scientist</span>
+<span data-ty class="inline-input">author_name <span style="font-weight: bold; color: #00aaaa">(Gatlen Culp)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">Dat A. Scientist</span>
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">description <span style="font-weight: bold; color: #00aaaa">(A short description of the project.)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">This is my analysis of the data.</span>
 <span data-ty class="newline"></span>
-<span data-ty class="inline-input">python_version_number <span style="font-weight: bold; color: #00aaaa">(3.12)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">3.12</span>
+<span data-ty class="inline-input">python_version_number <span style="font-weight: bold; color: #00aaaa">(3.12.8)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">3.12</span>
 <span data-ty class="newline"></span>
 <span data-ty>Select dataset_storage
 <span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">none</span>
@@ -551,52 +550,60 @@ ccds
 <p>Enjoy!</p>
 <h2 id="directory-structure">Directory structure</h2>
 <p>The directory structure of your new project will look something like this (depending on the settings that you choose):</p>
-<div class="highlight"><pre><span></span><code>├── LICENSE            &lt;- Open-source license if one is chosen
-├── Makefile           &lt;- Makefile with convenience commands like `make data` or `make train`
-├── README.md          &lt;- The top-level README for developers using this project.
-├── data
-│   ├── external       &lt;- Data from third party sources.
-│   ├── interim        &lt;- Intermediate data that has been transformed.
-│   ├── processed      &lt;- The final, canonical data sets for modeling.
-│   └── raw            &lt;- The original, immutable data dump.
-│
-├── docs               &lt;- A default mkdocs project; see www.mkdocs.org for details
-│
-├── models             &lt;- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          &lt;- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator&#39;s initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── pyproject.toml     &lt;- Project configuration file with package metadata for
-│                         {{ cookiecutter.module_name }} and configuration for tools like black
-│
-├── references         &lt;- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            &lt;- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        &lt;- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   &lt;- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze &gt; requirements.txt`
-│
-├── setup.cfg          &lt;- Configuration file for flake8
-│
-└── {{ cookiecutter.module_name }}   &lt;- Source code for use in this project.
-    │
-    ├── __init__.py             &lt;- Makes {{ cookiecutter.module_name }} a Python module
-    │
-    ├── config.py               &lt;- Store useful variables and configuration
-    │
-    ├── dataset.py              &lt;- Scripts to download or generate data
-    │
-    ├── features.py             &lt;- Code to create features for modeling
-    │
-    ├── modeling
-    │   ├── __init__.py
-    │   ├── predict.py          &lt;- Code to run model inference with trained models
-    │   └── train.py            &lt;- Code to train models
-    │
-    └── plots.py                &lt;- Code to create visualizations
+<div class="highlight"><pre><span></span><code>📁 .
+├── ⚙️ .cursorrules                    &lt;- LLM instructions for Cursor IDE
+├── 💻 .devcontainer                   &lt;- Devcontainer config
+├── ⚙️ .gitattributes                  &lt;- GIT-LFS Setup Configuration
+├── 🧑‍💻 .github
+│   ├── ⚡️ actions
+│   │   └── 📁 setup-python-env       &lt;- Automated python setup w/ uv
+│   ├── 💡 ISSUE_TEMPLATE             &lt;- Templates for Raising Issues on GH
+│   ├── 💡 pull_request_template.md   &lt;- Template for making GitHub PR
+│   └── ⚡️ workflows                  
+│       ├── 🚀 main.yml               &lt;- Automated cross-platform testing w/ uv, precommit, deptry, 
+│       └── 🚀 on-release-main.yml    &lt;- Automated mkdocs updates
+├── 💻 .vscode                        &lt;- Preconfigured extensions, debug profiles, workspaces, and tasks for VSCode/Cursor powerusers
+│   ├── 🚀 launch.json
+│   ├── ⚙️ settings.json
+│   ├── 📋 tasks.json
+│   └── ⚙️ &#39;{{ cookiecutter.repo_name }}.code-workspace&#39;
+├── 📁 data
+│   ├── 📁 external                      &lt;- Data from third party sources
+│   ├── 📁 interim                       &lt;- Intermediate data that has been transformed
+│   ├── 📁 processed                     &lt;- The final, canonical data sets for modeling
+│   └── 📁 raw                           &lt;- The original, immutable data dump
+├── 🐳 docker                            &lt;- Docker configuration for reproducability
+├── 📚 docs                              &lt;- Project documentation (using mkdocs)
+├── 👩‍⚖️ LICENSE                           &lt;- Open-source license if one is chosen
+├── 📋 logs                              &lt;- Preconfigured logging directory for
+├── 👷‍♂️ Makefile                          &lt;- Makefile with convenience commands (PyPi publishing, formatting, testing, and more)
+├── 🚀 Taskfile.yml                    &lt;- Modern alternative to Makefile w/ same functionality
+├── 📁 notebooks                         &lt;- Jupyter notebooks
+│   ├── 📓 01_name_example.ipynb
+│   └── 📰 README.md
+├── 🗑️ out
+│   ├── 📁 features                      &lt;- Extracted Features
+│   ├── 📁 models                        &lt;- Trained and serialized models
+│   └── 📚 reports                       &lt;- Generated analysis
+│       └── 📊 figures                   &lt;- Generated graphics and figures
+├── ⚙️ pyproject.toml                     &lt;- Project configuration file w/ carefully selected dependency stacks
+├── 📰 README.md                         &lt;- The top-level README
+├── 🔒 secrets                           &lt;- Ignored project-level secrets directory to keep API keys and SSH keys safe and separate from your system (no setting up a new SSH-key in ~/.ssh for every project)
+│   └── ⚙️ schema                         &lt;- Clearly outline expected variables
+│       ├── ⚙️ example.env
+│       └── 🔑 ssh
+│           ├── ⚙️ example.config.ssh
+│           ├── 🔑 example.something.key
+│           └── 🔑 example.something.pub
+└── 🚰 &#39;{{ cookiecutter.module_name }}&#39;  &lt;- Easily publishable source code
+    ├── ⚙️ config.py                     &lt;- Store useful variables and configuration (Preset)
+    ├── 🐍 dataset.py                    &lt;- Scripts to download or generate data
+    ├── 🐍 features.py                   &lt;- Code to create features for modeling
+    ├── 📁 modeling
+    │   ├── 🐍 __init__.py
+    │   ├── 🐍 predict.py               &lt;- Code to run model inference with trained models
+    │   └── 🐍 train.py                 &lt;- Code to train models
+    └── 🐍 plots.py                     &lt;- Code to create visualizations
 </code></pre></div>
 
 

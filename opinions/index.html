@@ -110,7 +110,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Gatlen&#39;s Opinionated Template (GOTem)" class="md-header__button md-logo" aria-label="Gatlen's Opinionated Template (GOTem)" data-md-component="logo">
       
-  <img src="../ccds.png" alt="logo">
+  <img src="../gotem.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -181,7 +181,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Gatlen&#39;s Opinionated Template (GOTem)" class="md-nav__button md-logo" aria-label="Gatlen's Opinionated Template (GOTem)" data-md-component="logo">
       
-  <img src="../ccds.png" alt="logo">
+  <img src="../gotem.png" alt="logo">
 
     </a>
     Gatlen's Opinionated Template (GOTem)
@@ -294,45 +294,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#notebooks-are-for-exploration-and-communication-source-files-are-for-repetition" class="md-nav__link">
+  <a href="#01-data-hygiene" class="md-nav__link">
     <span class="md-ellipsis">
-      Notebooks are for exploration and communication, source files are for repetition
+      01 Data Hygiene
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#keep-your-modeling-organized" class="md-nav__link">
+  <a href="#02-notebooks-are-for-exploration-and-communication-source-files-are-for-repetition" class="md-nav__link">
     <span class="md-ellipsis">
-      Keep your modeling organized
+      02 Notebooks are for exploration and communication, source files are for repetition
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-from-the-environment-up" class="md-nav__link">
+  <a href="#03-keep-your-modeling-organized" class="md-nav__link">
     <span class="md-ellipsis">
-      Build from the environment up
+      03 Keep your modeling organized
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#keep-secrets-and-configuration-out-of-version-control" class="md-nav__link">
+  <a href="#04-build-from-the-environment-up" class="md-nav__link">
     <span class="md-ellipsis">
-      Keep secrets and configuration out of version control
+      04 Build from the environment up
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#encourage-adaptation-from-a-consistent-default" class="md-nav__link">
+  <a href="#05-keep-secrets-and-configuration-out-of-version-control" class="md-nav__link">
     <span class="md-ellipsis">
-      Encourage adaptation from a consistent default
+      05 Keep secrets and configuration out of version control
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#06-encourage-adaptation-from-a-consistent-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      06 Encourage adaptation from a consistent default
     </span>
   </a>
   
@@ -451,10 +460,11 @@
 
 <h1 id="opinions">Opinions</h1>
 <p>The default project structure reflects certain opinions about how to do collaborative data science work. These opinions grew out of our own experiences with what works and what doesn't. Some of these opinions are about workflows, and others are about tools that can make the process easier. These opinions are discussed below. If you have any thoughts, please <a href="../contributing/">contribute or share them</a>.</p>
-<h3 id="data-analysis-is-a-directed-acyclic-graph">Data analysis is a directed acyclic graph</h3>
+<h2 id="01-data-hygiene">01 Data Hygiene</h2>
+<h3 id="0101-data-analysis-is-a-directed-acyclic-graph">01.01 Data analysis is a directed acyclic graph</h3>
 <p><em>Don't ever edit your raw data. Especially not manually. And especially not in Excel.</em></p>
 <p>The most important features of a quality data analysis are correctness and reproducibility—anyone should be able to re-run your analysis using only your code and raw data and produce the same final products. The best way to ensure correctness is to test your analysis code. <strong>The best way to ensure reproducibility is to treat your data analysis pipeline as a directed acyclic graph (<a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>)</strong>. This means each step of your analysis is a node in a directed graph with no loops. You can run through the graph forwards to recreate any analysis output, or you can trace backwards from an output to examine the combination of code and data that created it.</p>
-<h3 id="raw-data-is-immutable">Raw data is immutable</h3>
+<h3 id="0102-raw-data-is-immutable">01.02 Raw data is immutable</h3>
 <p>That proper data analysis is a DAG means that <strong>raw data must be treated as immutable</strong>—it's okay to read and copy raw data to manipulate it into new outputs, but never okay to change it in place. This informs the design of the default <code>data/</code> directory subfolders in which data originates from <code>raw/</code> and <code>external/</code>, intermediate analytical outputs get serialized or cached in <code>interim/</code>, and final products end up in <code>processed/</code> (the number or names of these folders is less important than flow of data between them).</p>
 <p>Some <strong>do</strong>s and <strong>don't</strong>s that follow from treating data analysis as a DAG:</p>
 <ul>
@@ -469,7 +479,7 @@
 <li>⛔ <strong>Don't</strong> overwrite your raw data with a newly processed or cleaned version.</li>
 <li>⛔ <strong>Don't</strong> save multiple versions of the raw data.</li>
 </ul>
-<h3 id="data-should-mostly-not-be-kept-in-source-control">Data should (mostly) not be kept in source control</h3>
+<h3 id="0103-data-should-mostly-not-be-kept-in-source-control">01.03 Data should (mostly) not be kept in source control</h3>
 <p>Another consequence of treating data as immutable is that data doesn't need source control in the same way that code does. Therefore, <strong>by default, the <code>data/</code> folder is included in the <code>.gitignore</code> file.</strong> If you have a small amount of data that rarely changes, you <em>may</em> want to include the data in the repository. GitHub <a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github#file-size-limits">currently</a> warns you if files are over 50MB and rejects any files over 100MB.</p>
 <p>If you have larger amounts of data, consider storing and syncing with a cloud service like <a href="https://aws.amazon.com/s3/">Amazon S3</a>, <a href="https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview">Azure Blob Storage</a>, or <a href="https://cloud.google.com/storage/docs/introduction">Google Cloud Storage</a>. We've had a good experience with Amazon S3, if you're not tied to any particular cloud provider. Syncing tools can help you manage the data. Some examples:</p>
 <ul>
@@ -479,16 +489,16 @@
 <li>Supports multiple clouds: <a href="https://github.com/drivendataorg/cloudpathlib"><code>cloudpathlib</code></a>, <a href="https://filesystem-spec.readthedocs.io/en/stable/"><code>fsspec</code></a></li>
 </ul>
 <p>There is also the <a href="https://git-lfs.github.com/">Git Large File Storage (LFS)</a> extension which lets you track large files in git but stores the files on a separate server. GitHub provides <a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage">some storage compatible with Git LFS</a>.</p>
-<h3 id="tools-for-dags">Tools for DAGs</h3>
+<h3 id="0104-tools-for-dags">01.04 Tools for DAGs</h3>
 <p>DAGs are so common in data and software processes that many tools have been built to manage them. We prefer <a href="https://www.gnu.org/software/make/"><code>make</code></a> for managing steps that depend on each other, especially the long-running ones. Make is a common tool on Unix-based platforms (and is available for Windows via <a href="https://community.chocolatey.org/packages/make">chocolatey</a>). Following the <a href="https://www.gnu.org/software/make/"><code>make</code> documentation</a>, <a href="https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html#Makefile-Conventions">Makefile conventions</a>, and <a href="https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/Portable-Make.html#Portable-Make">portability guide</a> will help ensure your Makefiles work effectively across systems. Here are <a href="https://blog.kaggle.com/2012/10/15/make-for-data-scientists/">some examples</a> to <a href="https://web.archive.org/web/20150206054212/https://www.bioinformaticszen.com/post/decomplected-workflows-makefiles/">get started</a>. A number of data folks use <code>make</code> as their tool of choice, including <a href="https://bost.ocks.org/mike/make/">Mike Bostock</a>.</p>
 <p>There are other tools for managing DAGs that are written in Python, instead of their own language. Popular ones include <a href="https://airflow.apache.org/index.html">Airflow</a>, <a href="https://luigi.readthedocs.org/en/stable/index.html">Luigi</a>, <a href="https://snakemake.readthedocs.io/en/stable/">Snakemake</a>, <a href="https://github.com/PrefectHQ/prefect">Prefect</a>, <a href="https://github.com/dagster-io/dagster">Dagster</a>, and <a href="https://joblib.readthedocs.io/en/latest/memory.html">Joblib</a>. Feel free to use these if they are more appropriate for your analysis.</p>
-<h2 id="notebooks-are-for-exploration-and-communication-source-files-are-for-repetition">Notebooks are for exploration and communication, source files are for repetition</h2>
+<h2 id="02-notebooks-are-for-exploration-and-communication-source-files-are-for-repetition">02 Notebooks are for exploration and communication, source files are for repetition</h2>
 <blockquote>
 <p>Source code is superior for replicability because it is more portable, can be tested more easily, and is easier to code review.</p>
 </blockquote>
 <p><a href="https://jupyter.org/">Jupyter Notebook</a>, <a href="https://zeppelin.apache.org/">Apache Zeppelin</a>, and other literate programming tools are very effective for exploratory data analysis because they enable rapid iteration and visualization of results. However, these tools can be less effective for reproducing an analysis. Source code is superior for replicability because it is more portable, can be tested more easily, and is easier to code review.</p>
 <p>When we use notebooks in our work, we often subdivide the <code>notebooks/</code> folder to keep things organized and legible. For example, <code>notebooks/exploratory/</code> contains initial explorations, whereas <code>notebooks/reports/</code> is more polished work that can be exported as html to the <code>reports/</code> directory. We also recommend that you follow a naming convention that shows the owner and the order the analysis was done in. We use the format <code>&lt;step&gt;-&lt;ghuser&gt;-&lt;description&gt;.ipynb</code> (e.g., <code>0.3-bull-visualize-distributions.ipynb</code>). Since notebooks are challenging objects for source control (e.g., diffs of the <code>json</code> are often not human-readable and merging is near impossible), we recommended not collaborating directly with others on Jupyter notebooks. We also recommend using a tool like <a href="https://github.com/drivendataorg/nbautoexport"><code>nbautoexport</code></a> to make reviewing changes to notebooks easier.</p>
-<h3 id="refactor-the-good-parts-into-source-code">Refactor the good parts into source code</h3>
+<h3 id="0201-refactor-the-good-parts-into-source-code">02.01 Refactor the good parts into source code</h3>
 <p>Don't write code to do the same task in multiple notebooks. If it's a data preprocessing task, put it in the pipeline at <code>{{ cookiecutter.module_name }}/data/make_dataset.py</code> and load data from <code>data/interim/</code>. If it's useful utility code, refactor it to <code>{{ cookiecutter.module_name }}</code>. Classic signs that you are ready to move from a notebook to source code include duplicating old notebooks to start new ones, copy/pasting functions between notebooks, and creating object-oriented classes within notebooks.</p>
 <p>We make it easy to refactor notebook code because the ccds template makes your project a Python package by default and installs it locally in the requirements file of your chosen environment manager. This enables you to import your project's source code and use it in notebooks with a cell like the following:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># OPTIONAL: Load the &quot;autoreload&quot; extension so that code can change</span>
@@ -500,19 +510,19 @@
 
 <span class="kn">from</span> <span class="p">{{</span> <span class="n">cookiecutter</span><span class="o">.</span><span class="n">module_name</span> <span class="p">}}</span><span class="o">.</span><span class="n">data</span> <span class="kn">import</span> <span class="nn">make_dataset</span>
 </code></pre></div>
-<h2 id="keep-your-modeling-organized">Keep your modeling organized</h2>
+<h2 id="03-keep-your-modeling-organized">03 Keep your modeling organized</h2>
 <p>Different modeling pipelines are different, so we don't provide a lot of baked-in structure to the <code>models/</code> directory. However, documenting modeling experiments is critical to enable reproducibility, continuous learning, and improvement. You should implement experiment documentation procedures that enable you to, at minimum, identify the provenance of the data and the version of the code that the experiment used, as well as the metrics used to measure performance.</p>
 <p>For smaller projects, it's fine to start with homegrown tracking using file formats like JSON that are both human- and machine-readable. You can graduate to experiment tracking tools (e.g., <a href="https://mlflow.org/">MLflow</a>) if it's warranted or if they're standard for your team.</p>
-<h2 id="build-from-the-environment-up">Build from the environment up</h2>
+<h2 id="04-build-from-the-environment-up">04 Build from the environment up</h2>
 <p>The first step in reproducing an analysis is always replicating the computational environment it was run in. You need the same tools, the same libraries, and the same versions to make everything play nicely together.</p>
 <p>Doing so in Python requires choosing and configuring an environment management tool. The ecosystem for this tooling has evolved a lot in recent years.</p>
 <p>For data science work, we prefer to use the <strong>conda</strong> package manager because it also manages non-Python packages, including system library dependencies that you often run into in data science. Our recommended way to install conda is with <a href="https://github.com/conda-forge/miniforge">Miniforge</a>, though the <a href="https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html">Miniconda and Anaconda installers</a> from Anaconda are also popular.</p>
 <p>You can also use Python-only environment managers. Popular tools in this category include <a href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>, <a href="https://virtualenvwrapper.readthedocs.io/en/stable/">virtualenvwrapper</a>, <a href="https://python-poetry.org/">Poetry</a>, <a href="https://pipenv.pypa.io/en/latest/">Pipenv</a>, and others.</p>
 <p>Cookiecutter v2 lets you pick from among many of these, or to initialize your project without one so you can roll your own.</p>
 <p>If you have more complex requirements for recreating your environment, consider a virtual machine based approach such as <a href="https://www.docker.com/">Docker</a> or <a href="https://www.vagrantup.com/">Vagrant</a>. Both of these tools use text-based formats (Dockerfile and Vagrantfile respectively) that you can easily add to source control to describe how to create a virtual machine with the requirements you need. You might also consider using <a href="https://github.com/jazzband/pip-tools"><code>pip-tools</code></a> or <a href="https://github.com/conda/conda-lock"><code>conda-lock</code></a> to generate a file that appropriately pins your dependencies.</p>
-<h2 id="keep-secrets-and-configuration-out-of-version-control">Keep secrets and configuration out of version control</h2>
+<h2 id="05-keep-secrets-and-configuration-out-of-version-control">05 Keep secrets and configuration out of version control</h2>
 <p>You <em>really</em> don't want to leak your AWS secret key or Postgres username and password on Github—see the <a href="https://12factor.net/config">Twelve Factor App</a> principles on this point. Here's one way to do this:</p>
-<h3 id="store-your-secrets-and-config-variables-in-a-special-file">Store your secrets and config variables in a special file</h3>
+<h3 id="0501-store-your-secrets-and-config-variables-in-a-special-file">05.01 Store your secrets and config variables in a special file</h3>
 <p>Create a <code>.env</code> file in the project root folder. Thanks to the <code>.gitignore</code>, this file should never get committed into the version control repository. Here's an example:</p>
 <div class="highlight"><pre><span></span><code># example .env file
 DATABASE_URL=postgres://username:password@localhost:5432/dbname
@@ -520,7 +530,7 @@ AWS_ACCESS_KEY=myaccesskey
 AWS_SECRET_ACCESS_KEY=mysecretkey
 OTHER_VARIABLE=something
 </code></pre></div>
-<h3 id="use-a-package-to-load-these-variables-automatically">Use a package to load these variables automatically.</h3>
+<h3 id="0502-use-a-package-to-load-these-variables-automatically">05.02 Use a package to load these variables automatically.</h3>
 <p>If you look at the stub script in <code>{{ cookiecutter.module_name }}/data/make_dataset.py</code>, it uses a package called <a href="https://github.com/theskumar/python-dotenv">python-dotenv</a> to load up all the entries in this file as environment variables so they are accessible with <code>os.environ.get</code>. Here's an example snippet adapted from the <code>python-dotenv</code> documentation:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># {{ cookiecutter.module_name }}/data/dotenv_example.py</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -535,7 +545,7 @@ OTHER_VARIABLE=something
 <span class="n">database_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">)</span>
 <span class="n">other_variable</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OTHER_VARIABLE&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="aws-cli-configuration">AWS CLI configuration</h3>
+<h3 id="0503-aws-cli-configuration">05.03 AWS CLI configuration</h3>
 <p>When using Amazon S3 to store data, a simple method of managing AWS access is to set your access keys to environment variables. However, managing mutiple sets of keys on a single machine (e.g. when working on multiple projects) it is best to use a <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html">credentials file</a>, typically located in <code>~/.aws/credentials</code>. A typical file might look like:</p>
 <div class="highlight"><pre><span></span><code>[default]
 aws_access_key_id=myaccesskey
@@ -546,10 +556,10 @@ aws_access_key_id=myprojectaccesskey
 aws_secret_access_key=myprojectsecretkey
 </code></pre></div>
 <p>You can add the profile name when initialising a project; assuming no applicable environment variables are set, the profile credentials will be used be default.</p>
-<h2 id="encourage-adaptation-from-a-consistent-default">Encourage adaptation from a consistent default</h2>
+<h2 id="06-encourage-adaptation-from-a-consistent-default">06 Encourage adaptation from a consistent default</h2>
 <p>To keep this structure broadly applicable for many different kinds of projects, we think the best approach is to be liberal in changing the folders around for <em>your</em> project, but be conservative in modifying the default cookiecutter structure for <em>all</em> projects.</p>
 <p>We've created a <span class="label label-info">folder-layout</span> label specifically for issues proposing to add, subtract, rename, or move folders around. More generally, we've also created a <span class="label label-warning">needs-discussion</span> label for issues that should have some careful discussion and broad support before being implemented.</p>
-<h3 id="examples-of-template-adaptation-and-evolution">Examples of template adaptation and evolution</h3>
+<h3 id="0601-examples-of-template-adaptation-and-evolution">06.01 Examples of template adaptation and evolution</h3>
 <p>A project's organizational needs may differ from the start and can change over time. Here are some examples of directions to go in evolving your project structure.</p>
 <h4 id="example-1-simplifying">Example 1: Simplifying</h4>
 <p>Some projects don't require multiple sub-directories to organize their module code. When a few python files can effectively accomplish all that is required, flattening folders into files can make things easier to track and maintain. You can see an example of this in our <a href="https://github.com/drivendataorg/cyfi/tree/main/cyfi">cyfi package</a>. If it's in the template but you don't need it, delete it!</p>
