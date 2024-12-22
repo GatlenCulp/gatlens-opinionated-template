@@ -544,7 +544,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 </div>
 <h2 id="create-a-python-virtual-environment">Create a Python virtual environment</h2>
 <p>We often use Python for our data science projects. We use a virtual environment to manage the packages we use in our project. This is a way to keep the packages we use in our project separate from the packages we use in other projects. This is especially important when we are working on multiple projects at the same time.</p>
-<p>Cookicutter Data Science supports <a href="../opinions/#build-from-the-environment-up">a few options</a> for Python virtual environment management, but no matter which you choose, you can create an environment with the following commands:</p>
+<p>Cookicutter Data Science supports <a href="../opinions/#04-build-from-the-environment-up">a few options</a> for Python virtual environment management, but no matter which you choose, you can create an environment with the following commands:</p>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>create_environment
 </code></pre></div>
 <p>Once the environment is created, you'll want to make sure to activate it. You'll have to do this following the instructions for your specific environment manager. We recommend using a shell prompt that shows you which environment you are in, so you can easily tell if you are in the right environment, for example <a href="https://starship.rs/">starship</a>. You can also use the command <code>which python</code> to make sure that your shell is pointing to the version of Python associated with your virtual environment.</p>
@@ -555,7 +555,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <p>There's no universal advice for how to manage your data, but here are some recommendations for starting points depending on where the data comes from:</p>
 <ul>
 <li><strong>Flat files (e.g., CSVs or spreadsheets) that are static</strong> - Put these files into your <code>data/raw</code> folder and then run <code>make sync_data_up</code> to push the raw data to your cloud provider.</li>
-<li><strong>Flat files that change and are extracted from somewhere</strong> - Add a Python script to your source module in <code>data/make_dataset.py</code> that downloads the data and puts it in the <code>data/raw</code> folder. Then you can use this to get the latest and push it up to your cloud host as it changes (be careful not to <a href="../opinions/#data-analysis-is-a-directed-acyclic-graph">override your raw data</a>).</li>
+<li><strong>Flat files that change and are extracted from somewhere</strong> - Add a Python script to your source module in <code>data/make_dataset.py</code> that downloads the data and puts it in the <code>data/raw</code> folder. Then you can use this to get the latest and push it up to your cloud host as it changes (be careful not to <a href="../opinions/#0101-data-analysis-is-a-directed-acyclic-graph">override your raw data</a>).</li>
 <li><strong>Databases you connect to with credentials</strong> - Store your credentials in <code>.env</code>. We recommend adding a <code>db.py</code> file or similar to your <code>data</code> module that connects to the database and pulls data. If your queries generally fit into memory, you can just have functions in the <code>db.py</code> to load data that you use in analysis. If not, you'll want to add a script like above to download the data to the <code>data/raw</code> folder.</li>
 </ul>
 <h2 id="check-out-a-branch">Check out a branch</h2>
