@@ -2,34 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/all-options/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/contributing/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/core-tools/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/opinions/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/related/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/using-the-template/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
+    </url>
+    <url>
+         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/vscode/</loc>
+         <lastmod>2024-12-24</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/why/</loc>
-         <lastmod>2024-12-22</lastmod>
+         <lastmod>2024-12-24</lastmod>
     </url>
 </urlset>
