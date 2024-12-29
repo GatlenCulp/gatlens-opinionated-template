@@ -6,7 +6,7 @@ import subprocess
 from copy import copy
 from pathlib import Path
 
-from ccds.hook_utils.configure_gh import configure_github_repo
+from ccds.hook_utils.configure_vcs import configure_github_repo, init_local_git_repo
 
 # https://github.com/cookiecutter/cookiecutter/issues/824
 #   our workaround is to include these utility functions in the CCDS package
@@ -114,4 +114,20 @@ configure_github_repo(
 os.chdir(Path.cwd())
 subprocess.run(["make", "create_environment"])
 subprocess.run(["make", "requirements"])
+# {% endif %}
+
+#
+#  VERSION CONTROL
+#
+
+# {% if cookiecutter.version_control == "git (local)" %}
+init_local_git_repo(directory=Path.cwd())
+# {% elif cookiecutter.version_control == "git (github private)" %}
+configure_github_repo(
+    directory=Path.cwd(), repo_name="{{ cookiecutter.repo_name }}", visibility="private"
+)
+# {% elif cookiecutter.version_control == "git (github public)" %}
+configure_github_repo(
+    directory=Path.cwd(), repo_name="{{ cookiecutter.repo_name }}", visibility="public"
+)
 # {% endif %}
