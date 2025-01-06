@@ -658,7 +658,7 @@
 </table>
 <h2 id="environment-manager">Environment Manager</h2>
 <p><strong>Type:</strong> choice</p>
-<p><strong>Default value:</strong> <code>none</code></p>
+<p><strong>Default value:</strong> <code>uv</code></p>
 <p>Tool for managing creating Python environments. Controls <code>make create_environment</code> Makefile command.</p>
 <p><em>Find more information here:</em> <a href="https://www.dataquest.io/blog/a-complete-guide-to-python-virtual-environments/">About virtual environments</a></p>
 <table>
@@ -671,6 +671,12 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>uv</td>
+<td></td>
+<td>Modern, fast Python package installer and resolver written in Rust.</td>
+<td><a href="https://github.com/astral-sh/uv">Docs</a></td>
+</tr>
 <tr>
 <td>none</td>
 <td></td>
@@ -733,7 +739,7 @@
 </table>
 <h2 id="pydata-packages">Pydata Packages</h2>
 <p><strong>Type:</strong> choice</p>
-<p><strong>Default value:</strong> <code>none</code></p>
+<p><strong>Default value:</strong> <code>basic</code></p>
 <p>Packages automatically added to your requirements file.</p>
 <table>
 <thead>
@@ -746,16 +752,16 @@
 </thead>
 <tbody>
 <tr>
-<td>none</td>
-<td></td>
-<td>No extra packages.</td>
-<td></td>
-</tr>
-<tr>
 <td>basic</td>
 <td></td>
 <td>Basic common data science packages.</td>
 <td>ipython, jupyterlab, matplotlib, notebook, numpy, pandas, scikit-learn</td>
+</tr>
+<tr>
+<td>none</td>
+<td></td>
+<td>No extra packages.</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -881,7 +887,7 @@
 </table>
 <h2 id="version-control">Version Control</h2>
 <p><strong>Type:</strong> choice</p>
-<p><strong>Default value:</strong> <code>none</code></p>
+<p><strong>Default value:</strong> <code>git (local)</code></p>
 <p>What kind of version control system (vcs) and repository host to use.</p>
 <table>
 <thead>
@@ -894,16 +900,16 @@
 </thead>
 <tbody>
 <tr>
-<td>none</td>
-<td></td>
-<td>No version control.</td>
-<td></td>
-</tr>
-<tr>
 <td>git (local)</td>
 <td></td>
 <td>Initialize project as a local git repository.</td>
 <td><a href="https://git-scm.com/downloads">Git CLI</a> Required</td>
+</tr>
+<tr>
+<td>none</td>
+<td></td>
+<td>No version control.</td>
+<td></td>
 </tr>
 <tr>
 <td>git (github private)</td>
