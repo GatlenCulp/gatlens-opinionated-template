@@ -1,0 +1,662 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cutting-edge, opinionated, and ambitious project builder for power users and researchers.">
+      
+      
+      
+        <link rel="canonical" href="https://gatlenculp.github.io/gatlens-opinionated-template/pytest-customization/">
+      
+      
+        <link rel="prev" href="../precommit/">
+      
+      
+        <link rel="next" href="../vscode/">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>🧪 Pytest Customization - Gatlen's Opinionated Template (GOTem)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:300,300i,400,400i,700,700i%7CSpace+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Work Sans";--md-code-font:"Space Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+      <link rel="stylesheet" href="../termynal.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-DX14MC19WY"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-DX14MC19WY",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-DX14MC19WY",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+  rel="stylesheet"
+/>
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pytest-customization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Gatlen&#39;s Opinionated Template (GOTem)" class="md-header__button md-logo" aria-label="Gatlen's Opinionated Template (GOTem)" data-md-component="logo">
+      
+  <img src="../gotem.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gatlen's Opinionated Template (GOTem)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              🧪 Pytest Customization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GatlenCulp/gatlens-opinionated-template" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                       
+ 
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a
+      href=".."
+      title="Gatlen&#39;s Opinionated Template (GOTem)"
+      class="md-nav__button md-logo"
+      aria-label="Gatlen's Opinionated Template (GOTem)"
+      data-md-component="logo"
+    >
+      
+  <img src="../gotem.png" alt="logo">
+
+    </a>
+    Gatlen's Opinionated Template (GOTem)
+  </label>
+  
+  <div class="md-nav__source"><a href="https://github.com/GatlenCulp/gatlens-opinionated-template" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a></div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🏠 Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛠️ Core Tools
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../precommit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🪝 Pre-commit Hooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    🧪 Pytest Customization
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    🧪 Pytest Customization
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#00-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      00 Extensions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#01-custom-option-max-timeoutseconds" class="md-nav__link">
+    <span class="md-ellipsis">
+      01 Custom Option: --max-timeout=SECONDS
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vscode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    💻 VSCode & Cursor
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../why/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ❓ Why gotem?
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opinions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🗯️ Opinions
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../using-the-template/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📑 Using the template
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../all-options/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ⚙️ All options
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ❤️ Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../related/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🔗 Related projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+ 
+  </ul>
+</nav><a
+  href="https://drivendata.co/open-source.html"
+  target="_blank"
+  style="border-bottom: 0; padding-top: 3rem; display: block"
+>
+  <img
+    style="width: 60%"
+    src="https://s3.amazonaws.com/drivendata/images/drivendata-logo.svg"
+  />
+</a>
+<p style="width: 60%">Cookiecutter Data Science is a DrivenData project.</p>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="pytest-customization">Pytest Customization</h1>
+<h2 id="00-extensions">00 Extensions</h2>
+<div class="highlight"><pre><span></span><code><span class="k">[</span>
+<span class="w">    </span><span class="s2">&quot;pytest-cases&gt;=3.8.6&quot;</span><span class="err">,</span><span class="w">     </span><span class="c1"># Parametrized testing</span>
+<span class="w">    </span><span class="s2">&quot;pytest-cov&gt;=6.0.0&quot;</span><span class="err">,</span><span class="w">       </span><span class="c1"># Coverage reporting</span>
+<span class="w">    </span><span class="s2">&quot;pytest-icdiff&gt;=0.9&quot;</span><span class="err">,</span><span class="w">      </span><span class="c1"># Improved diffs</span>
+<span class="w">    </span><span class="s2">&quot;pytest-mock&gt;=3.14.0&quot;</span><span class="err">,</span><span class="w">     </span><span class="c1"># Mocking</span>
+<span class="w">    </span><span class="s2">&quot;pytest-playwright&gt;=0.6.2&quot;</span><span class="err">,</span><span class="w"> </span><span class="c1"># Browser testing</span>
+<span class="w">    </span><span class="s2">&quot;pytest-profiling&gt;=1.8.1&quot;</span><span class="err">,</span><span class="w"> </span><span class="c1"># Test profiling</span>
+<span class="w">    </span><span class="s2">&quot;pytest-random-order&gt;=1.1.1&quot;</span><span class="err">,</span><span class="w"> </span><span class="c1"># Randomized test order</span>
+<span class="w">    </span><span class="s2">&quot;pytest-shutil&gt;=1.8.1&quot;</span><span class="err">,</span><span class="w">    </span><span class="c1"># File system testing</span>
+<span class="w">    </span><span class="s2">&quot;pytest-split&gt;=0.10.0&quot;</span><span class="err">,</span><span class="w">    </span><span class="c1"># Parallel testing</span>
+<span class="w">    </span><span class="s2">&quot;pytest-sugar&gt;=1.0.0&quot;</span><span class="err">,</span><span class="w">     </span><span class="c1"># Test progress visualization</span>
+<span class="w">    </span><span class="s2">&quot;pytest-timeout&gt;=2.3.1&quot;</span><span class="err">,</span><span class="w">   </span><span class="c1"># Test timeouts</span>
+<span class="w">    </span><span class="s2">&quot;pytest&gt;=8.3.4&quot;</span><span class="err">,</span><span class="w">           </span><span class="c1"># Testing framework</span>
+<span class="err">]</span>
+</code></pre></div>
+<!-- TODO: Add explanation -->
+
+<h2 id="01-custom-option-max-timeoutseconds">01 Custom Option: <code>--max-timeout=SECONDS</code></h2>
+<p>In Pytest, <a href="https://docs.pytest.org/en/7.1.x/example/markers.html#registering-markers">it's common to make custom markers for slow and fast tests</a> and then filter for which ones you would like to run. I prefer a bit more granularity and to instead say "run tests that take less than $t$ seconds". To do this, I piggyback off of the <a href="https://pypi.org/project/pytest-timeout/">pytest-timeout</a> package (which will need to be installed) to save some effort, making my own filter for tests with a timeout above a specified threshold.</p>
+<h3 id="example">Example</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">### test_example.py ###</span>
+<span class="sd">&quot;&quot;&quot;Example test module demonstrating --max-timeout option for pytest.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_example_slow</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running fast example test&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">timeout</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_example_fast</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running slow example test&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Deselect the slow test by setting <code>--max-timeout=5</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>tests/test_example.py<span class="w"> </span>--max-timeout<span class="o">=</span><span class="m">5</span><span class="w"> </span>--collect-only
+
+<span class="c1"># Test session starts (platform: darwin, Python 3.10.16, pytest 7.4.4, pytest-sugar 1.0.0)</span>
+<span class="c1"># cachedir: .pytest_cache</span>
+<span class="c1"># rootdir: /Users/gat/work/gatlens-opinionated-template</span>
+<span class="c1"># configfile: pyproject.toml</span>
+<span class="c1"># plugins: sugar-1.0.0, anyio-4.7.0, timeout-2.3.1</span>
+<span class="c1"># collected 2 items / 1 deselected / 1 selected                                                                                                                                                                                                                </span>
+
+<span class="c1"># &lt;Module tests/test_example.py&gt;</span>
+<span class="c1">#   Example test module demonstrating logging configuration.</span>
+<span class="c1">#   &lt;Function test_example_fast&gt;</span>
+<span class="c1">#     Example test that uses the configured logger.</span>
+
+
+<span class="c1"># Results (0.03s):</span>
+<span class="c1">#        1 deselected</span>
+</code></pre></div>
+<h3 id="pytest-add-option">Pytest Add Option</h3>
+<p>Adding the code to your <code>conftest.py</code> file should add the functionality:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">### conftest.py ###</span>
+<span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter test items based on their timeout marker value.</span>
+
+<span class="sd">    This pytest hook modifies the test collection by removing tests whose timeout</span>
+<span class="sd">    value exceeds the maximum specified timeout, as well as tests without any</span>
+<span class="sd">    timeout marker. The maximum timeout can be set using the --max-timeout command</span>
+<span class="sd">    line option. If --max-timeout is not provided, all tests will run regardless</span>
+<span class="sd">    of their timeout value.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config: The pytest configuration object containing test session information</span>
+<span class="sd">        items: List of collected test items to be filtered</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Tests are marked with @pytest.mark.timeout(value) decorator. If a test&#39;s</span>
+<span class="sd">        timeout value is greater than max_timeout or if it has no timeout marker,</span>
+<span class="sd">        it will be deselected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_timeout</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;--max-timeout&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_timeout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">all_items</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+    <span class="n">deselected_tests</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">item</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;timeout&quot;</span><span class="p">)</span>  <span class="c1"># Remove tests without timeout marker</span>
+        <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;timeout&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="o">&gt;</span> <span class="n">max_timeout</span>  <span class="c1"># Remove tests exceeding max_timeout</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">deselected_tests</span><span class="p">:</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">hook</span><span class="o">.</span><span class="n">pytest_deselected</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">deselected_tests</span><span class="p">))</span>
+        <span class="n">items</span><span class="p">[:]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_items</span> <span class="o">-</span> <span class="n">deselected_tests</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Parser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add custom command line options to pytest.</span>
+
+<span class="sd">    This function registers two custom command line options:</span>
+<span class="sd">    - --max-timeout: Set maximum allowed timeout for tests (default: None, run all tests)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parser: The pytest command line parser to which options will be added</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Run tests with a maximum timeout of 10 seconds:</span>
+<span class="sd">        pytest --max-timeout=10</span>
+
+<span class="sd">        Run all tests regardless of timeout:</span>
+<span class="sd">        pytest  # without --max-timeout option</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
+        <span class="s2">&quot;--max-timeout&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Only run tests with timeout less than this value. If not provided, run all tests.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Upstream maintained by the friendly folks at <a target=_blanks href="https://www.drivendata.org">DrivenData</a>, fork maintained by <a target=_blanks href="https://gatlen.notion.site">Gatlen Culp</a>.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "toc.integrate"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../js/extra.js"></script>
+      
+        <script src="../termynal.js"></script>
+      
+    
+  </body>
+</html>

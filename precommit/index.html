@@ -16,7 +16,7 @@
         <link rel="prev" href="../core-tools/">
       
       
-        <link rel="next" href="../vscode/">
+        <link rel="next" href="../pytest-customization/">
       
       
       <link rel="icon" href="../favicon.ico">
@@ -361,9 +361,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#05-testing" class="md-nav__link">
+  <a href="#05-fast-tests-local" class="md-nav__link">
     <span class="md-ellipsis">
-      05 🧪 Testing
+      05 🧪 Fast Tests (Local)
     </span>
   </a>
   
@@ -382,6 +382,23 @@
   
 </nav>
       
+    </li>
+  
+   
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pytest-customization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🧪 Pytest Customization
+  </span>
+  
+
+      </a>
     </li>
   
    
@@ -534,6 +551,9 @@
 
 <h1 id="pre-commit-hooks-collection">Pre-commit Hooks Collection</h1>
 <p><img alt="pre-commit logo" src="https://avatars.githubusercontent.com/u/6943086?s=280&amp;v=4" /></p>
+<p>This page explains what pre-commit hooks are, why they are used, and the specific selection I have decided to make for GOTem to keep your projects pristine with every commit. The source config file can be found <a href="https://github.com/GatlenCulp/gatlens-opinionated-template/blob/master/.pre-commit-config.yaml">here</a>.</p>
+<p><img alt="Pre-commit Final Result" src="../pre-commit-final-result.png" />
+<em>The final result.</em></p>
 <h2 id="what-are-git-hooks">What are Git hooks?</h2>
 <p><a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git hooks</a> are scripts that run automatically at some stage in the git-lifecycle. Most commonly, pre-commit hooks are used, running before a commit goes through. They act as a first line of defense for code quality by:</p>
 <ul>
@@ -570,24 +590,25 @@ Alternatives (Husky)
 <p><a href="https://typicode.github.io/husky/">Husky</a> is an alternative to pre-commit that's primarily designed for the NodeJS ecosystem. To my knowledge, while both tools handle Git hooks effectively, pre-commit offers broader multi-language support and has become standard in the Python community.</p>
 </details>
 <h2 id="installation">Installation</h2>
-<ol>
-<li>The repository comes with a <code>.pre-commit-config.yaml</code> file already configured</li>
-<li>Install the hooks with:</li>
-</ol>
+<p>Projects generated with GOTem come with the <code>.pre-commit-config.yaml</code> file already configured as described below. If you would like to create your own, you can follow the instructions <a href="https://pre-commit.com/#2-add-a-pre-commit-configuration">here</a>.</p>
+<p>Install the hooks with:</p>
 <div class="highlight"><pre><span></span><code>pre-commit<span class="w"> </span>install
 </code></pre></div>
 <p>You'll see hooks run automatically on every commit:
 <img alt="Pre-commit Example" src="../pre-commit_example.png" /></p>
 <p><strong>Useful Commands:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Update hooks to their latest versions</span>
-pre-commit<span class="w"> </span>autoupdate
-
-<span class="c1"># Reinstall hooks (needed after config changes)</span>
-pre-commit<span class="w"> </span>install
-
-<span class="c1"># Test hooks without committing</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test hooks without committing</span>
 pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+
+<span class="c1"># Commit without running hooks</span>
+git<span class="w"> </span>commit<span class="w"> </span>--no-verify
 </code></pre></div>
+<details>
+<summary>
+Note on security with `pre-commit autoupdate`
+</summary>
+<p><code>pre-commit autoupdate</code> will bump all of your hook versions to the latest release. Although helpful, use with caution around untrusted hooks since security vulnerabilities or malware can be introduced between versions. This is mostly a non-issue which applies to basically all software but worth mentioning.</p>
+</details>
 <hr />
 <h2 id="hooks">Hooks</h2>
 <p>This collection prioritizes best-in-class tools without redundancy. Rather than using multiple overlapping tools, we've selected the most effective option for each task. For example:</p>
@@ -596,45 +617,29 @@ pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
 <li>JSON/YAML/TOML validation uses specialized schema validators</li>
 <li>Security scanning uses a single comprehensive tool</li>
 </ul>
+<p>All hooks labeled with <code># STRICT</code> are commented out by default and not recommended for every project. (Ex: Code style linters are typically desired for production-grade software but not research.)</p>
 <h2 id="01-security">01 🔒 Security</h2>
-<p><a href="https://github.com/gitleaks/gitleaks">GitLeaks</a> is a fast, lightweight scanner that prevents secrets (passwords, API keys, tokens) from being committed to your repository.</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/gitleaks/gitleaks</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v8.22.1</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitleaks</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🔒</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Detect</span><span class="nv"> </span><span class="s">hardcoded</span><span class="nv"> </span><span class="s">secrets&quot;</span>
-</code></pre></div>
+<p><strong><a href="https://github.com/gitleaks/gitleaks">GitLeaks</a></strong> is a fast, lightweight scanner that prevents secrets (passwords, API keys, tokens) from being committed to your repository.</p>
 <details>
 <summary>
 Alternatives to GitLeaks (TruffleHog)
 </summary>
 <p><a href="https://github.com/trufflesecurity/trufflehog">TruffleHog</a> offers more comprehensive and continuous security scanning across a variety of platforms (not just files). However, it requires more setup time and resources than GitLeaks. Consider TruffleHog for expansive projects with strict security requirements.</p>
 </details>
-<!-- TODO: Read this, https://kislyuk.github.io/argcomplete/ -->
-
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/gitleaks/gitleaks</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v8.22.1</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitleaks</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🔒</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Detect</span><span class="nv"> </span><span class="s">hardcoded</span><span class="nv"> </span><span class="s">secrets&quot;</span>
+</code></pre></div>
 <h2 id="02-code-quality">02 🔍 Code Quality</h2>
 <p>This section covers tools for code formatting, linting, type checking, and schema validation across different languages and file types. Best-in-class tools were chosen, avoiding redundant functionality. I opted for remote hook downloads over local commands to make the file more portable and self-updating.</p>
 <h3 id="python">🐍 python</h3>
-<p><a href="https://docs.astral.sh/ruff/">Ruff</a> is a fast, comprehensive Python formatter and linter that replaces multiple traditional tools (Black, Flake8, isort, pyupgrade, bandit, pydoclint, mccabe complexity, and more.) While it's not yet at 100% parity with all these tools, its speed and broad coverage make it an excellent choice as this project's only Python linter/formatter:</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/astral-sh/ruff-pre-commit</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.8.6</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff-format</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Ruff&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/mirrors-mypy</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;v1.14.1&quot;</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mypy</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Check</span><span class="nv"> </span><span class="s">types&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/abravalheri/validate-pyproject</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.23</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">validate-pyproject</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">pyproject.toml&quot;</span>
-<span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;validate-pyproject-schema-store[all]&quot;</span><span class="p p-Indicator">]</span>
-</code></pre></div>
+<p><strong><a href="https://docs.astral.sh/ruff/">Ruff</a></strong> is a fast, comprehensive Python formatter and linter that replaces multiple traditional tools (Black, Flake8, isort, pyupgrade, bandit, pydoclint, mccabe complexity, and more.) While it's not yet at 100% parity with all these tools, its speed and broad coverage make it an excellent choice as the only Python linter/formatter:</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff">VSCode extension</a></li>
+<li>While Ruff does many things, type checking it does not... <a href="https://github.com/astral-sh/ruff/issues/3893">yet</a>.</li>
+</ul>
 <details>
 <summary>
 Alternatives to Ruff (Too Many to Name)
@@ -660,49 +665,36 @@ Alternatives to Ruff (Too Many to Name)
 </ol>
 <p>Consider using individual tools if you need specific features not yet supported by Ruff or have complex existing configurations you need to maintain.</p>
 </details>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/astral-sh/ruff-pre-commit</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.9.1</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff-format</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Ruff&quot;</span>
+<span class="w">    </span><span class="c1"># STRICT</span>
+<span class="w">    </span><span class="c1"># - id: ruff</span>
+<span class="w">    </span><span class="c1">#   args: [ --fix ]</span>
+</code></pre></div>
 <p><br/></p>
-<p>While Ruff does many things, type checking it does not... <a href="https://github.com/astral-sh/ruff/issues/3893">yet</a>.</p>
-<p><a href="https://mypy-lang.org/">MyPy</a> handles Python type checking:</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/mirrors-mypy</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mypy</span>
-</code></pre></div>
+<p><strong><a href="https://microsoft.github.io/pyright/">Microsoft's Pyright</a></strong> handles Python type checking:</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-pyright.pyright">VSCode Extension</a>, but <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance">Pylance</a>, the default extension for Python, has it built-in.</li>
+<li><em>This is a community supported pre-commit hook, endorsed by microsoft</em></li>
+</ul>
 <details>
 <summary>
-Alternatives to MyPy (Pyright)
+Alternatives to Pyright (MyPy)
 </summary>
-<p>Microsoft's <a href="https://microsoft.github.io/pyright/">Pyright</a> is a <a href="https://github.com/microsoft/pyright/blob/main/docs/mypy-comparison.md">faster and more featureful</a> alternative to MyPy. While it's the preferred choice for type checking, there isn't currently a maintained pre-commit hook available. Consider using Pyright through its <a href="https://github.com/microsoft/pyright/blob/main/docs/ci-integration.md">Git hook</a> or as a local tool until a pre-commit hook is developed.</p>
+<p>Microsoft's <a href="https://microsoft.github.io/pyright/">Pyright</a> is a <a href="https://github.com/microsoft/pyright/blob/main/docs/mypy-comparison.md">faster and more featureful</a> alternative to <a href="https://mypy-lang.org/">MyPy</a>, but MyPy is the original type checker.</p>
 </details>
-<!-- TODO: Add vulture https://github.com/jendrikseipp/vulture -->
-
-<h3 id="javascript-web-tools">🟨 JavaScript &amp; Web Tools</h3>
-<p><a href="https://biomejs.dev/internals/language-support/">Biome</a> is a modern, fast formatter and linter for JS/TS ecosystems (JS[X], TS[X], JSON[C], CSS, GraphQL). It provides better defaults than ESLint and comes with a helpful <a href="https://marketplace.visualstudio.com/items?itemName=biomejs.biome">VSCode Extension</a>:</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/biomejs/pre-commit</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;v0.6.1&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># STRICT</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/RobertCraigie/pyright-python</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.1.391</span>
 <span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">biome-ci</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🟨</span><span class="nv"> </span><span class="s">javascript</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">format</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Biome&quot;</span>
-<span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;@biomejs/biome@1.9.4&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pyright</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Check</span><span class="nv"> </span><span class="s">types&quot;</span>
 </code></pre></div>
-<details>
-<summary>
-Alternatives to Biome (ESLint &amp; Prettier)
-</summary>
-<p><a href="https://eslint.org/">ESLint</a> and <a href="https://prettier.io/">Prettier</a> are more established alternatives with broader plugin ecosystems. While Prettier supports many file types, it can be notably slow, sometimes produces unexpected formatting, and sometimes breaks code (which I find annoying). Since this is primarily a Python-focused project template and Biome handles our JavaScript needs efficiently, we prefer it over the traditional ESLint/Prettier setup. Consider ESLint and Prettier if you need plugins, support for specific JS frameworks, or formatting for languages unsupported elsewhere. (More linters <a href="https://github.com/caramelomartins/awesome-linters">here</a> as well)</p>
-</details>
-<h3 id="data-config-validation">✅ Data &amp; Config Validation</h3>
-<p><a href="https://check-jsonschema.readthedocs.io/">check-jsonschema</a> validates various configuration files using <a href="https://json-schema.org/specification">JSON Schema</a>. It supports JSON, YAML, and TOML files, and includes specialized validators like the <a href="https://taskfile.dev/">TaskFile</a> and <a href="https://github.com/features/actions">GitHub Actions</a> checker:</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/python-jsonschema/check-jsonschema</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.30.0</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-github-workflows</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐙</span><span class="nv"> </span><span class="s">github-actions</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">gh</span><span class="nv"> </span><span class="s">workflow</span><span class="nv"> </span><span class="s">files&quot;</span>
-<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--verbose&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-taskfile</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;✅</span><span class="nv"> </span><span class="s">taskfile</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">Task</span><span class="nv"> </span><span class="s">configuration&quot;</span>
-</code></pre></div>
-<p><em>Additional json schema available on the <a href="https://json.schemastore.org/pyproject.json">Schema Store</a></em></p>
-<p><a href="https://validate-pyproject.readthedocs.io/">validate-pyproject</a> specifically handles pyproject.toml validation. In the future, I may have check-jsonschema do this as well.</p>
+<p><br/></p>
+<p><strong><a href="https://validate-pyproject.readthedocs.io/">validate-pyproject</a></strong> specifically handles pyproject.toml validation. In the future, I may have check-jsonschema do this as well.</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/abravalheri/validate-pyproject</span>
 <span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.23</span>
 <span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
@@ -710,48 +702,151 @@ Alternatives to Biome (ESLint &amp; Prettier)
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">pyproject.toml&quot;</span>
 <span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;validate-pyproject-schema-store[all]&quot;</span><span class="p p-Indicator">]</span>
 </code></pre></div>
-<!-- Possibly worth just building? -->
-
+<h3 id="javascript-web-tools">🟨 JavaScript &amp; Web Tools</h3>
+<p><strong><a href="https://biomejs.dev/internals/language-support/">Biome</a></strong> is a modern, fast formatter and linter for JS/TS ecosystems (JS[X], TS[X], JSON[C], CSS, GraphQL). It provides better defaults than ESLint.</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=biomejs.biome">VSCode Extension</a></li>
+</ul>
+<details>
+<summary>
+Alternatives to Biome (ESLint &amp; Prettier)
+</summary>
+<p><a href="https://eslint.org/">ESLint</a> and <a href="https://prettier.io/">Prettier</a> are more established alternatives with broader plugin ecosystems. While Prettier supports many file types, it can be notably slow, sometimes produces unexpected formatting, and sometimes breaks code (which I find annoying). Since this is primarily a Python-focused project template and Biome handles our JavaScript needs efficiently, we prefer it over the traditional ESLint/Prettier setup. Consider ESLint and Prettier if you need plugins, support for specific JS frameworks, or formatting for languages unsupported elsewhere. (More linters <a href="https://github.com/caramelomartins/awesome-linters">here</a> as well)</p>
+</details>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/biomejs/pre-commit</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;v0.6.1&quot;</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">biome-check</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🟨</span><span class="nv"> </span><span class="s">javascript</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint,</span><span class="nv"> </span><span class="s">format,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">safe</span><span class="nv"> </span><span class="s">fixes</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Biome&quot;</span>
+<span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;@biomejs/biome@1.9.4&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<h3 id="data-config-validation">✅ Data &amp; Config Validation</h3>
+<p><strong><a href="https://check-jsonschema.readthedocs.io/">check-jsonschema</a></strong> validates various configuration files using <a href="https://json-schema.org/specification">JSON Schema</a>. It supports JSON, YAML, and TOML files, and includes specialized validators like the <a href="https://taskfile.dev/">TaskFile</a> and <a href="https://github.com/features/actions">GitHub Actions</a> checker.</p>
+<ul>
+<li>Additional JSON schema available on <a href="https://json.schemastore.org/pyproject.json">Schema Store</a></li>
+<li>VSCode <a href="https://code.visualstudio.com/docs/languages/json#_intellisense-and-validation">automatically provides intellisense and validation for JSON files with schema</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions">GitHub Actions VSCode Extension</a> provides action YAML file intellisense and validation.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/python-jsonschema/check-jsonschema</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.31.0</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-github-workflows</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐙</span><span class="nv"> </span><span class="s">github-actions</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">gh</span><span class="nv"> </span><span class="s">workflow</span><span class="nv"> </span><span class="s">files&quot;</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--verbose&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-taskfile</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;✅</span><span class="nv"> </span><span class="s">taskfile</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">Task</span><span class="nv"> </span><span class="s">configuration&quot;</span>
+</code></pre></div>
 <h3 id="markdown">📝 Markdown</h3>
-<p><a href="https://mdformat.readthedocs.io/">mdformat</a> for Markdown formatting with additional plugins for GitHub-Flavored Markdown, Ruff-style code formatting, and frontmatter support:</p>
+<p><strong><a href="https://mdformat.readthedocs.io/">mdformat</a></strong> for Markdown formatting with additional plugins for GitHub-Flavored Markdown, Ruff-style code formatting, and frontmatter support:</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/hukkin/mdformat</span>
 <span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7.21</span>
 <span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📝</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">documentation&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📝</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">markdown&quot;</span>
 <span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-gfm</span><span class="w">           </span><span class="c1"># GitHub-Flavored Markdown support</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-gfm</span><span class="w">          </span><span class="c1"># GitHub-Flavored Markdown support</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-ruff</span><span class="w">         </span><span class="c1"># Python code formatting</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-frontmatter</span><span class="w">  </span><span class="c1"># YAML frontmatter support</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff</span><span class="w">                  </span><span class="c1"># Required for mdformat-ruff</span>
 </code></pre></div>
-<h3 id="notebooks">📓 Notebooks</h3>
-<p><a href="https://nbqa.readthedocs.io/">nbQA</a> for Jupyter notebook quality assurance, allowing us to use our standard Python tools on notebooks:</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/nbQA-dev/nbQA</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.9.1</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa-mypy</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📓</span><span class="nv"> </span><span class="s">notebook</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Type-check</span><span class="nv"> </span><span class="s">cells&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa</span>
-<span class="w">      </span><span class="nt">entry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa mdformat</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📓</span><span class="nv"> </span><span class="s">notebook</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">cells&quot;</span>
-<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--nbqa-md&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">jupyter</span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w">  </span><span class="c1"># Same dependencies as mdformat</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-gfm</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-ruff</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-frontmatter</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff</span>
+<p><strong><a href="https://github.com/markdownlint/markdownlint/tree/main">Markdownlint</a></strong> for Markdown linting.</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint">VSCode extension</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/markdownlint/markdownlint</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">rev</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.12.0</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">hooks</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">markdownlint</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📝</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">markdown&quot;</span>
 </code></pre></div>
+<h3 id="shell">🐚 Shell</h3>
+<p><strong><a href="https://www.shellcheck.net/">ShellCheck</a></strong> lints your shell scripts.</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck">VSCode extension</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># STRICT</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/shellcheck-py/shellcheck-py</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.10.0.1</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shellcheck</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐚</span><span class="nv"> </span><span class="s">shell</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">shell</span><span class="nv"> </span><span class="s">scripts&quot;</span>
+</code></pre></div>
+<p><strong><a href="https://github.com/openstack/bashate">bashate</a></strong> checks your shell script code style.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># STRICT</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/openstack/bashate</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.1.1</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bashate</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐚</span><span class="nv"> </span><span class="s">shell</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Check</span><span class="nv"> </span><span class="s">shell</span><span class="nv"> </span><span class="s">script</span><span class="nv"> </span><span class="s">code</span><span class="nv"> </span><span class="s">style&quot;</span>
+</code></pre></div>
+<h3 id="makefile">🐮 Makefile</h3>
+<p><strong><a href="https://github.com/mrtazz/checkmake">Checkmake</a></strong> for linting your Makefile.</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/mrtazz/checkmake.git</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2.2</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checkmake</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐮</span><span class="nv"> </span><span class="s">Makefile</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">Makefile&quot;</span>
+</code></pre></div>
+<h3 id="sql-code">📊 SQL Code</h3>
+<p><strong><a href="https://docs.sqlfluff.com/en/stable/production/pre_commit.html">SQLFluff</a></strong> can be used to lint and attempt to auto-fix any of your <code>*.sql</code> files automatically.</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/sqlfluff/sqlfluff</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.3.0</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlfluff-fix</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📊</span><span class="nv"> </span><span class="s">SQL</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Attempts</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">fix</span><span class="nv"> </span><span class="s">rule</span><span class="nv"> </span><span class="s">violations.&quot;</span>
+<span class="w">    </span><span class="c1"># STRICT</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlfluff-lint</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📊</span><span class="nv"> </span><span class="s">SQL</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">SQL</span><span class="nv"> </span><span class="s">code</span><span class="nv"> </span><span class="s">files&quot;</span>
+</code></pre></div>
+<h3 id="notebooks">📓 Notebooks</h3>
+<p><strong><a href="https://nbqa.readthedocs.io/">nbQA</a></strong> for Jupyter notebook quality assurance, allowing us to use our standard Python tools on notebooks.</p>
 <details>
 <summary>
 ruff supports notebooks by default
 </summary>
 <p><a href="https://docs.astral.sh/ruff/configuration/#jupyter-notebook-discovery">Ruff has built-in support for Jupyter Notebooks</a>, so this has been excluded from nbQA since it would be redundant. nbQA has <code>nbqa-ruff-format</code> and <code>nbqa-ruff-check</code> hooks, but these appear to be redundant.</p>
 </details>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/nbQA-dev/nbQA</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.9.1</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa</span>
+<span class="w">      </span><span class="nt">entry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa mdformat</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📓</span><span class="nv"> </span><span class="s">notebook</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">cells&quot;</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--nbqa-md&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">jupyter</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-gfm</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-ruff</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-frontmatter</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff</span>
+<span class="w">    </span><span class="c1"># STRICT</span>
+<span class="w">    </span><span class="c1"># TODO: Convert to pyright</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa-mypy</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📓</span><span class="nv"> </span><span class="s">notebook</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Type-check</span><span class="nv"> </span><span class="s">cells&quot;</span>
+</code></pre></div>
+<h3 id="image-optimization">🖼️ Image Optimization</h3>
+<p><strong><a href="https://github.com/shssoichiro/oxipng">oxipng</a></strong> is a PNG optimizer written in Rust with lossy and lossless options. (The selection of arguments below are slightly lossy):</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/shssoichiro/oxipng</span>
+<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v9.1.3</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oxipng</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🖼️</span><span class="nv"> </span><span class="s">images</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Optimize</span><span class="nv"> </span><span class="s">PNG</span><span class="nv"> </span><span class="s">files&quot;</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;-o&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;4&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--strip&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;safe&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--alpha&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
 <h3 id="additional-file-types">✨ Additional File Types</h3>
-<p><a href="https://prettier.io/">Prettier</a> handles formatting for various file types not covered by other tools (HTML, CSS, YAML, etc.). While it can be slow and sometimes produces code-breaking formatting, it remains the standard for these file types:</p>
+<p><strong><a href="https://prettier.io/">Prettier</a> (HTML, YAML, CSS)</strong> handles formatting for various file types not covered by other tools. While it can be slow, sometimes produces code-breaking formatting, and I personally dislike it - it remains the standard for these file types.</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">VSCode extension</a></li>
+</ul>
+<details>
+<summary>
+Future Improvements
+</summary>
+<p>I might replace Prettier with more focused tools in the future (Perhaps <a href="https://htmlhint.com/">HTMLHint</a> for HTML validation but it's hardly a linter.)</p>
+<p>However, this would require managing multiple tools and dependencies, so I'm sticking with Prettier for now.</p>
+<p><em>My disatisfaction with prettier is humorously shared by pre-commit, as they <a href="https://github.com/pre-commit/mirrors-prettier#archived">themselves no longer support the prettier hook</a> because "prettier made some changes that breaks plugins entirely"</em></p>
+</details>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/mirrors-prettier</span>
 <span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v4.0.0-alpha.8</span>
 <span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
@@ -761,29 +856,14 @@ ruff supports notebooks by default
 <span class="w">      </span><span class="nt">additional_dependencies</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prettier@3.4.2</span>
 </code></pre></div>
-<details>
-<summary>
-Future Improvements
-</summary>
-<p>I might replace Prettier with more focused tools in the future (Perhaps <a href="https://htmlhint.com/">HTMLHint</a> for HTML validation but it's hardly a linter.)</p>
-<p>However, this would require managing multiple tools and dependencies, so I'm sticking with Prettier for now.</p>
-<p><em>My disatisfaction with prettier is humorously shared by pre-commit, as they <a href="https://github.com/pre-commit/mirrors-prettier#archived">themselves no longer support the prettier hook</a> because "prettier made some changes that breaks plugins entirely"</em></p>
-</details>
-<h3 id="local-tools">🛠️ Local Tools</h3>
-<p>For using tools without hooks, you can also run a local command:</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make-lint</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run &#39;make lint&#39;</span>
-<span class="w">      </span><span class="nt">entry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make</span>
-<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;lint&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">      </span><span class="nt">language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">system</span>
-</code></pre></div>
-<p>Note: If you're using <a href="https://docs.astral.sh/uv/">uv</a>, they <a href="https://github.com/astral-sh/uv-pre-commit">also have pre-commits</a> available.</p>
-<!-- CZ git https://cz-git.qbb.sh/cli/why -->
-
 <h2 id="03-filesystem">03 📁 Filesystem</h2>
-<p>These hooks help maintain repository hygiene by preventing common file-related issues:</p>
+<p><strong><a href="https://github.com/pre-commit/pre-commit-hooks">Pre-commit hooks</a></strong> are collection of hooks managed by the pre-commit team. These hooks help maintain repository hygiene by preventing common file-related issues:</p>
+<ul>
+<li><code>check-case-conflict</code> - Prevents issues on case-insensitive filesystems (Windows/MacOS)</li>
+<li><code>check-symlinks</code> &amp; <code>destroyed-symlinks</code> - Maintains symlink integrity</li>
+<li><code>check-executables-have-shebangs</code> - Ensures scripts are properly configured</li>
+<li><code>check-illegal-windows-names</code> - Check for files that cannot be created on Windows.</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/pre-commit-hooks</span>
 <span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v5.0.0</span>
 <span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
@@ -801,15 +881,15 @@ Future Improvements
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📁</span><span class="nv"> </span><span class="s">filesystem/🔗</span><span class="nv"> </span><span class="s">symlink</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Detect</span><span class="nv"> </span><span class="s">broken</span><span class="nv"> </span><span class="s">symlinks&quot;</span>
 <span class="w">    </span><span class="c1"># ... More Below ...</span>
 </code></pre></div>
-<ul>
-<li><code>check-added-large-files</code> - Prevents committing files larger than 8000KB (<a href="https://git-lfs.com/">Git Large File Storage (LFS)</a> or <a href="https://dvc.org/">Data Version Control (DVC)</a> should instead be used)</li>
-<li><code>check-case-conflict</code> - Prevents issues on case-insensitive filesystems (Windows/MacOS)</li>
-<li><code>check-symlinks</code> &amp; <code>destroyed-symlinks</code> - Maintains symlink integrity</li>
-<li><code>check-executables-have-shebangs</code> - Ensures scripts are properly configured</li>
-<li><code>check-illegal-windows-names</code> - Check for files that cannot be created on Windows.</li>
-</ul>
 <h2 id="04-git-quality">04 🌳 Git Quality</h2>
-<h3 id="branch-protection">Branch Protection</h3>
+<h3 id="repo-constraints">🪵 Repo Constraints</h3>
+<p><strong><a href="https://github.com/pre-commit/pre-commit-hooks">Pre-commit hooks</a></strong> again, this time for branch protection restricting unwanted actions.</p>
+<ul>
+<li><code>forbid-new-submodules</code> - Prevent addition of new git submodules (repo-in-a-repo). (Imo, Git submodules are a perfectly find practice, but</li>
+<li><code>check-merge-conflict</code> - Prevents committing unresolved merge conflicts</li>
+<li><code>no-commit-to-branch</code> - Protects main branches from direct commits (GitHub branch protections are for enterprise members only (sad))</li>
+<li><code>check-added-large-files</code> - Prevents committing files larger than 5000KB (<a href="https://git-lfs.com/">Git Large File Storage (LFS)</a> or <a href="https://dvc.org/">Data Version Control (DVC)</a> should instead be used)</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/pre-commit-hooks</span>
 <span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v5.0.0</span>
 <span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
@@ -823,63 +903,72 @@ Future Improvements
 <span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;--branch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;main&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--branch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;master&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-added-large-files</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🌳</span><span class="nv"> </span><span class="s">git</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Block</span><span class="nv"> </span><span class="s">large</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">commits&quot;</span>
-<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;--maxkb=1000&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;--maxkb=5000&#39;</span><span class="p p-Indicator">]</span>
 </code></pre></div>
-<ul>
-<li><code>forbid-new-submodules</code> - Prevent addition of new git submodules. (I'm mixed on this one since I think this is a confusing paradigm but don't know of better alternatives.)</li>
-<li><code>check-merge-conflict</code> - Prevents committing unresolved merge conflicts</li>
-<li><code>no-commit-to-branch</code> - Protects main branches from direct commits (GitHub branch protections are for enterprise members only (sad))</li>
-</ul>
-<p>For the best experience:</p>
-<ol>
-<li>Use <code>cz commit</code> instead of <code>git commit</code></li>
-<li>Consider <a href="https://cz-git.qbb.sh/">czg</a> for a better implementation of the <code>cz</code> cli (I'm personally a fan of the AI generated commits it has.)</li>
-</ol>
 <h3 id="commit-message-standards">🗒️ Commit Message Standards</h3>
-<p><a href="https://commitizen.github.io/cz-cli/">Commitizen</a> enforces standardized commit messages that enable automatic changelog generation and semantic versioning</p>
-<p>Additionally, I add <a href="https://github.com/ljnsn/cz-conventional-gitmoji">cz-conventional-gitmoji</a>, a third-party prompt template that combines the <a href="https://gitmoji.dev/">gitmoji</a> and <a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commit</a> standards. (More templates <a href="https://commitizen-tools.github.io/commitizen/third-party-commitizen/">here</a>)</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/commitizen-tools/commitizen</span>
-<span class="w">  </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v4.1.0</span>
-<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">commitizen</span>
-<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🌳</span><span class="nv"> </span><span class="s">git</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">commit</span><span class="nv"> </span><span class="s">message&quot;</span>
-<span class="w">      </span><span class="nt">stages</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">commit-msg</span><span class="p p-Indicator">]</span>
-</code></pre></div>
+<p><strong><a href="https://commitizen.github.io/cz-cli/">Commitizen</a></strong> enforces high-quality standardized commit messages that enable automatic changelog generation and semantic versioning</p>
+<details>
+<summary>
+Accompanying Improved Git Commit Interface
+</summary>
+<p>Commitizen comes with a built-in and customizable CLI that will walk you through making one of these standard commits. If you're using GOTem, this is preinstalled and you can run <code>cz commit</code> instead of <code>git commit</code></p>
+<p><em>As an alternative to commitizen, there is also <a href="https://cz-git.qbb.sh/"><code>czg</code></a> (<code>cz-git</code> improved) which has a great implementation of AI-generated commits. However, it's <a href="https://github.com/Zhengqbbb/cz-git/issues/213">extremely painful to configure outside of non-javascript projects</a> whereas <a href="https://commitizen-tools.github.io/commitizen/customization/">commitizen is more mature in this area.</a></em></p>
+<p><img alt="czg interface" src="https://user-images.githubusercontent.com/40693636/175753060-cf4f5e48-100d-430a-93e9-31b17f42802f.gif" /></p>
+</details>
 <details>
 <summary>
 Alternatives to Commitizen (Commitlint)
 </summary>
 <p><a href="https://github.com/conventional-changelog/commitlint">commitlint</a> is a similar project to commitizen. Many articles claim that the difference between the two are that commitizen is more of a tool to generate these fancy commits while commitlint is meant to lint the commits. However, considering <code>cz check</code> is a thing, I'm confused what the difference is. The tools can be used together. Seems like commitizen has better python support than commitlint. Projects equally popular. More research to be done on the differences!</p>
 </details>
-<!-- 
-TODO: Look into the differences above. Oop. 
-  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: "v9.20.0"
-    hooks:
-      - id: commitlint
-        stages: [commit-msg]
--->
-
-<h2 id="05-testing">05 🧪 Testing</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># TODO After completing `tests/`</span>
-<span class="c1"># - repo: local</span>
-<span class="c1">#   hooks:</span>
-<span class="c1">#     - id: fast-tests</span>
-<span class="c1">#       name: Run Fast Tests</span>
-<span class="c1">#       entry: pytest</span>
-<span class="c1">#       language: system</span>
-<span class="c1">#       types: [python]</span>
-<span class="c1">#       args: [</span>
-<span class="c1">#         &quot;tests/unit&quot;,  # Only run unit tests</span>
-<span class="c1">#         &quot;-m&quot;, &quot;not slow&quot;,  # Skip slow-marked tests</span>
-<span class="c1">#         &quot;--quiet&quot;</span>
-<span class="c1">#       ]</span>
-<span class="c1">#       pass_filenames: false</span>
+<p><em>pre-commit only installs hooks in the "pre-commit" stage by default. This hook operates on the commit-msg stage, and thus you need to include this stage in the hooks installed by default.</em></p>
+<div class="highlight"><pre><span></span><code><span class="nt">default_install_hook_types</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pre-commit</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">commit-msg</span>
+<span class="nt">repos</span><span class="p">:</span>
+<span class="c1"># ... other hooks ...</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/commitizen-tools/commitizen</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v4.1.0</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">commitizen</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🌳</span><span class="nv"> </span><span class="s">git</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">commit</span><span class="nv"> </span><span class="s">message&quot;</span>
+<span class="w">        </span><span class="nt">stages</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">commit-msg</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<h2 id="05-fast-tests-local">05 🧪 Fast Tests (Local)</h2>
+<p>While extensive tests may be too time consuming for a pre-commit hook, it can be helpful to run fast local tests to detect unexpected failures in your code before you are 10 commits in and unsure which one broke your code.</p>
+<p>The example below uses <code>pytest</code>. The first hook checks that the tests don't contain any syntax errors and can be successfully collected. This should always pass.</p>
+<p>The second hook runs all fast pytests using my custom pytest option which leverages the pytest-timeout feature you can read about <a href="../pytest-customization/">here</a></p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fast-tests</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Fast Tests</span>
+<span class="w">      </span><span class="nt">entry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest</span>
+<span class="w">      </span><span class="nt">language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">system</span>
+<span class="w">      </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">python</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">        </span><span class="s">&quot;tests&quot;</span><span class="p p-Indicator">,</span>
+<span class="w">        </span><span class="s">&quot;-m&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;not</span><span class="nv"> </span><span class="s">slow&quot;</span><span class="p p-Indicator">,</span><span class="w">  </span><span class="c1"># Skip slow-marked tests</span>
+<span class="w">        </span><span class="s">&quot;--quiet&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">pass_filenames</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">always_run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 <!-- Also maybe add profiling? -->
 
 <h2 id="conclusion">Conclusion</h2>
-<p>Putting all these together, we have the overall <code>.pre-commit-config.yaml</code> file:</p>
+<p>This is by no means an exhaustive list of great hooks. Your encouraged to pick-and-choose as desired. Hooks don't exist for all tools, so if you want to run those you can always use a local hook:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make-lint</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run &#39;make lint&#39;</span>
+<span class="w">      </span><span class="nt">entry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;lint&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">system</span>
+</code></pre></div>
+<details>
+<summary>
+View final `.pre-commit-config.yaml` file
+</summary>
 <div class="highlight"><pre><span></span><code><span class="nt">exclude</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">  </span><span class="no">(?x)^(</span>
 <span class="w">      </span><span class="no">.*\{\{.*\}\}.*|    # Exclude any files with cookiecutter variables</span>
@@ -889,6 +978,8 @@ TODO: Look into the differences above. Oop.
 <span class="w">      </span><span class="no">.*venv.*/.*|        # Exclude virtual environment directories</span>
 <span class="w">  </span><span class="no">)$</span>
 <span class="nt">fail_fast</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">default_language_version</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">python</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python3.12</span>
 <span class="nt">default_install_hook_types</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pre-commit</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">commit-msg</span>
@@ -896,6 +987,12 @@ TODO: Look into the differences above. Oop.
 <span class="w">  </span><span class="c1"># ---------------------------------------------------------------------------- #</span>
 <span class="w">  </span><span class="c1">#                              🔄 Pre-Commit Hooks                             #</span>
 <span class="w">  </span><span class="c1"># ---------------------------------------------------------------------------- #</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/mxr/sync-pre-commit-deps</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.0.2</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sync-pre-commit-deps</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🪝</span><span class="nv"> </span><span class="s">pre-commit</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Sync</span><span class="nv"> </span><span class="s">hook</span><span class="nv"> </span><span class="s">dependencies</span><span class="nv"> </span><span class="s">based</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">other</span><span class="nv"> </span><span class="s">hooks&quot;</span>
 
 <span class="w">  </span><span class="c1"># ----------------------------- 🔒 Security Tools ---------------------------- #</span>
 
@@ -911,15 +1008,17 @@ TODO: Look into the differences above. Oop.
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/astral-sh/ruff-pre-commit</span>
 <span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.8.6</span>
 <span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># STRICT</span>
 <span class="w">      </span><span class="c1"># - id: ruff</span>
 <span class="w">      </span><span class="c1">#   args: [ --fix ]</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff-format</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Ruff&quot;</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/mirrors-mypy</span>
-<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;v1.14.1&quot;</span>
+<span class="w">  </span><span class="c1"># STRICT</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/RobertCraigie/pyright-python</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.1.391</span>
 <span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mypy</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pyright</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐍</span><span class="nv"> </span><span class="s">python</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Check</span><span class="nv"> </span><span class="s">types&quot;</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/abravalheri/validate-pyproject</span>
@@ -933,8 +1032,8 @@ TODO: Look into the differences above. Oop.
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/biomejs/pre-commit</span>
 <span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;v0.6.1&quot;</span>
 <span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">biome-ci</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🟨</span><span class="nv"> </span><span class="s">javascript</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">format</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Biome&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">biome-check</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🟨</span><span class="nv"> </span><span class="s">javascript</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint,</span><span class="nv"> </span><span class="s">format,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">safe</span><span class="nv"> </span><span class="s">fixes</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Biome&quot;</span>
 <span class="w">        </span><span class="nt">additional_dependencies</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;@biomejs/biome@1.9.4&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="w">  </span><span class="c1">### Data &amp; Config Validation ###</span>
@@ -952,19 +1051,61 @@ TODO: Look into the differences above. Oop.
 <span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7.21</span>
 <span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📝</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">documentation&quot;</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📝</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">markdown&quot;</span>
 <span class="w">        </span><span class="nt">additional_dependencies</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-gfm</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-ruff</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-frontmatter</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff</span>
 
+<span class="w">  </span><span class="c1"># STRICT</span>
+<span class="w">  </span><span class="c1"># - repo: https://github.com/markdownlint/markdownlint</span>
+<span class="w">  </span><span class="c1">#   rev: v0.12.0</span>
+<span class="w">  </span><span class="c1">#   hooks:</span>
+<span class="w">  </span><span class="c1">#     - id: markdownlint</span>
+<span class="w">  </span><span class="c1">#       name: &quot;📝 markdown · Lint markdown&quot;</span>
+
+<span class="w">  </span><span class="c1">### Shell ###</span>
+
+<span class="w">  </span><span class="c1"># STRICT</span>
+<span class="w">  </span><span class="c1"># - repo: https://github.com/shellcheck-py/shellcheck-py</span>
+<span class="w">  </span><span class="c1">#   rev: v0.10.0.1</span>
+<span class="w">  </span><span class="c1">#   hooks:</span>
+<span class="w">  </span><span class="c1">#     - id: shellcheck</span>
+<span class="w">  </span><span class="c1">#       name: &quot;🐚 shell · Lint shell scripts&quot;</span>
+
+<span class="w">  </span><span class="c1"># STRICT</span>
+<span class="w">  </span><span class="c1"># - repo: https://github.com/openstack/bashate</span>
+<span class="w">  </span><span class="c1">#   rev: 2.1.1</span>
+<span class="w">  </span><span class="c1">#   hooks:</span>
+<span class="w">  </span><span class="c1">#     - id: bashate</span>
+<span class="w">  </span><span class="c1">#       name: &quot;🐚 shell · Check shell script code style&quot;</span>
+
+<span class="w">  </span><span class="c1">### Makefile ###</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/mrtazz/checkmake.git</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2.2</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">checkmake</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🐮</span><span class="nv"> </span><span class="s">Makefile</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">Makefile&quot;</span>
+
+<span class="w">  </span><span class="c1">### SQL ###</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/sqlfluff/sqlfluff</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.3.0</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlfluff-fix</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📊</span><span class="nv"> </span><span class="s">SQL</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Attempts</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">fix</span><span class="nv"> </span><span class="s">rule</span><span class="nv"> </span><span class="s">violations.&quot;</span>
+<span class="w">      </span><span class="c1"># STRICT</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlfluff-lint</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📊</span><span class="nv"> </span><span class="s">SQL</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Lint</span><span class="nv"> </span><span class="s">SQL</span><span class="nv"> </span><span class="s">code</span><span class="nv"> </span><span class="s">files&quot;</span>
+
 <span class="w">  </span><span class="c1">### Notebooks ###</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/nbQA-dev/nbQA</span>
 <span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.9.1</span>
 <span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa-mypy</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📓</span><span class="nv"> </span><span class="s">notebook</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Type-check</span><span class="nv"> </span><span class="s">cells&quot;</span>
+<span class="w">      </span><span class="c1"># STRICT</span>
+<span class="w">      </span><span class="c1"># - id: nbqa-mypy</span>
+<span class="w">      </span><span class="c1">#   name: &quot;📓 notebook · Type-check cells&quot;</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa</span>
 <span class="w">        </span><span class="nt">entry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nbqa mdformat</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;📓</span><span class="nv"> </span><span class="s">notebook</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Format</span><span class="nv"> </span><span class="s">markdown</span><span class="nv"> </span><span class="s">cells&quot;</span>
@@ -976,6 +1117,14 @@ TODO: Look into the differences above. Oop.
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-ruff</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdformat-frontmatter</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ruff</span>
+
+<span class="w">  </span><span class="c1">### PNG Images ###</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/shssoichiro/oxipng</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v9.1.3</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oxipng</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🖼️</span><span class="nv"> </span><span class="s">images</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Optimize</span><span class="nv"> </span><span class="s">PNG</span><span class="nv"> </span><span class="s">files&quot;</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;-o&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;4&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--strip&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;safe&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--alpha&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="w">  </span><span class="c1">### Additional File Types ###</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/pre-commit/mirrors-prettier</span>
@@ -1046,10 +1195,65 @@ TODO: Look into the differences above. Oop.
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🌳</span><span class="nv"> </span><span class="s">git</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Validate</span><span class="nv"> </span><span class="s">commit</span><span class="nv"> </span><span class="s">message&quot;</span>
 <span class="w">        </span><span class="nt">stages</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">commit-msg</span><span class="p p-Indicator">]</span>
 </code></pre></div>
-<p>With each commit looking a bit like this:</p>
-<p><img alt="Pre-commit Final Result" src="../pre-commit-final-result.png" /></p>
+</details>
 <h3 id="inspiration">Inspiration</h3>
 <p>Some inspo from <a href="https://medium.com/marvelous-mlops/welcome-to-pre-commit-heaven-5b622bb8ebce">this article</a></p>
+<p>Additional wonderful pre-commit hooks can be found <a href="https://pre-commit.com/hooks.html">here</a></p>
+<p>Note: I went a bit overboard with cherry picking my favorite formatters and linters and stuff. Considering the security concerns of having so many projects this might not be wise. This may also lead to maintaining more hooks than is worthwhile. It's on my todo list to look at ensemble linters and formatters. Such as <a href="https://github.com/oxsecurity/megalinter/tree/main">Megalinter</a> and <a href="https://github.com/super-linter/super-linter">Superlinter</a></p>
+<p>Other hooks to consider:</p>
+<ul>
+<li><a href="https://github.com/bufbuild/buf">buildbuf</a> - Protobuf Linter</li>
+<li><a href="https://github.com/pre-commit/mirrors-clang-format">Clang</a> - C++ liner</li>
+<li><a href="https://github.com/jorisroovers/gitlint">gitlint</a> - Alternative to commitlint, may actually be preferred.</li>
+<li><a href="https://github.com/crate-ci/typos">typos</a> or <a href="https://github.com/codespell-project/codespell">codespell</a> - Finds common misspellings in code and documentation. Someone online preferred Typos over codespell because:</li>
+</ul>
+<blockquote>
+<ul>
+<li>Typos corrected more typos (at least on my code bases). This was surprising considering codespell's corrections list is at least 10 times larger than Typos's.</li>
+<li>Typos has Vscode support.</li>
+</ul>
+</blockquote>
+<ul>
+<li><a href="https://github.com/adrienverge/yamllint">yamllint</a></li>
+<li><a href="https://github.com/google/yamlfmt">yamlfmt</a></li>
+<li><a href="https://github.com/rhysd/actionlint">actionlint</a> - Lints github action files, may be a better checker than the currently selected one.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/mxr/sync-pre-commit-deps</span>
+<span class="w">    </span><span class="nt">rev</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.0.2</span>
+<span class="w">    </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sync-pre-commit-deps</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;🪝</span><span class="nv"> </span><span class="s">pre-commit</span><span class="nv"> </span><span class="s">·</span><span class="nv"> </span><span class="s">Sync</span><span class="nv"> </span><span class="s">hook</span><span class="nv"> </span><span class="s">dependencies</span><span class="nv"> </span><span class="s">based</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">other</span><span class="nv"> </span><span class="s">hooks&quot;</span>
+</code></pre></div>
+<p>Note: If you're using <a href="https://docs.astral.sh/uv/">uv</a>, they <a href="https://github.com/astral-sh/uv-pre-commit">also have pre-commits</a> available.</p>
+<!-- TODO: File optimization for other images -->
+
+<!-- TODO: Python unused code detector: Add vulture https://github.com/jendrikseipp/vulture
+or deadcode https://github.com/albertas/deadcode
+ -->
+
+<!--
+TODO: Create a profanity check, possibly with gitleaks
+https://blog.nashtechglobal.com/profanity-check-source-code-with-gitleaks-why-not/ 
+-->
+
+<!-- TODO: Read this, https://kislyuk.github.io/argcomplete/ -->
+
+<!-- 
+TODO: Look into the differences above. Oop. 
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: "v9.20.0"
+    hooks:
+      - id: commitlint
+        stages: [commit-msg]
+-->
+
+<p><strong><a href="https://github.com/ljnsn/cz-conventional-gitmoji">cz-conventional-gitmoji</a></strong> is a third-party prompt template that combines the <a href="https://gitmoji.dev/">gitmoji</a> and <a href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commit</a> standards. (More templates <a href="https://commitizen-tools.github.io/commitizen/third-party-commitizen/">here</a>). I haven't yet gotten this to work, but would be using it on my project otherwise.</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="c1"># WORK IN PROGRESS</span>
+<span class="w">  </span><span class="c1"># - repo: https://github.com/ljnsn/cz-conventional-gitmoji</span>
+<span class="w">  </span><span class="c1">#     rev: 0.2.4</span>
+<span class="w">  </span><span class="c1">#     hooks:</span>
+<span class="w">  </span><span class="c1">#       - id: conventional-gitmoji</span>
+</code></pre></div>
 
 
 
