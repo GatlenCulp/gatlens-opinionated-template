@@ -10,10 +10,8 @@
       
       
       
-        <link rel="canonical" href="https://gatlenculp.github.io/gatlens-opinionated-template/related/">
+        <link rel="canonical" href="https://gatlenculp.github.io/gatlens-opinionated-template/package-management/">
       
-      
-        <link rel="prev" href="../contributing/">
       
       
       
@@ -22,7 +20,7 @@
     
     
       
-        <title>🔗 Related projects - Gatlen's Opinionated Template (GOTem)</title>
+        <title>Package, Project, and Environment Management - Gatlen's Opinionated Template (GOTem)</title>
       
     
     
@@ -93,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#links-to-related-projects-and-references" class="md-skip">
+        <a href="#package-project-and-environment-management" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🔗 Related projects
+              Package, Project, and Environment Management
             
           </span>
         </div>
@@ -391,30 +389,10 @@
    
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    🔗 Related projects
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../related/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -423,35 +401,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#inspirations-acknowledgments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inspirations &amp; Acknowledgments 🙏
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
  
@@ -483,29 +432,49 @@
   
 
 
-<h1 id="links-to-related-projects-and-references">Links to related projects and references</h1>
-<p>Project structure and reproducibility is talked about more in the R research community. Here are some projects and blog posts if you're working in R that may help you out.</p>
+<h1 id="package-project-and-environment-management">Package, Project, and Environment Management</h1>
+<p>Since this is derived from <a href="">CookieCutter Data Science</a>, this project supports multiple project managers but the one I specifically develop for is <a href="https://docs.astral.sh/uv/">uv</a>, an up-and-coming project, package, and virtual environment manager written in Rust which is extremely fast, developed by Astral, the same team behind the <a href="">Ruff linter</a>. It's really a modern, wonderful all-in-one tool.</p>
+<p>It replaces <code>pip</code>, <code>pip-tools</code>, <code>pipx</code>, <code>poetry</code>, <code>pyenv</code>, <code>twine</code>, <code>virtualenv</code>, and more.</p>
+<p>The <a href="https://docs.astral.sh/uv/">docs</a> explain things better than I can and doesn't involve learning much additional syntax.</p>
+<p>I swear, with uv you can go from a new project to a PyPi distribution in seconds.</p>
+<p>The only thing uv is missing is a backend-build tool. Frankly, this isn't a huge deal and it works seamlessly with other build tools since it uses a pip-like syntax, but the team is currently working on Rye.</p>
+<p>There's a ton of extra benefits as well, this is a very fleshed out and well documented tool that combines the functionality of multiple tools in a way that makes complete sense.</p>
+<p>Speed is helpful for a few reasons.</p>
 <ul>
-<li><a href="https://projecttemplate.net/index.html">Project Template</a> - An R data analysis template</li>
-<li>"<a href="https://nicercode.github.io/blog/2013-04-05-projects/">Designing projects</a>" on Nice R Code</li>
-<li>"<a href="https://www.carlboettiger.info/2012/05/06/research-workflow.html">My research workflow</a>" on Carlboettiger.info</li>
-<li>"<a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424">A Quick Guide to Organizing Computational Biology Projects</a>" in PLOS Computational Biology</li>
+<li>Image building (github actions, docker images, deployment, ci/cd tools, etc.)</li>
+<li>Easy of use.</li>
 </ul>
-<p>Finally, a huge thanks to the <a href="https://cookiecutter.readthedocs.org/en/latest/">Cookiecutter</a> project (<a href="https://github.com/audreyr/cookiecutter">github</a>), which is helping us all spend less time thinking about and writing boilerplate and more time getting things done.</p>
-<h2 id="inspirations-acknowledgments">Inspirations &amp; Acknowledgments 🙏</h2>
-<p>This project builds upon the excellent work of several established templates and projects, in some cases borrowing and adapting individual files:</p>
-<p><strong><a href="https://github.com/drivendataorg/cookiecutter-data-science">cookiecutter-data-science</a></strong> 📊</p>
+<h2 id="alternatives">Alternatives</h2>
+<p><strong>Package Managers</strong></p>
 <ul>
-<li>The original inspiration for this template</li>
-<li>Established many best practices for data science project organization</li>
-<li>Created by DrivenData, widely adopted in the data science community</li>
+<li>pip - Old, slow, but universal. uv has you describe packages in a pip-compatible way unlike poetry.</li>
+<li>poetry - A wonderful tool for development, more mature than uv, has a number of features, but is overall slow and has you use a different syntax for specifying packages than pip.</li>
+<li>rye - A another great package manager, this was actually transferred to Astral and they are currently writing it from scratch. They recommend using uv if you're using rye.</li>
+<li>pdm - Also chill.</li>
 </ul>
-<p><strong><a href="https://github.com/crmne/cookiecutter-modern-datascience">cookiecutter-modern-datascience</a></strong> 🔬</p>
-<p><strong><a href="https://github.com/fpgmaas/cookiecutter-uv">cookiecutter-uv</a></strong> ⚡</p>
-<p><strong><a href="https://github.com/fastapi/full-stack-fastapi-template">full-stack-fastapi-template</a></strong> 🚀</p>
-<blockquote>
-<p>💡 While this template draws inspiration from these excellent projects, it takes an opinionated approach to combining their best aspects while introducing modern tooling and development practices.</p>
-</blockquote>
+<p><strong>Global pip tools</strong></p>
+<ul>
+<li>pipx</li>
+<li>pipenv</li>
+</ul>
+<p><strong>Environment Mangers</strong>
+uv will set up your entire virtual environment for you in accordance with your specified packages</p>
+<ul>
+<li>venv - A bit older, built in, this is fine but your have to do everything manually</li>
+<li>virtualenv - uv is essentially virtualenv.</li>
+<li>conda - I lowkey dislike conda. I think it's slow, I have had plenty of conda-specific errors that are hard to resolve and more. I think it's also harder to natively make a distribution with conda(?)</li>
+</ul>
+<p><strong>Build Tools</strong></p>
+<ul>
+<li>poetry - Also good ig</li>
+</ul>
+<h2 id="distributing">Distributing</h2>
+<ul>
+<li>PyPi is dirt easy with uv</li>
+<li>Whalebrew, read more on <code>./containerization.md</code></li>
+<li>Homebrew, TODO
+  (nbdev?)</li>
+</ul>
 
 
 

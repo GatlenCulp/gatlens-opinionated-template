@@ -10,10 +10,8 @@
       
       
       
-        <link rel="canonical" href="https://gatlenculp.github.io/gatlens-opinionated-template/related/">
+        <link rel="canonical" href="https://gatlenculp.github.io/gatlens-opinionated-template/containerization/">
       
-      
-        <link rel="prev" href="../contributing/">
       
       
       
@@ -22,7 +20,7 @@
     
     
       
-        <title>🔗 Related projects - Gatlen's Opinionated Template (GOTem)</title>
+        <title>Containerization - Gatlen's Opinionated Template (GOTem)</title>
       
     
     
@@ -93,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#links-to-related-projects-and-references" class="md-skip">
+        <a href="#containerization" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🔗 Related projects
+              Containerization
             
           </span>
         </div>
@@ -391,30 +389,10 @@
    
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    🔗 Related projects
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../related/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -423,35 +401,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#inspirations-acknowledgments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inspirations &amp; Acknowledgments 🙏
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
  
@@ -483,29 +432,48 @@
   
 
 
-<h1 id="links-to-related-projects-and-references">Links to related projects and references</h1>
-<p>Project structure and reproducibility is talked about more in the R research community. Here are some projects and blog posts if you're working in R that may help you out.</p>
+<h1 id="containerization">Containerization</h1>
+<hr />
+<h2 id="containerization-platforms">Containerization Platforms</h2>
 <ul>
-<li><a href="https://projecttemplate.net/index.html">Project Template</a> - An R data analysis template</li>
-<li>"<a href="https://nicercode.github.io/blog/2013-04-05-projects/">Designing projects</a>" on Nice R Code</li>
-<li>"<a href="https://www.carlboettiger.info/2012/05/06/research-workflow.html">My research workflow</a>" on Carlboettiger.info</li>
-<li>"<a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424">A Quick Guide to Organizing Computational Biology Projects</a>" in PLOS Computational Biology</li>
+<li>Docker Desktop</li>
+<li>OrbStack</li>
 </ul>
-<p>Finally, a huge thanks to the <a href="https://cookiecutter.readthedocs.org/en/latest/">Cookiecutter</a> project (<a href="https://github.com/audreyr/cookiecutter">github</a>), which is helping us all spend less time thinking about and writing boilerplate and more time getting things done.</p>
-<h2 id="inspirations-acknowledgments">Inspirations &amp; Acknowledgments 🙏</h2>
-<p>This project builds upon the excellent work of several established templates and projects, in some cases borrowing and adapting individual files:</p>
-<p><strong><a href="https://github.com/drivendataorg/cookiecutter-data-science">cookiecutter-data-science</a></strong> 📊</p>
+<h3 id="docker">Docker</h3>
 <ul>
-<li>The original inspiration for this template</li>
-<li>Established many best practices for data science project organization</li>
-<li>Created by DrivenData, widely adopted in the data science community</li>
+<li><code>docker/</code> directory provides a sample Dockerfile (and <code>docker-compose.yml</code> file).</li>
 </ul>
-<p><strong><a href="https://github.com/crmne/cookiecutter-modern-datascience">cookiecutter-modern-datascience</a></strong> 🔬</p>
-<p><strong><a href="https://github.com/fpgmaas/cookiecutter-uv">cookiecutter-uv</a></strong> ⚡</p>
-<p><strong><a href="https://github.com/fastapi/full-stack-fastapi-template">full-stack-fastapi-template</a></strong> 🚀</p>
-<blockquote>
-<p>💡 While this template draws inspiration from these excellent projects, it takes an opinionated approach to combining their best aspects while introducing modern tooling and development practices.</p>
-</blockquote>
+<h3 id="kubernetes-todo">Kubernetes (TODO)</h3>
+<ul>
+<li>Not set up, unsure if it ever will be</li>
+</ul>
+<h3 id="nix-todo">Nix (TODO)</h3>
+<hr />
+<h2 id="uses">Uses</h2>
+<h3 id="devcontainers">Devcontainers</h3>
+<ul>
+<li>Already set up via <code>.devcontainer</code></li>
+<li>Heavy image meant for development</li>
+</ul>
+<p>(build and publish with devcontainer cli</p>
+<p><code>devcontainer build --config devcontainer.json --workspace-folder ..</code>
+<code>docker tag vsc-arena-2025-iap-e8296170ec1ad7a2b612bef7176ffc25df7a7352d1110da1cfb7c3cac7c89741-features ghcr.io/gatlenculp/arena-2025-iap-dev:latest</code>
+<code>docker push ghcr.io/gatlenculp/arena-2025-iap-dev:latest</code>
+)</p>
+<h3 id="whalebrew">Whalebrew</h3>
+<p>Users can install your docker image and run a command from within it as if it were local. This is paired with the Docker file in your project</p>
+<hr />
+<h2 id="image-registries">Image Registries</h2>
+<hr />
+<h2 id="recommended-images">Recommended Images</h2>
+<p><a href="https://docs.astral.sh/uv/guides/integration/docker/">uv images for Docker</a> are quite nice. I recommend using the heavier <code>bookworm</code> for easy development, then switching to the lighter <code>alpine</code> and install all other necessary packages for actual deployment.</p>
+<hr />
+<h2 id="misc">Misc</h2>
+<h3 id="vscode-extensions">VSCode Extensions</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=jeff-hykin.better-dockerfile-syntax">Better DockerFile Syntax</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=exiasr.hadolint">Hadolint</a></li>
+</ul>
 
 
 

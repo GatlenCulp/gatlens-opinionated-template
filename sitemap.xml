@@ -2,50 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/all-options/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
+    </url>
+    <url>
+         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/containerization/</loc>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/contributing/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/core-tools/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
+    </url>
+    <url>
+         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/hosting/</loc>
+         <lastmod>2025-01-22</lastmod>
+    </url>
+    <url>
+         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/jupyter-notebooks/</loc>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/opinions/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
-         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/precommit/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/package-management/</loc>
+         <lastmod>2025-01-22</lastmod>
+    </url>
+    <url>
+         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/pre-commit/</loc>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/pytest-customization/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/qa-settings/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/related/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
+    </url>
+    <url>
+         <loc>https://gatlenculp.github.io/gatlens-opinionated-template/skill-tree/</loc>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/using-the-template/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/vscode/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
     <url>
          <loc>https://gatlenculp.github.io/gatlens-opinionated-template/why/</loc>
-         <lastmod>2025-01-11</lastmod>
+         <lastmod>2025-01-22</lastmod>
     </url>
 </urlset>

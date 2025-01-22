@@ -10,11 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://gatlenculp.github.io/gatlens-opinionated-template/related/">
+        <link rel="canonical" href="https://gatlenculp.github.io/gatlens-opinionated-template/jupyter-notebooks/">
       
       
-        <link rel="prev" href="../contributing/">
+        <link rel="prev" href="../pytest-customization/">
       
+      
+        <link rel="next" href="../vscode/">
       
       
       <link rel="icon" href="../favicon.ico">
@@ -22,7 +24,7 @@
     
     
       
-        <title>🔗 Related projects - Gatlen's Opinionated Template (GOTem)</title>
+        <title>📓 Jupyter Notebooks - Gatlen's Opinionated Template (GOTem)</title>
       
     
     
@@ -93,7 +95,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#links-to-related-projects-and-references" class="md-skip">
+        <a href="#jupyter-notebooks-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🔗 Related projects
+              📓 Jupyter Notebooks
             
           </span>
         </div>
@@ -272,10 +274,19 @@
    
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../jupyter-notebooks/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -284,6 +295,7 @@
   
 
       </a>
+      
     </li>
   
    
@@ -391,30 +403,10 @@
    
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    🔗 Related projects
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../related/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -423,35 +415,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#inspirations-acknowledgments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inspirations &amp; Acknowledgments 🙏
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
  
@@ -483,29 +446,29 @@
   
 
 
-<h1 id="links-to-related-projects-and-references">Links to related projects and references</h1>
-<p>Project structure and reproducibility is talked about more in the R research community. Here are some projects and blog posts if you're working in R that may help you out.</p>
+<h1 id="jupyter-notebooks-guide">Jupyter Notebooks Guide</h1>
+<p>This project has a specific selection of Jupyter notebook extensions and practices which are expanding. Since this is a project for research, this is taken to be as important as the app building prospects of this template.</p>
+<p>Jupyter Notebooks are extremely powerful for data exploration, making full websites, and so much more.</p>
+<h3 id="nbdev">nbdev</h3>
+<p><a href="https://github.com/AnswerDotAI/nbdev">nbdev</a> is a notebook-driven development platform. Simply write notebooks with lightweight markup and get high-quality documentation, tests, continuous integration, and packaging. It's likely the most popular tool of it's type, it's modern yet has a mature ecosystem.</p>
+<p>Also solves the git + notebooks problem. Also managed by the fast AI people</p>
+<p>Some alternatives include:</p>
+<p><strong>Publishing</strong></p>
 <ul>
-<li><a href="https://projecttemplate.net/index.html">Project Template</a> - An R data analysis template</li>
-<li>"<a href="https://nicercode.github.io/blog/2013-04-05-projects/">Designing projects</a>" on Nice R Code</li>
-<li>"<a href="https://www.carlboettiger.info/2012/05/06/research-workflow.html">My research workflow</a>" on Carlboettiger.info</li>
-<li>"<a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424">A Quick Guide to Organizing Computational Biology Projects</a>" in PLOS Computational Biology</li>
+<li><a href="https://quarto.org/">Quarto</a> - Publish reproducible, production quality articles, presentations, dashboards, websites, blogs, and books in HTML, PDF, MS Word, ePub, and more. This is a tool that nbdev actually uses in the background. <a href="https://marketplace.visualstudio.com/items?itemName=quarto.quarto">Jupyter Extension</a></li>
+<li><a href="https://github.com/jupyter-book/jupyter-book">Jupyter Book</a> is an open-source tool for building publication-quality books and documents from computational material. It's more of a replacement for Quarto than a replacement for nbdev. After researching this software option, I feel fairly excited about this teams continued development and support of this project. Currently they're in the process of upgrading from version 1 to version 2 with a whole host of stunning features. Jupyter Book v2 is currently in alpha and I would consider working with it once it is fully released.</li>
 </ul>
-<p>Finally, a huge thanks to the <a href="https://cookiecutter.readthedocs.org/en/latest/">Cookiecutter</a> project (<a href="https://github.com/audreyr/cookiecutter">github</a>), which is helping us all spend less time thinking about and writing boilerplate and more time getting things done.</p>
-<h2 id="inspirations-acknowledgments">Inspirations &amp; Acknowledgments 🙏</h2>
-<p>This project builds upon the excellent work of several established templates and projects, in some cases borrowing and adapting individual files:</p>
-<p><strong><a href="https://github.com/drivendataorg/cookiecutter-data-science">cookiecutter-data-science</a></strong> 📊</p>
+<p><strong>Scripting</strong></p>
+<p><code>nbdev_export</code> does this</p>
 <ul>
-<li>The original inspiration for this template</li>
-<li>Established many best practices for data science project organization</li>
-<li>Created by DrivenData, widely adopted in the data science community</li>
+<li><a href="https://jupytext.readthedocs.io/en/latest/">Jupytext</a> converts notebooks back and forth between python scripts (or Julia or R).</li>
+<li><a href="">nbconvert</a> pretty sure the same as above but built in, not as fun.</li>
 </ul>
-<p><strong><a href="https://github.com/crmne/cookiecutter-modern-datascience">cookiecutter-modern-datascience</a></strong> 🔬</p>
-<p><strong><a href="https://github.com/fpgmaas/cookiecutter-uv">cookiecutter-uv</a></strong> ⚡</p>
-<p><strong><a href="https://github.com/fastapi/full-stack-fastapi-template">full-stack-fastapi-template</a></strong> 🚀</p>
-<blockquote>
-<p>💡 While this template draws inspiration from these excellent projects, it takes an opinionated approach to combining their best aspects while introducing modern tooling and development practices.</p>
-</blockquote>
+<p><strong>Parameterizing</strong></p>
+<p>Pretty sure nbdev does NOT do this.</p>
+<h3 id="jupyter-notebook-extensions">Jupyter Notebook Extensions</h3>
+<h3 id="notebook-quality-assurance-linting">Notebook Quality Assurance &amp; Linting</h3>
+<p>See <a href="./precommit.md">pre-commit</a> for more information</p>
 
 
 
