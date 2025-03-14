@@ -16,7 +16,7 @@ exclude = [
 
 [project]
 name = "gatlens-opinionated-template"
-version = "0.4.3"
+version = "0.4.5"
 description = "A modern, opinionated full-stack CookieCutter project template that prioritizes developer experience and cutting-edge tools."
 authors = [
   { name = "Gatlen Culp", email = "GatlenCulp@gmail.com" },
@@ -42,6 +42,7 @@ requires-python = ">=3.10,<4"
 dependencies = [
     "click>=8.1.0",
     "cookiecutter>=2.6.0",
+    "loguru>=0.7.3",
     "pymdown-extensions>=10.13",
 ]
 
@@ -120,22 +121,31 @@ ignore = [
   "TD003" # Allow TODO to not have link to issue
 ]
 
-
-[tool.ruff.lint.isort]
-known-first-party = ["{{ cookiecutter.module_name }}"]
-force-sort-within-sections = true
-
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"] # Allow unused imports in __init__.py
+"**/__init__.py" = ["F401"] # Allow unused imports in __init__.py
+
+"**/*.ipynb" = [
+    "S101", # Alow assert
+    "E731", # Allow lambdas
+    "EM101", # Allow strings in exceptions
+    "T201", # Allow print
+    "D103", # Allow public functions w/o docstrings
+    "D105", # Allow undocumented magic methods
+    "D107", # Same as above
+    "D205", # Allow multi-line summary
+    "D415", # Less strict docstrings
+    "TD002", # Allow user-less TODOs
+    "TD003", # Allow issue-less TODOs
+    "UP007", # Allow non-use of pipe for types
+    "UP035", # Same as above
+]
 
 "tests/**/*.py" = [
-    # at least this three should be fine in tests:
-    "S101", # asserts allowed in tests...
-    "ARG", # Unused function args -> fixtures nevertheless are functionally relevant...
-    "FBT", # Don't care about booleans as positional arguments in tests, e.g. via @pytest.mark.parametrize()
-    # The below are debateable
-    "PLR2004", # Magic value used in comparison, ...
-    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+    "S101", # Allow assert
+    "ARG001", # Allow unused function args for fixtures
+    "FBT001", # Allow booleans as function params
+    "PLR2004", # Allow magic values in comparisons
+    "S311", # Allow pseudo-random generators
     "ANN001", "ANN201", # Allow for non-typed functions
     "RET503", # Allow for implicit ignores
 ]
@@ -184,6 +194,11 @@ addopts = """
 
 testpaths = ["./tests"]
 log_file = "./logs/pytest.log"
+markers = [
+    "basic: mark a test as a basic instantiation test",
+    "detailed: mark a test as a detailed verification test",
+    "timeout: mark a test with a timeout value in seconds"
+]
 
 # ---------------------------------------------------------------------------- #
 #                                      uv                                      #
@@ -203,3 +218,4 @@ gatlens-opinionated-template = { workspace = true }
 version_scheme = "semver2"
 version_provider = "pep621"
 update_changelog_on_bump = true
+tag_format = "$version"

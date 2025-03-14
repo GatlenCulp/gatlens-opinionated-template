@@ -1,21 +1,25 @@
 """File to be run after template initialization by cookiecutter."""  # noqa: INP001
 
-from copy import copy
 import os
-from pathlib import Path
 import shutil
 import subprocess
-
-from ccds.hook_utils.configure_ssh import generate_personal_ssh_keys
-from ccds.hook_utils.configure_vcs import configure_github_repo, init_local_git_repo
+from copy import copy
+from pathlib import Path
 
 # https://github.com/cookiecutter/cookiecutter/issues/824
 #   our workaround is to include these utility functions in the CCDS package
+from ccds.hook_utils.configure_ssh import generate_personal_ssh_keys
+from ccds.hook_utils.configure_vcs import configure_github_repo, init_local_git_repo
 from ccds.hook_utils.custom_config import write_custom_config
 from ccds.hook_utils.dependencies import basic, packages, scaffold, write_dependencies
+from ccds.hook_utils.scaffold_cleaner import ScaffoldCleaner
 
-PROJ_ROOT = Path.cwd()
-SECRETS_DIR = Path.cwd() / "secrets"
+MODULE_NAME = "{{ cookiecutter.module_name }}"
+PROJECT_SHORT_DESCRIPTION = "{{ cookiecutter.project_short_description }}"
+CODE_SCAFFOLD = "{{ cookiecutter.include_code_scaffold }}"
+
+PROJ_ROOT = Path.cwd().resolve()
+SECRETS_DIR = PROJ_ROOT / "secrets"
 
 # ---------------------------------------------------------------------------- #
 #                EMPLATIZED VARIABLES FILLED IN BY COOKIECUTTER                #
@@ -79,26 +83,12 @@ if "{{ cookiecutter.open_source_license }}" == "No license file":  # noqa: PLR01
 pyproject_text = Path("pyproject.toml").read_text()
 Path("pyproject.toml").write_text(pyproject_text.replace(r"\u0027", "'"))
 
-# {% if cookiecutter.include_code_scaffold == "No" %}
-# remove everything except __init__.py so result is an empty package
-for generated_path in Path("{{ cookiecutter.module_name }}").iterdir():
-    if generated_path.is_dir():
-        shutil.rmtree(generated_path)
-    elif generated_path.name != "__init__.py":
-        generated_path.unlink()
-    elif generated_path.name == "__init__.py":
-        # remove any content in __init__.py since it won't be available
-        generated_path.write_text(
-            '"""{{ cookiecutter.module_name }}: {{ cookiecutter.project_short_description }}."""\n',
-        )
-# {# TODO(Gatlen Culp): Fix below #}
-# {% elif cookiecutter.include_code_scaffold == "data" %}
-# {% elif cookiecutter.include_code_scaffold == "paper" %}
-# {% elif cookiecutter.include_code_scaffold == "app" %}
-# {% elif cookiecutter.include_code_scaffold == "ml" %}
-# {% elif cookiecutter.include_code_scaffold == "lib" %}
-# {% elif cookiecutter.include_code_scaffold == "course" %}
-# {% endif %}
+scaffold_cleaner = ScaffoldCleaner(PROJ_ROOT, MODULE_NAME, PROJECT_SHORT_DESCRIPTION)
+
+if CODE_SCAFFOLD == "No":
+    scaffold_cleaner()
+else:
+    scaffold_cleaner([CODE_SCAFFOLD])
 
 
 # ---------------------------------------------------------------------------- #

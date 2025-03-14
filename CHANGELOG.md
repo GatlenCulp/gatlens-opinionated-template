@@ -1,3 +1,15 @@
+## 0.4.5 (2025-03-14)
+
+### Fix
+
+- Return the images back to the repo
+
+## 0.4.4 (2025-03-14)
+
+### Fix
+
+- add tag_format to commitizen config
+
 ## 0.4.3 (2025-02-03)
 
 ### Fix
