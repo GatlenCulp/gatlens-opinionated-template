@@ -11,7 +11,7 @@
 
 <div align="center">
   <a href="https://gatlenculp.github.io/gatlens-opinionated-template/">
-    <img src="./docs/docs/gotem.png" alt="GOTem Logo" style="max-width: 250px;"/>
+    <img src="https://github.com/GatlenCulp/gatlens-opinionated-template/raw/master/docs/docs/gotem.png" alt="GOTem Logo" style="max-width: 250px;"/>
   </a>
   <br/>
   <b>Gatlen's Opinionated Template</b>
@@ -32,13 +32,13 @@ GOTem is forked from (and synced with) [CookieCutter Data Science (CCDS) V2](htt
 
 ### Who is this for?
 
-**CCDS** is white bread: simple, familiar, unoffensive, and waiting for your choice of toppings. **GOTem** is the expert-crafted and opinionated "everything burger," fully loaded from the start for any task you want to do (so long as you want to do it in a specific way). Some of the selections might be an acquired taste and users are encouraged to leave them off as they start and perhaps not all will appreciate my tastes even with time, but it is the setup I find *_delicious_*.
+**CCDS** is white bread: simple, familiar, unoffensive, and waiting for your choice of toppings. **GOTem** is the expert-crafted and opinionated "everything burger," fully loaded from the start for any task you want to do (so long as you want to do it in a specific way). Some of the selections might be an acquired taste and users are encouraged to leave them off as they start and perhaps not all will appreciate my tastes even with time, but it is the setup I find **delicious**.
 
 |                                                                                                                                                   **✅ Use GOTem if…**                                                                                                                                                   |                                                                                                                    **❌ Might Not Be for You if…**                                                                                                                     |
 | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | **🍔 You Want the "Everything Burger"** <br> - You're cool with an opinionated, "fully loaded" setup, even if you don't use all the bells and whistles up front. <br> - You love having modern defaults (FastAPI, Polars, Loguru). at the ready for any case life throws at you from school work to research to websites | **🛣️ You're a Minimalist** <br> - You prefer the bare bones or "default" approach. <br> - GOTem's many integrations and new libraries feel too "extra" or opinionated for you, adding more complexity than you want. When you really just want to "get the task done". |
 |                                                           **🎓 You're a Learner / Explorer** <br> - You like experimenting with cutting-edge tools (Polars, Typer, etc.) even if they're not as common. <br> - "Modern Over Ubiquitous" libraries excite you.                                                            |                    **🕰️ You're a Legacy Lover** <br> - Tried-and-true frameworks (e.g., Django, Pandas, standard logging) give you comfort. <br> - You'd rather stick to old favorites than wrestle with fresh tech that might be less documented.                     |
-|                                                        **��‍💻 You're a Hacker / Tinkerer** <br> - You want code that's as **sexy** and elegant as it is functional. <br> - You love tinkering, customizing, and "pretty colors" that keep the ADHD brain wrinkled.                                                         |                              🔎 You're a Micro-Optimizer <br> - You need to dissect every configuration before even starting. <br> - GOTem's "Aspirational Over Practical" angle might make you wary of unproven or cutting-edge setups.                               |
+|                                                       **��‍💻 You're a Hacker / Tinkerer** <br> - You want code that's as **sexy** and elegant as it is functional. <br> - You love tinkering, customizing, and "pretty colors" that keep the ADHD brain wrinkled.                                                       |                              🔎 You're a Micro-Optimizer <br> - You need to dissect every configuration before even starting. <br> - GOTem's "Aspirational Over Practical" angle might make you wary of unproven or cutting-edge setups.                               |
 |                                                     **⚡ You're a Perfection & Performance Seeker** <br> - You enjoy pushing Python's boundaries in speed, design, and maintainability. <br> - You're always looking for the best solution, not just quick patches.                                                      |                      🏛️ You Need Old-School Stability <br> - You want a large, established user base and predictable release cycles. <br> - You get uneasy about lesser-known or younger libraries that might break your production environment.                       |
 |                                                           **🏃‍♂️ You're a Quick-Start Enthusiast** <br> - You want a template that practically configures itself so you can jump in. <br> - You like having robust CI/CD, Git setup, and docs all done for you.                                                            |                 🚶‍♂️ You Prefer Slow, Manual Setups <br> - You don't mind spending time creating everything from scratch for each new project. <br> - Doing things the classic or "official" way is more comfortable than using "opinionated" shortcuts.                 |
 
@@ -46,7 +46,7 @@ If the right-hand column describes you better, [CookieCutter Data Science (CCDS)
 
 **[View the full documentation here](https://gatlenculp.github.io/gatlens-opinionated-template/) ➡️**
 
-______________________________________________________________________
+---
 
 ## Getting Started
 
