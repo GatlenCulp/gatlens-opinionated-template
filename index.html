@@ -507,9 +507,12 @@
 
 <h1 id="gatlens-opinionated-template-gotem">Gatlen's Opinionated Template (GOTem)</h1>
 <p><em>Cutting-edge, opinionated, and ambitious project builder for power users and researchers. Built on (and synced with) the foundation of <a href="https://cookiecutter-data-science.drivendata.org/">CookieCutter Data Science (CCDS) V2</a>, this template incorporates carefully selected defaults, dependency stack, customizations, and contemporary best practices for Python development, research projects, and academic work.</em></p>
-<p><a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
+<p><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/cookiecutter-data-science" />
+<img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/cookiecutter-data-science" />
+<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a></p>
+</a>
+<a href="https://github.com/drivendataorg/cookiecutter-data-science/actions/workflows/tests.yml"><img alt="tests" src="https://github.com/drivendataorg/cookiecutter-data-science/actions/workflows/tests.yml/badge.svg" /></a></p>
 <h2 id="quickstart">Quickstart</h2>
 <p>Gatlen's Opinionated Template (GOTem) works on all platforms w/ Python 3.10+. While I try my best to keep in-sync with the upstream <a href="https://cookiecutter-data-science.drivendata.org/">CookieCutter Data Science (CCDS) V2</a>, being a one-man-maintainer on this project means I may neglect features I tend not to use and deviations from what I use may not receive as thorough testing. If you wish to change any of the defaults, I recommend forking this project.</p>
 <p>I recommend installing gotem it with <a href="https://github.com/astral-sh/uv">uv</a>. GOTem is <a href="https://pypi.org/project/gatlens-opinionated-template/">Available on PyPi here</a>.</p>
@@ -570,15 +573,17 @@ gotem
 <p>The <code>gotem</code> commandline tool defaults to the GOTem template, but you can pass your own template as the first argument if you want. The CCDS team has built significant tooling around Cookiecutter to make it easier to use and more customizable.</p>
 <h2 id="example">Example</h2>
 <div id="termynal" data-termynal class="termy" data-ty-macos data-ty-lineDelay="100" data-ty-typeDelay="50" title="Cookiecutter Data Science">
-<span data-ty="input" data-ty-prompt="$"> ccds https://github.com/drivendataorg/cookiecutter-data-science
+<span data-ty="input" data-ty-prompt="$"> gotem https://github.com/drivendataorg/cookiecutter-data-science
 </span>
+<span data-ty>/private/var/folders/13/tjjchj9d63s_5wxn_z6xmnwh0000gn/T/cookiecutterb4mceprk/gatlens-opinionated-template/hooks/pre_prompt.py:12: DeprecationWarning: You're currently using a CCDS version that always applies the newest template. For more stable behavior, upgrade to CCDS version 2.0.1 or later with your package manager. For example, with pip, run: pip install -U cookiecutter-data-science.
+warnings.warn(</span>
 <span data-ty class="inline-input">project_name <span style="font-weight: bold; color: #00aaaa">(project_name)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">My Analysis</span>
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">repo_name <span style="font-weight: bold; color: #00aaaa">(my_analysis)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">my_analysis</span>
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">module_name <span style="font-weight: bold; color: #00aaaa">(my_analysis)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt=""></span>
 <span data-ty class="newline"></span>
-<span data-ty class="inline-input">author_name <span style="font-weight: bold; color: #00aaaa">(Your name, organization, or team)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">Dat A. Scientist</span>
+<span data-ty class="inline-input">author_name <span style="font-weight: bold; color: #00aaaa">(Your name)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">Dat A. Scientist</span>
 <span data-ty class="newline"></span>
 <span data-ty class="inline-input">description <span style="font-weight: bold; color: #00aaaa">(A short description of the project.)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">This is my analysis of the data.</span>
 <span data-ty class="newline"></span>
@@ -596,27 +601,42 @@ gotem
 <span data-ty class="inline-input">aws_profile <span style="font-weight: bold; color: #00aaaa">(default)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt=""></span>
 <span data-ty class="newline"></span>
 <span data-ty>Select environment_manager
-<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">uv</span>
-<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">none</span>
-<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">virtualenv</span>
-<span style="font-weight: bold; color: #E850A8">4</span> - <span style="font-weight: bold">conda</span>
-<span style="font-weight: bold; color: #E850A8">5</span> - <span style="font-weight: bold">pipenv</span></span>
-<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3/4/5]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">2</span>
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">virtualenv</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">conda</span>
+<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">pipenv</span>
+<span style="font-weight: bold; color: #E850A8">4</span> - <span style="font-weight: bold">uv</span>
+<span style="font-weight: bold; color: #E850A8">5</span> - <span style="font-weight: bold">pixi</span>
+<span style="font-weight: bold; color: #E850A8">6</span> - <span style="font-weight: bold">poetry</span>
+<span style="font-weight: bold; color: #E850A8">7</span> - <span style="font-weight: bold">none</span></span>
+<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3/4/5/6/7]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">2</span>
 <span data-ty class="newline"></span>
 <span data-ty>Select dependency_file
 <span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">requirements.txt</span>
-<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">environment.yml</span>
-<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">Pipfile</span></span>
-<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">1</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">pyproject.toml</span>
+<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">environment.yml</span>
+<span style="font-weight: bold; color: #E850A8">4</span> - <span style="font-weight: bold">Pipfile</span>
+<span style="font-weight: bold; color: #E850A8">5</span> - <span style="font-weight: bold">pixi.toml</span></span>
+<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3/4/5]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">1</span>
 <span data-ty class="newline"></span>
 <span data-ty>Select pydata_packages
-<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">basic</span>
-<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">none</span></span>
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">none</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">basic</span></span>
 <span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">2</span>
 <span data-ty class="newline"></span>
+<span data-ty>Select testing_framework
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">none</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">pytest</span>
+<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">unittest</span></span>
+<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">3</span>
+<span data-ty class="newline"></span>
+<span data-ty>Select linting_and_formatting
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">ruff</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">flake8+black+isort</span></span>
+<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">1</span>
+<span data-ty class="newline"></span>
 <span data-ty>Select open_source_license
-<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">MIT</span>
-<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">No license file</span>
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">No license file</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">MIT</span>
 <span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">BSD-3-Clause</span></span>
 <span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">2</span>
 <span data-ty class="newline"></span>
@@ -624,6 +644,18 @@ gotem
 <span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">mkdocs</span>
 <span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">none</span></span>
 <span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">1</span>
+<span data-ty class="newline"></span>
+<span data-ty>Select include_code_scaffold
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">Yes</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">No</span></span>
+<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">2</span>
+<span data-ty class="newline"></span>
+<span data-ty>Select version_control
+<span style="font-weight: bold; color: #E850A8">1</span> - <span style="font-weight: bold">git (local)</span>
+<span style="font-weight: bold; color: #E850A8">2</span> - <span style="font-weight: bold">none</span>
+<span style="font-weight: bold; color: #E850A8">3</span> - <span style="font-weight: bold">git (github private)</span>
+<span style="font-weight: bold; color: #E850A8">4</span> - <span style="font-weight: bold">git (github public)</span></span>
+<span data-ty class="inline-input">Choose from <span style="font-weight: bold; color: #E850A8">[1/2/3/4]</span> <span style="font-weight: bold; color: #00aaaa">(1)</span>:</span><span class="inline-input" data-ty="input" data-ty-delay="500" data-ty-prompt="">1</span>
 <span data-ty class="newline"></span>
 </div>
 

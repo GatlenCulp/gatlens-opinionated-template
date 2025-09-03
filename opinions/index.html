@@ -608,7 +608,7 @@ AWS_ACCESS_KEY=myaccesskey
 AWS_SECRET_ACCESS_KEY=mysecretkey
 OTHER_VARIABLE=something
 </code></pre></div>
-<h3 id="0502-use-a-package-to-load-these-variables-automatically">05.02 Use a package to load these variables automatically.</h3>
+<h3 id="0502-use-a-package-to-load-these-variables-automatically">05.02 Use a package to load these variables automatically</h3>
 <p>If you look at the stub script in <code>{{ cookiecutter.module_name }}/data/make_dataset.py</code>, it uses a package called <a href="https://github.com/theskumar/python-dotenv">python-dotenv</a> to load up all the entries in this file as environment variables so they are accessible with <code>os.environ.get</code>. Here's an example snippet adapted from the <code>python-dotenv</code> documentation:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># {{ cookiecutter.module_name }}/data/dotenv_example.py</span>
 <span class="kn">import</span> <span class="nn">os</span>
