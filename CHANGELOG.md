@@ -1,4 +1,8 @@
-## Unreleased
+## 0.5.2 (2025-09-03)
+
+### Fix
+
+- remove v in versioning
 
 ## 0.5.1 (2025-09-03)
 
