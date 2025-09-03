@@ -43,4 +43,13 @@ brew install --cask miniconda
 ## TODO
 - [ ] Perhaps add mise-en-place as a task/package manager
 - [ ] Add typst to options for LaTeX
-- [ ] 
+- [ ] `ignore` folder. Literally just has `.gitignore` with
+    ```bash
+    # Ignore all files in this directory
+    *
+    # Except for this .gitignore file
+    !.gitignore
+    ```
+- [ ] Compare devenv vs envrc vs mise-en-place vs a straight up flake for better package management
+- [ ] Pull the latest changes from CookieCutter Data Science
+- [ ] Allow selection between Typst and LaTeX

@@ -120,13 +120,6 @@
 		},
 		"choices": [
 			{
-				"choice": "uv",
-				"help": {
-					"description": "Modern, fast Python package installer and resolver written in Rust.",
-					"more_information": "[Docs](https://github.com/astral-sh/uv)"
-				}
-			},
-			{
 				"choice": "virtualenv",
 				"help": {
 					"description": "Simple wrapper on venv with more features.",
@@ -148,6 +141,27 @@
 				}
 			},
 			{
+				"choice": "uv",
+				"help": {
+					"description": "An extremely fast Python package and project manager, written in Rust.",
+					"more_information": "[Docs](https://docs.astral.sh/uv/)"
+				}
+			},
+			{
+				"choice": "pixi",
+				"help": {
+					"description": "A fast package manager built on top of the conda ecosystem with lock files for reproducible environments. Supports both pixi.toml and pyproject.toml. Requires pixi to be installed as a system binary (see docs for installation instructions).",
+					"more_information": "[Docs](https://pixi.sh/)"
+				}
+			},
+			{
+				"choice": "poetry",
+				"help": {
+					"description": "A dependency management and packaging tool for Python with lock files for reproducible environments. Uses pyproject.toml for configuration. Requires poetry to be installed as a system binary.",
+					"more_information": "[Docs](https://python-poetry.org/docs/)"
+				}
+			},
+			{
 				"choice": "none",
 				"help": {
 					"description": "Do not add `create_environment` commands; env management left to the user.",
@@ -164,17 +178,17 @@
 		},
 		"choices": [
 			{
-				"choice": "none",
+				"choice": "requirements.txt",
 				"help": {
-					"description": "Create no dependency file, relying solely on `pyproject.toml`",
-					"more_information": "[pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)"
+					"description": "Classic format for a list of packages to be installed by `pip`.",
+					"more_information": "[Docs](https://pip.pypa.io/en/stable/reference/requirements-file-format/)"
 				}
 			},
 			{
-				"choice": "requirements.txt",
+				"choice": "pyproject.toml",
 				"help": {
-					"description": "Most general, least feature-rich format for use with `pip`.",
-					"more_information": "[pip docs](https://pip.pypa.io/en/stable/reference/requirements-file-format/)"
+					"description": "Modern configuration file for Python projects. Also supported by pixi when using tool.pixi sections.",
+					"more_information": "[Docs](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)"
 				}
 			},
 			{
@@ -189,6 +203,13 @@
 				"help": {
 					"description": "Format used by Pipenv",
 					"more_information": "[Docs](https://pipenv.pypa.io/en/latest/pipfile.html)"
+				}
+			},
+			{
+				"choice": "pixi.toml",
+				"help": {
+					"description": "Configuration file used by pixi for managing dependencies and environments.",
+					"more_information": "[Docs](https://pixi.sh/latest/reference/pixi_manifest/)"
 				}
 			}
 		]
@@ -211,6 +232,59 @@
 				"choice": "basic",
 				"help": {
 					"description": "Basic common data science packages.",
+					"more_information": ""
+				}
+			}
+		]
+	},
+	{
+		"field": "testing_framework",
+		"help": {
+			"description": "Framework used for testing your code.",
+			"more_information": ""
+		},
+		"choices": [
+			{
+				"choice": "none",
+				"help": {
+					"description": "No testing framework.",
+					"more_information": ""
+				}
+			},
+			{
+				"choice": "pytest",
+				"help": {
+					"description": "Use the pytest framework for testing.",
+					"more_information": "[Docs](https://docs.pytest.org/en/latest/)"
+				}
+			},
+			{
+				"choice": "unittest",
+				"help": {
+					"description": "Use Python's built-in testing framework.",
+					"more_information": "[Docs](https://docs.python.org/3/library/unittest.html)"
+				}
+			}
+		]
+	},
+	{
+		"field": "linting_and_formatting",
+		"help": {
+			"description": "How to handle linting and formatting on your code.",
+			"more_information": ""
+		},
+		"choices": [
+			{
+				"choice": "ruff",
+				"help": {
+					"description": "Use ruff for linting and formatting.",
+					"more_information": ""
+				}
+			},
+			{
+				"choice": "flake8+black+isort",
+				"help": {
+					"description": "Use flake8 for linting and black+isort for formatting.",
 					"more_information": ""
 				}
 			}
@@ -277,52 +351,17 @@
 		},
 		"choices": [
 			{
+				"choice": "Yes",
+				"help": {
+					"description": "Includes common data submodules.",
+					"more_information": ""
+				}
+			},
+			{
 				"choice": "No",
 				"help": {
-					"description": "No scaffolding - just basic project structure",
-					"more_information": "Creates minimal project structure with only essential files"
-				}
-			},
-			{
-				"choice": "paper",
-				"help": {
-					"description": "Research paper with code structure",
-					"more_information": "Includes notebooks/, paper/, src/ directories with LaTeX setup and research code organization"
-				}
-			},
-			{
-				"choice": "app",
-				"help": {
-					"description": "Application structure (web, CLI, or GUI)",
-					"more_information": "Sets up src/, api/, cli/ directories with application entrypoints and deployment configs"
-				}
-			},
-			{
-				"choice": "ml",
-				"help": {
-					"description": "Machine learning project structure",
-					"more_information": "Creates models/, training/, evaluation/ directories with ML pipeline setup"
-				}
-			},
-			{
-				"choice": "data",
-				"help": {
-					"description": "Data processing/analysis structure",
-					"more_information": "Includes pipelines/, analysis/, validation/ directories for data workflows"
-				}
-			},
-			{
-				"choice": "lib",
-				"help": {
-					"description": "Library/package structure",
-					"more_information": "Basic package structure with examples and API documentation setup"
-				}
-			},
-			{
-				"choice": "course",
-				"help": {
-					"description": "Library/package structure",
-					"more_information": "Basic package structure with examples and API documentation setup"
+					"description": "Empty Python module to start with.",
+					"more_information": ""
 				}
 			}
 		]
@@ -330,73 +369,36 @@
 	{
 		"field": "version_control",
 		"help": {
-			"description": "What kind of version control system (vcs) and repository host to use.",
-			"more_information": ""
+			"description": "Version control setup and optional remote repository configuration.",
+			"more_information": "[Docs](https://git-scm.com/doc)"
 		},
 		"choices": [
 			{
-				"choice": "none",
+				"choice": "git (local)",
 				"help": {
-					"description": "No version control.",
+					"description": "Initialize a local Git repository only.",
 					"more_information": ""
 				}
 			},
 			{
-				"choice": "git (local)",
+				"choice": "none",
 				"help": {
-					"description": "Initialize project as a local git repository.",
-					"more_information": "[Git CLI](https://git-scm.com/downloads) Required"
+					"description": "Do not configure version control.",
+					"more_information": ""
 				}
 			},
 			{
 				"choice": "git (github private)",
 				"help": {
-					"description": "Initialize project and upload to GitHub as a **private** repo.",
-					"more_information": "[Git CLI](https://git-scm.com/downloads) + [GitHub CLI](https://cli.github.com/) & [Auth](https://cli.github.com/manual/gh_auth_login) Required"
+					"description": "Create a private GitHub repository and push the initial commit.",
+					"more_information": "[Docs](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository)"
 				}
 			},
 			{
 				"choice": "git (github public)",
 				"help": {
-					"description": "Initialize project and upload to GitHub as a **public** repo.",
-					"more_information": "[Git CLI](https://git-scm.com/downloads) + [GitHub CLI](https://cli.github.com/) & [Auth](https://cli.github.com/manual/gh_auth_login) Required"
-				}
-			}
-		]
-	},
-	{
-		"field": "dependency_file",
-		"help": {
-			"description": "Where to track project-specific dependencies; often paired with specific environment manager.",
-			"more_information": ""
-		},
-		"choices": [
-			{
-				"choice": "none",
-				"help": {
-					"description": "Create no dependency file, relying solely on `pyproject.toml`",
-					"more_information": "[pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)"
-				}
-			},
-			{
-				"choice": "requirements.txt",
-				"help": {
-					"description": "Most general, least feature-rich format for use with `pip`.",
-					"more_information": "[pip docs](https://pip.pypa.io/en/stable/reference/requirements-file-format/)"
-				}
-			},
-			{
-				"choice": "environment.yml",
-				"help": {
-					"description": "Format used by `conda`.",
-					"more_information": "[Docs](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#sharing-an-environment)"
-				}
-			},
-			{
-				"choice": "Pipfile",
-				"help": {
-					"description": "Format used by Pipenv",
-					"more_information": "[Docs](https://pipenv.pypa.io/en/latest/pipfile.html)"
+					"description": "Create a public GitHub repository and push the initial commit.",
+					"more_information": "[Docs](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository)"
 				}
 			}
 		]

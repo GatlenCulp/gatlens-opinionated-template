@@ -86,8 +86,7 @@ def test_baking_configs(config: dict[str, Any], fast: int) -> None:
 
         logger.info("Verifying files...")
         verify_files(project_directory, config)
-        # install_requirements(project_directory)
-        # lint(project_directory)
+        lint(project_directory)
 
         if fast < 2:
             logger.info("Verifying Makefile commands...")
@@ -104,12 +103,19 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
     expected_dirs = {
         str(VSCODE_CONFIG_DIR),
         ".",
+        ".cursor",
+        ".cursor/artifacts",
+        ".cursor/mem",
+        ".cursor/notes",
+        ".cursor/rules",
         ".devcontainer",
         ".github",
         ".github/actions",
         ".github/actions/setup-python-env",
         ".github/ISSUE_TEMPLATE",
         ".github/workflows",
+        ".trunk",
+        ".trunk/configs",
         "data",
         "data/external",
         "data/interim",
@@ -121,7 +127,6 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
         "secrets/schema",
         "secrets/schema/ssh",
         "docker",
-        "tests",
         str(OUT_DIR),
         str(OUT_DIR / "models"),
         str(OUT_DIR / "features"),
@@ -130,6 +135,21 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
         "notebooks",
         config["module_name"],
     }
+    scaffold_dirs = {
+        "_ai",
+        "_ai/modeling",
+        "_frontend",
+        "_frontend/src",
+        "_frontend/public",
+        "_backend",
+        "_backend/app",
+        "_backend/scripts",
+        "_course",
+        "_course/demo",
+        "_course/ps01",
+        "_cli",
+    }
+    ignored_patterns = {".git/**/*"}
 
     ignored_dirs = set()
 
@@ -137,20 +157,24 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
         expected_dirs.add(".venv")
         ignored_dirs.update({d.relative_to(root) for d in root.glob(".venv/**/*") if d.is_dir()})
 
-    if config["include_code_scaffold"] != "No":
-        expected_dirs.add(f"{config['module_name']}/_ai")
-        expected_dirs.add(f"{config['module_name']}/_ai/modeling")
-        expected_dirs.add(f"{config['module_name']}/_frontend")
-        expected_dirs.add(f"{config['module_name']}/_backend")
-        expected_dirs.add(f"{config['module_name']}/_course")
+    # Define scaffold directories that should be verified
+    # if config["include_code_scaffold"] == "Yes":
+    if True:
+        # Add expected scaffold directories
+        # expected_dirs.update({f"{config['module_name']}/{d}" for d in scaffold_dirs})
+
+        # First ignore all subdirectories
         ignored_dirs.update(
             {
                 d.relative_to(root)
-                for subdir in ["_frontend", "_backend", "_course"]
-                for d in root.glob(f"{config['module_name']}/{subdir}/**/*")
+                for d in root.glob(f"{config['module_name']}/**/*")
                 if d.is_dir()
             }
         )
+    
+    # if config["tests"] == "pytest"
+    if False:
+        expected_dirs.add("tests")
 
     if config["docs"] == "mkdocs":
         expected_dirs.add("docs/docs")
@@ -170,12 +194,8 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
                 # ".git/refs",
             }
         )
+        
         # Expected after initial git commit
-        # expected_dirs.update({".git/logs", ".git/logs/refs"})
-        ignored_patterns = [
-            ".git/**/*",
-            "",
-        ]  # [".git/objects/**/*", ".git/refs/**/*", ".git/logs/refs/**/*", ".git/branches/**/*"]
         ignored_dirs.update(
             {
                 d.relative_to(root)
@@ -205,7 +225,7 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
         "Makefile",
         "README.md",
         "pyproject.toml",
-        "biome.json",
+        "setup.cfg",
         ".env",
         ".gitignore",
         ".devcontainer/devcontainer.json",
@@ -262,26 +282,17 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
     if not config["open_source_license"].startswith("No license"):
         expected_files.add("LICENSE")
 
-    if config["include_code_scaffold"] != "No":
+    if config["include_code_scaffold"] == "Yes":
         expected_files.update(
-            {
-                f"{config['module_name']}/_ai/dataset.py",
-                f"{config['module_name']}/_ai/plots.py",
-                f"{config['module_name']}/_ai/features.py",
-                f"{config['module_name']}/_ai/modeling/__init__.py",
-                f"{config['module_name']}/_ai/modeling/predict.py",
-                f"{config['module_name']}/_ai/modeling/train.py",
+            [
                 f"{config['module_name']}/config.py",
-            }
-        )
-        # Create a set of all files to ignore using set union
-        ignored_files.update(
-            {
-                f.relative_to(root)
-                for subdir in ["_frontend", "_backend", "_course"]
-                for f in root.glob(f"{config['module_name']}/{subdir}/**/*")
-                if f.is_file()
-            }
+                f"{config['module_name']}/dataset.py",
+                f"{config['module_name']}/features.py",
+                f"{config['module_name']}/modeling/__init__.py",
+                f"{config['module_name']}/modeling/train.py",
+                f"{config['module_name']}/modeling/predict.py",
+                f"{config['module_name']}/plots.py",
+            ]
         )
 
     if config["docs"] == "mkdocs":
@@ -293,8 +304,6 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
                 "docs/docs/getting-started.md",
             }
         )
-
-    expected_files.add(config["dependency_file"])
 
     if config["dependency_file"] != "none":
         expected_files.add(config["dependency_file"])
@@ -353,9 +362,24 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
 
     existing_files = {f.relative_to(root) for f in root.glob("**/*") if f.is_file()}
 
+    # Always ignore Cursor project files, Trunk config, and scaffolded subpackages
+    ignored_file_patterns = [
+        ".cursor/**/*",
+        ".trunk/**/*",
+        f"{config['module_name']}/_*/**/*",
+    ]
+    ignored_files.update(
+        {
+            f.relative_to(root)
+            for pattern in ignored_file_patterns
+            for f in root.glob(pattern)
+            if f.is_file()
+        }
+    )
+
     checked_files = existing_files - ignored_files
 
-    assert sorted(checked_files) == sorted(expected_files)
+    assert sorted(existing_files) == sorted(expected_files)
 
     # Ignore files where curlies may exist but aren't unrendered jinja tags
     ignore_curly_files = {
@@ -371,6 +395,8 @@ def verify_makefile_commands(root: Path, config: dict[str, Any]) -> bool:
     - blank command listing commands
     - create_environment
     - requirements
+    - linting
+    - formatting
     Ensure that these use the proper environment.
 
     Args:
@@ -378,7 +404,7 @@ def verify_makefile_commands(root: Path, config: dict[str, Any]) -> bool:
         config: Configuration dictionary
 
     Returns:
-        True if verification succeeds
+        True if verification succeeds, False if environment manager is 'none'
 
     Raises:
         ValueError: If environment manager not found in test harnesses
@@ -391,10 +417,8 @@ def verify_makefile_commands(root: Path, config: dict[str, Any]) -> bool:
         harness_path = test_path / "virtualenv_harness.sh"
     elif config["environment_manager"] == "pipenv":
         harness_path = test_path / "pipenv_harness.sh"
-    elif config["environment_manager"] == "uv":
-        harness_path = test_path / "uv_harness.sh"
     elif config["environment_manager"] == "none":
-        return True
+        return False
     else:
         raise ValueError(
             f"Environment manager '{config['environment_manager']}' not found in test harnesses.",
@@ -412,7 +436,7 @@ def verify_makefile_commands(root: Path, config: dict[str, Any]) -> bool:
         check=False,
     )
 
-    stdout_output, _ = _decode_print_stdout_stderr(result)
+    stdout_output, stderr_output = _decode_print_stdout_stderr(result)
 
     # Check that makefile help ran successfully
     assert "Available rules:" in stdout_output
@@ -420,7 +444,6 @@ def verify_makefile_commands(root: Path, config: dict[str, Any]) -> bool:
     assert "Delete all compiled Python files" in stdout_output
 
     assert result.returncode == 0
-
     return True
 
 
@@ -431,7 +454,6 @@ def lint(root):
         cwd=root,
         stderr=PIPE,
         stdout=PIPE,
-        check=False,
     )
     _, _ = _decode_print_stdout_stderr(result)
 

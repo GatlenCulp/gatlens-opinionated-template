@@ -655,7 +655,7 @@ wheels = [
 
 [[package]]
 name = "gatlens-opinionated-template"
-version = "0.5.0"
+version = "0.5.1"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
@@ -663,6 +663,7 @@ dependencies = [
     { name = "loguru" },
     { name = "pydantic" },
     { name = "pymdown-extensions" },
+    { name = "tomlkit" },
 ]
 
 [package.dev-dependencies]
@@ -713,6 +714,7 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "pydantic", specifier = ">=2.10.6" },
     { name = "pymdown-extensions", specifier = ">=10.13" },
+    { name = "tomlkit" },
 ]
 
 [package.metadata.requires-dev]

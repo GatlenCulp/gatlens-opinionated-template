@@ -10,7 +10,7 @@ exclude = ["docs/*", "tests/*", ".cache/*", ".github/*", ".vscode/*"]
 
 [project]
 name = "gatlens-opinionated-template"
-version = "0.5.0"
+version = "0.5.1"
 description = "A modern, opinionated full-stack CookieCutter project template that prioritizes developer experience and cutting-edge tools."
 authors = [
   { name = "Gatlen Culp", email = "GatlenCulp@gmail.com" },
@@ -24,11 +24,11 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
@@ -39,6 +39,7 @@ dependencies = [
   "loguru>=0.7.3",
   "pydantic>=2.10.6",
   "pymdown-extensions>=10.13",
+  "tomlkit",
 ]
 
 [project.scripts]
