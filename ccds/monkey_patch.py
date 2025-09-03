@@ -3,6 +3,7 @@
 
 from collections import OrderedDict
 from pathlib import Path
+from typing import Any, Mapping, MutableMapping, Optional
 
 from cookiecutter.environment import StrictEnvironment
 from cookiecutter.exceptions import UndefinedVariableInTemplate
@@ -14,6 +15,102 @@ from cookiecutter.prompt import (
     render_variable,
 )
 from jinja2.exceptions import UndefinedError
+
+
+def apply_user_overrides_to_ccds_context(
+    ccds_obj: MutableMapping[str, Any],
+    overwrites: Optional[Mapping[str, Any]],
+) -> None:
+    """Apply user-provided defaults/extras to CCDS context in-place.
+
+    This supports CCDS' extended "choice with subitems" pattern where a choice
+    is represented as a list of single-key dictionaries, e.g.::
+
+        dataset_storage = [
+            {"none": "none"},
+            {"s3": {"bucket": "bucket-name", "aws_profile": "default"}},
+            {"gcs": {"bucket": "bucket-name"}},
+        ]
+
+    Accepted overwrite shapes for such variables are either::
+        {"s3": {"bucket": "my-bucket"}}  # choice + nested fields
+        "s3"                                 # just the choice
+
+    For standard list-of-strings choices, both single values and lists
+    (multi-choice) are supported. Dicts and scalars are overwritten directly.
+
+    Args:
+        ccds_obj: Mutable CCDS context parsed from ``ccds.json``.
+        overwrites: Values from Cookiecutter ``default_context`` or ``extra_context``.
+            If ``None`` or empty, this is a no-op.
+    """
+    if not overwrites:
+        return
+
+    for key, overwrite in overwrites.items():
+        if key not in ccds_obj:
+            continue
+
+        context_value = ccds_obj[key]
+
+        if isinstance(context_value, list):
+            if not context_value:
+                continue
+
+            first_elem = context_value[0]
+
+            # Handle list-of-dicts: choices with subitems
+            if isinstance(first_elem, dict):
+                if isinstance(overwrite, dict) and len(overwrite) == 1:
+                    choice_key = next(iter(overwrite.keys()))
+                    sub_overwrite = overwrite[choice_key]
+                else:
+                    choice_key = overwrite
+                    sub_overwrite = None
+
+                # Locate choice and move it to the front
+                idx = None
+                for i, choice in enumerate(context_value):
+                    k = list(choice.keys())[0]
+                    if k == choice_key:
+                        idx = i
+                        break
+                if idx is None:
+                    continue
+
+                chosen = context_value.pop(idx)
+                selected_val = list(chosen.values())[0]
+
+                if isinstance(selected_val, dict) and isinstance(sub_overwrite, dict):
+                    selected_val.update(sub_overwrite)
+                    chosen = OrderedDict([(choice_key, selected_val)])
+
+                context_value.insert(0, chosen)
+                ccds_obj[key] = context_value
+                continue
+
+            # Handle standard choice/multichoice (list of strings)
+            if isinstance(overwrite, list):
+                try:
+                    if set(overwrite).issubset(set(context_value)):
+                        ccds_obj[key] = overwrite
+                except TypeError:
+                    # Non-hashable items; ignore
+                    pass
+                continue
+
+            if overwrite in context_value:
+                context_value.remove(overwrite)
+                context_value.insert(0, overwrite)
+                ccds_obj[key] = context_value
+            continue
+
+        if isinstance(context_value, dict) and isinstance(overwrite, dict):
+            context_value.update(overwrite)
+            ccds_obj[key] = context_value
+            continue
+
+        ccds_obj[key] = overwrite
 
 
 def _prompt_choice_and_subitems(cookiecutter_dict, env, key, options, no_input):
@@ -56,6 +153,7 @@ def _prompt_choice_and_subitems(cookiecutter_dict, env, key, options, no_input):
         result[selected] = selected_item
 
     return result
+
 
 
 def prompt_for_config(context, no_input=False):
@@ -135,7 +233,19 @@ def generate_context_wrapper(*args, **kwargs):
     # replace full path to cookiecutter.json with full path to ccds.json
     kwargs["context_file"] = str(Path(kwargs["context_file"]).with_name("ccds.json"))
 
+    # Cookiecutter's apply_overwrites_to_context doesn't understand our
+    # list-of-dicts "choice with subitems" structure (e.g., dataset_storage).
+    # To avoid warnings/errors, we apply defaults/extra ourselves after loading.
+    user_defaults = kwargs.pop("default_context", None)
+    user_extras = kwargs.pop("extra_context", None)
+
     parsed_context = generate_context(*args, **kwargs)
+
+    # Apply defaults/extras with support for subchoice structures
+    ccds_obj = parsed_context.get("ccds")
+    if isinstance(ccds_obj, dict):
+        apply_user_overrides_to_ccds_context(ccds_obj, user_defaults)
+        apply_user_overrides_to_ccds_context(ccds_obj, user_extras)
 
     # replace key
     parsed_context["cookiecutter"] = parsed_context["ccds"]

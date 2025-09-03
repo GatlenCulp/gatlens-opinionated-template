@@ -120,6 +120,13 @@
 		},
 		"choices": [
 			{
+				"choice": "uv",
+				"help": {
+					"description": "An extremely fast Python package and project manager, written in Rust.",
+					"more_information": "[Docs](https://docs.astral.sh/uv/)"
+				}
+			},
+			{
 				"choice": "virtualenv",
 				"help": {
 					"description": "Simple wrapper on venv with more features.",
@@ -138,13 +145,6 @@
 				"help": {
 					"description": "Manages dependencies and virual environments.",
 					"more_information": "[Docs](https://pipenv.pypa.io/en/latest/)"
-				}
-			},
-			{
-				"choice": "uv",
-				"help": {
-					"description": "An extremely fast Python package and project manager, written in Rust.",
-					"more_information": "[Docs](https://docs.astral.sh/uv/)"
 				}
 			},
 			{
@@ -178,17 +178,17 @@
 		},
 		"choices": [
 			{
-				"choice": "requirements.txt",
-				"help": {
-					"description": "Classic format for a list of packages to be installed by `pip`.",
-					"more_information": "[Docs](https://pip.pypa.io/en/stable/reference/requirements-file-format/)"
-				}
-			},
-			{
 				"choice": "pyproject.toml",
 				"help": {
 					"description": "Modern configuration file for Python projects. Also supported by pixi when using tool.pixi sections.",
 					"more_information": "[Docs](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)"
+				}
+			},
+			{
+				"choice": "requirements.txt",
+				"help": {
+					"description": "Classic format for a list of packages to be installed by `pip`.",
+					"more_information": "[Docs](https://pip.pypa.io/en/stable/reference/requirements-file-format/)"
 				}
 			},
 			{
@@ -351,17 +351,52 @@
 		},
 		"choices": [
 			{
-				"choice": "Yes",
+				"choice": "No",
 				"help": {
-					"description": "Includes common data submodules.",
-					"more_information": ""
+					"description": "No scaffolding - just basic project structure",
+					"more_information": "Creates minimal project structure with only essential files"
 				}
 			},
 			{
-				"choice": "No",
+				"choice": "paper",
 				"help": {
-					"description": "Empty Python module to start with.",
-					"more_information": ""
+					"description": "Research paper with code structure",
+					"more_information": "Includes notebooks/, paper/, src/ directories with LaTeX setup and research code organization"
+				}
+			},
+			{
+				"choice": "app",
+				"help": {
+					"description": "Application structure (web, CLI, or GUI)",
+					"more_information": "Sets up src/, api/, cli/ directories with application entrypoints and deployment configs"
+				}
+			},
+			{
+				"choice": "ml",
+				"help": {
+					"description": "Machine learning project structure",
+					"more_information": "Creates models/, training/, evaluation/ directories with ML pipeline setup"
+				}
+			},
+			{
+				"choice": "data",
+				"help": {
+					"description": "Data processing/analysis structure",
+					"more_information": "Includes pipelines/, analysis/, validation/ directories for data workflows"
+				}
+			},
+			{
+				"choice": "lib",
+				"help": {
+					"description": "Library/package structure",
+					"more_information": "Basic package structure with examples and API documentation setup"
+				}
+			},
+			{
+				"choice": "course",
+				"help": {
+					"description": "Library/package structure",
+					"more_information": "Basic package structure with examples and API documentation setup"
 				}
 			}
 		]

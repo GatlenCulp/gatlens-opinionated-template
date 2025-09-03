@@ -117,8 +117,8 @@ class GotemArgs(BaseModel):
     )
     
     # Environment and dependency management
-    environment_manager: Literal["virtualenv", "conda", "pipenv", "uv", "pixi", "poetry", "none"] = Field(
-        default="virtualenv",
+    environment_manager: Literal[ "uv", "virtualenv", "conda", "pipenv", "pixi", "poetry", "none"] = Field(
+        default="uv",
         description="Tool for managing creating Python environments. Controls `make create_environment` Makefile command.",
         more_information="[About virtual environments](https://www.dataquest.io/blog/a-complete-guide-to-python-virtual-environments/)"
     )
@@ -142,8 +142,8 @@ class GotemArgs(BaseModel):
     )
     
     # Code scaffold options
-    include_code_scaffold: Literal["Yes", "No"] = Field(
-        default="Yes",
+    include_code_scaffold: Literal["No", "paper", "app", "ml", "data", "lib", "course"] = Field(
+        default="No",
         description="Whether to include some basic boilerplate code in the Python module."
     )
     
