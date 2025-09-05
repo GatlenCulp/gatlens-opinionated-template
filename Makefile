@@ -1,7 +1,7 @@
 ## Phony tells Makefile these aren't files to be rebuilt
 .PHONY: all clean _prep create_environment requirements format lint docs-serve test \
 	test-fastest test-debug-last test-continuous _clean_manual_test manual-test manual-test-debug \
-	print-welcome publish docs-publish publish-all help activate bump
+	print-welcome publish docs-publish publish-all help activate bump cursor-sync
 
 ## GLOBALS
 
@@ -129,6 +129,20 @@ manual-test: _prep _clean_manual_test ## Run manual tests
 manual-test-debug: _prep _clean_manual_test ## Run manual tests with debugger
 	mkdir -p manual_test
 	cd manual_test && python -m pdb ../ccds/__main__.py ..
+
+###     CURSOR
+
+# TODO: Fix
+cursor-sync: ## Sync {{ cookiecutter.repo_name }}/.cursor from GatlenCulp/cursorrules (simple)
+	@dest="{{ cookiecutter.repo_name }}/.cursor"; \
+	tmp=$$(mktemp -d); \
+	curl -fsSL -o "$$tmp/cursorrules.zip" https://github.com/GatlenCulp/cursorrules/archive/refs/heads/main.zip; \
+	unzip -q -o "$$tmp/cursorrules.zip" -d "$$tmp"; \
+	rm -rf "$$dest"; \
+	mkdir -p "$$dest"; \
+	cp -R "$$tmp"/cursorrules-main/.cursor/. "$$dest"/; \
+	rm -rf "$$tmp"; \
+	echo "Synced to $$dest"
 
 ###     GIT HOOKS
 

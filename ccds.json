@@ -47,9 +47,9 @@
 		"git (github private)",
 		"git (github public)"
 	],
-	"_author_email": "GatlenCulp@gmail.com",
-	"_github_username": "GatlenCulp",
-	"_custom_domain": "gatlen.me",
+	"_author_email": "JohnDoe@gmail.com",
+	"_github_username": "JohnDoe",
+	"_custom_domain": "",
 	"_use_conventional_commits": "y",
 	"_generate_personal_ssh_keys": "n",
 	"_generate_and_upload_gh_deploy_keys": "n",

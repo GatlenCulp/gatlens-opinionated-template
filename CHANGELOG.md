@@ -1,3 +1,9 @@
+## 0.6.0 (2025-09-04)
+
+### Feat
+
+- Allow for COOKIECUTTER_CONFIG and extra context (vibecoded, check later) also add debug
+
 ## 0.5.2 (2025-09-03)
 
 ### Fix

@@ -51,5 +51,56 @@ brew install --cask miniconda
     !.gitignore
     ```
 - [ ] Compare devenv vs envrc vs mise-en-place vs a straight up flake for better package management
-- [ ] Pull the latest changes from CookieCutter Data Science
+- [X] Pull the latest changes from CookieCutter Data Science
 - [ ] Allow selection between Typst and LaTeX
+- [ ] Test that [COOKIECUTTER_CONFIG works](https://cookiecutter.readthedocs.io/en/stable/advanced/user_config.html) and add to documentation.
+- [ ] Fix LICENSE bug (not showing up when selected?)
+- [ ] Switch to using [this](https://cookiecutter.readthedocs.io/en/stable/advanced/nested_config_files.html) instead of manual scaffold deletion
+
+### Docs to add about COOKIECUTTER_CONFIG
+
+```bash
+export COOKIECUTTER_CONFIG="/home/audreyr/my-custom-config.yaml"
+# or if currently set `unset COOKIECUTTER_CONFIG`
+```
+
+Example context:
+```yaml
+default_context:
+    author_name: "Gatlen Culp"
+    python_version_number: "3.12"
+    dataset_storage: "none"
+    environment_manager: "uv"
+    dependency_file: "pyproject.toml"
+    pydata_packages: "none"
+    testing_framework: "pytest"
+    linting_and_formatting: "ruff"
+    open_source_license: "MIT"
+    docs: "mkdocs"
+    _author_email: "GatlenCulp@gmail.com"
+    _github_username: "GatlenCulp"
+    _custom_domain": "gatlen.me"
+    _use_conventional_commits": "y"
+    _generate_personal_ssh_keys": "n"
+    _generate_and_upload_gh_deploy_keys": "n"
+    _project_emoji": ""
+    _qa_tool": "trunk"
+    _qa_level": "basic"
+    _task_manager": "taskfile"
+    _typesetting_tool": "typst"
+    _readme_modern_header": "y"
+    _readme_include_logo": "y"
+    _readme_include_screenshots": "y"
+    _readme_use_github_discussions": "n"
+    _readme_include_badges": "y"
+    _readme_include_toc": "n"
+    _readme_include_project_assistance": "y"
+    _readme_include_authors": "y"
+    _readme_include_security": "y"
+    _readme_include_acknowledgements": "y"
+    _readme_table_in_about": "y"
+    
+abbreviations:
+    gh: https://github.com/{0}.git
+    bb: https://bitbucket.org/{0}
+```
