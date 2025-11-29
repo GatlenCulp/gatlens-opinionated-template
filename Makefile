@@ -25,6 +25,7 @@ clean: _prep clean-build clean-test  ## Clean up python cache files and artifact
 	find . -type d -name "__pycache__" -delete
 
 activate: ## Activate environment
+	deactivate
 	. ./.venv/bin/activate
 
 create_environment: ## Create a new conda environment with Python $(PYTHON_VERSION) (Not really used)
@@ -124,6 +125,7 @@ _clean_manual_test:
 
 manual-test: _prep _clean_manual_test ## Run manual tests
 	mkdir -p manual_test
+	deactivate || true
 	cd manual_test && gotem .. && cursor ./project_name
 
 manual-test-debug: _prep _clean_manual_test ## Run manual tests with debugger

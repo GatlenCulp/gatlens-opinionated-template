@@ -300,6 +300,7 @@ marker = "platform_system != 'Darwin'"
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Ruff ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ #
 # {% if cookiecutter.linting_and_formatting == 'ruff' %}
 [tool.ruff]
+src = ["{{ cookiecutter.module_name }}"]
 
 cache-dir = ".cache/ruff"
 # {% if cookiecutter.python_version_number == "3.9" %}
@@ -315,11 +316,11 @@ target-version = "py313"
 # {% endif %}
 line-length = 99
 format = { quote-style = "double", indent-style = "space" }
+include = ["pyproject.toml", "{{ cookiecutter.module_name }}/**/*.py"]
 
 [tool.ruff.lint]
-src = ["{{ cookiecutter.module_name }}"]
 
-include = ["pyproject.toml", "{{ cookiecutter.module_name }}/**/*.py"]
+logger-objects = ["{{ cookiecutter.module_name }}.config.logger"]
 select = ["ALL"]
 ignore = [
   "S101",   # Allow assert
@@ -337,6 +338,15 @@ ignore = [
   "TD003",  # Allow issue-less TODOs
   "UP007",  # Allow non-use of pipe for types
   "UP035",  # Same as above
+  "ERA001", # Allow commented-out code
+  "RET504", # Allow unnecessary variable assignment before return
+  "FBT001", # Allow boolean positional arguments
+  "FBT002", # Allow boolean default values in function definitions
+  "INP001", # Allow implicit namespace packages (missing __init__.py)
+  "D100",   # Allow missing docstring in public module
+  "W293",   # Allow blank lines with whitespace
+  "TRY003", # Allow long exception messages
+  "B018",   # Allow useless expressions (useful when running file as notebook)
 ]
 
 mccabe.max-complexity = 10

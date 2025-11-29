@@ -47,7 +47,7 @@
 				"rodolphebarbanneau.python-docstring-highlighter", // Highlight Python docstring syntax
 				"kevinrose.vsc-python-indent",              // Correct indents for python
 
-				// {% if cookiecutter.include_code_scaffold in ("data", "ml", "paper") %}
+				// {% if cookiecutter.include_code_scaffold in ("data", "ml", "paper", "course") %}
 				/* ━━━━━━━━━━━━━━━━━━━ DATA SCIENCE & NOTEBOOKS ━━━━━━━━━━━━━━━━━━━ */
 				"ms-toolsai.jupyter",                       // Jupyter Notebooks in VSCode
 				"ms-toolsai.jupyter-renderers",             // Jupyter Cell Output Renderer
