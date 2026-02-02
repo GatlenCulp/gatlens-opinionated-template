@@ -53,3 +53,36 @@ brew install --cask miniconda
 - [ ] Compare devenv vs envrc vs mise-en-place vs a straight up flake for better package management
 - [ ] Pull the latest changes from CookieCutter Data Science
 - [ ] Allow selection between Typst and LaTeX
+- [ ] - GoTEM
+    - [ ]  Clean up gotem. Make some official release perhaps?
+    - [ ]  Perhapse switch gotem from CCDS to using plain cookiecutter + Cruft.
+    - [ ]  Remove most .vscode/extensions. (They're pretty annoying)
+    - [ ]  Generate most config files via nix? — I see https://pyproject-nix.github.io/pyproject.nix/ and uv2nix. But these are for ingesting these files rather than generating them.
+
+        ```nix
+        { pkgs, ... }:
+        let
+          tomlFormat = pkgs.formats.toml { };
+        in
+        {
+          # Generate a TOML file from a Nix attrset
+          myConfig = tomlFormat.generate "pyproject.toml" {
+            project = {
+              name = "my-package";
+              version = "0.1.0";
+              dependencies = [ "numpy" "pandas" ];
+            };
+            tool.black = {
+              line-length = 88;
+            };
+          };
+        }
+        ```
+
+        there's no direct equivalent to `uv add` for nix that automatically updates your `pyproject.toml` or nix expressions with new dependencies.
+
+        The closest things are:
+
+        **dream2nix / poetry2nix / pip2nix** -- These generate nix expressions *from* existing `pyproject.toml`/`requirements.txt` files, but they don't help you add deps in the first place. You'd still use `uv add` or `poetry add` to modify your pyproject.toml, then regenerate the nix lock.
+
+        **devenv** -- Has `devenv add` but it's for adding devenv plugins/languages, not Python package dependencies.

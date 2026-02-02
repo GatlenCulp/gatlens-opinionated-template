@@ -1,4 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 
 {
   # https://devenv.sh/basics/
@@ -39,7 +45,7 @@
   '';
 
   # https://devenv.sh/pre-commit-hooks/
-  # pre-commit.hooks.shellcheck.enable = true;
-
-  # See full reference at https://devenv.sh/reference/options/
+  # git-hooks.hooks = {
+  #   nixfmt.enable = true;
+  # };
 }

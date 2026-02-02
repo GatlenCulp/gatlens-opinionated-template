@@ -92,6 +92,8 @@ Clone using Cruft
     cruft create https://github.com/GatlenCulp/gatlens-opinionated-template
 ``` -->
 
+_Note: If using GitHub, you will verst have to run `gh auth login`_
+
 ### The resulting directory structure
 
 The directory structure of your new project will look something like this (depending on the settings that you choose):
