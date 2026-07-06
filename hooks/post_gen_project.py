@@ -90,7 +90,7 @@ for obj in tests_subpath.iterdir():
 
 # Remove all remaining tests templates
 for tests_template in tests_path.iterdir():
-    if tests_template.is_dir() and not tests_template.name == "tests":
+    if tests_template.is_dir() and tests_template.name != "tests":
         shutil.rmtree(tests_template)
 # {% endif %}
 
@@ -151,8 +151,8 @@ else:
 # Install the virtual environment (uv only for now)
 if gotem_args.environment_manager == "uv":
     os.chdir(Path.cwd())
-    subprocess.run(["make", "create_environment"], check=False)  # noqa: S603, S607
-    subprocess.run(["make", "requirements"], check=False)  # noqa: S603, S607
+    subprocess.run(["make", "create_environment"], check=False)  # noqa: S607
+    subprocess.run(["make", "requirements"], check=False)  # noqa: S607
 
 # ---------------------------------------------------------------------------- #
 #                                Version Control                               #
@@ -174,14 +174,6 @@ elif gotem_args.version_control == "git (github public)":
         visibility="public",
         description=gotem_args.description,
     )
-
-# ---------------------------------------------------------------------------- #
-#                              Install Pre-Commit                              #
-# ---------------------------------------------------------------------------- #
-
-# if gotem_args.environment_manager == "uv":
-#     os.chdir(Path.cwd())
-#     subprocess.run(["pre-commit", "install"], check=False)
 
 # ---------------------------------------------------------------------------- #
 #                                   SSH Keys                                   #

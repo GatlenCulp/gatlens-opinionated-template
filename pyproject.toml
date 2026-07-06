@@ -117,6 +117,10 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401"] # Allow unused imports in __init__.py
 
+# Vendored doc-generation helper scripts intentionally opt out of linting via a
+# file-level `# ruff: noqa`; only allow that blanket form for them.
+"docs/scripts/*.py" = ["PGH004"]
+
 "**/*.ipynb" = [
   "S101",  # Alow assert
   "E731",  # Allow lambdas
