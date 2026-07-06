@@ -231,36 +231,16 @@ web = [ # Web development and scraping
 # {% endif %}
 
 [tool.uv]
+# Groups installed by default on a bare `uv sync` (and therefore in CI).
+# `dev` carries the lint/type/test tooling (ruff, pyright, pytest, ...) that
+# the Main workflow runs, so it must be present by default. Add optional
+# feature groups (data, nb, web, ...) here as your project needs them.
 default-groups = [
-  # "dev", 
+  "dev",
   # {% if cookiecutter.docs == "mkdocs" %}
-  # "dev-doc", 
+  "dev-doc",
   # {% endif %}
-  # "misc",
-
-  # {%- if cookiecutter.include_code_scaffold == "data" %}
-  # "data", "dev-nb", "cli", "nb",
-  # {% endif %}
-
-  # {%- if cookiecutter.include_code_scaffold == "paper" %}
-  # "data", "dev-nb", "nb",
-  # {% endif %}
-
-  # {%- if cookiecutter.include_code_scaffold == "app" %}
-  # "dev-nb", "web", "gui", "async", "cloud",
-  # {% endif %}
-
-  # {%- if cookiecutter.include_code_scaffold == "ml" %}
-  # "data", "dev-nb", "cli", "ai-train", "ai-apps", "async", "cloud", "nb",
-  # {% endif %}
-
-  # {%- if cookiecutter.include_code_scaffold == "lib" %}
-  # "dev-nb", "config",
-  # {% endif %}
-
-  # {%- if cookiecutter.include_code_scaffold == "course" %}
-  # "dev-nb", "config", "nb",
-  # {% endif %}
+  "misc",
 ]
 
 # {%- if cookiecutter.include_code_scaffold == "ml" %}

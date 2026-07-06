@@ -10,7 +10,10 @@ inputs:
   uv-version:
     description: "uv version to use"
     required: true
-    default: "0.4.6"
+    # Must be >= 0.4.27 so PEP 735 dependency-groups and
+    # `[tool.uv] default-groups` are understood. Kept in sync with the
+    # uv-pre-commit rev pinned in .pre-commit-config.yaml.
+    default: "0.5.27"
 
 runs:
   using: "composite"
