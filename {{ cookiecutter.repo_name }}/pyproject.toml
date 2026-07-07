@@ -294,12 +294,15 @@ target-version = "py312"
 target-version = "py313"
 # {% endif %}
 line-length = 99
+src = ["{{ cookiecutter.module_name }}"]
+include = ["pyproject.toml", "{{ cookiecutter.module_name }}/**/*.py"]
+# Experimental "_*" scaffold subpackages ship as inactive, unrendered
+# alternatives (e.g. _backend, _frontend, _data, _cli) and are not held to the
+# project's lint/format rules until they are selected and activated.
+extend-exclude = ["{{ cookiecutter.module_name }}/_*"]
 format = { quote-style = "double", indent-style = "space" }
 
 [tool.ruff.lint]
-src = ["{{ cookiecutter.module_name }}"]
-
-include = ["pyproject.toml", "{{ cookiecutter.module_name }}/**/*.py"]
 select = ["ALL"]
 ignore = [
   "S101",   # Allow assert
@@ -331,6 +334,14 @@ force-sort-within-sections = true
 "**/__init__.py" = [
   "F401", # Allow unused imports in __init__.py
 ]
+
+# Starter scaffold modules ship with placeholder Typer CLIs. Relax the rules
+# that only fire on the example code so a freshly generated project lints clean
+# until you replace the placeholders with real logic.
+"{{ cookiecutter.module_name }}/dataset.py" = ["ANN201", "ARG001", "PLR2004"]
+"{{ cookiecutter.module_name }}/features.py" = ["ANN201", "ARG001", "PLR2004"]
+"{{ cookiecutter.module_name }}/plots.py" = ["ANN201", "ARG001", "PLR2004"]
+"{{ cookiecutter.module_name }}/modeling/*.py" = ["ANN201", "ARG001", "PLR2004"]
 
 "**/*.ipynb" = [
   "S101",  # Allow assert

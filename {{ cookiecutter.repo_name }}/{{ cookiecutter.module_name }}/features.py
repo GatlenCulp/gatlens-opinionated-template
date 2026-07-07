@@ -1,3 +1,5 @@
+"""Command-line entry points for generating features from the processed data."""
+
 from pathlib import Path
 
 from loguru import logger

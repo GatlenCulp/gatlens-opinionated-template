@@ -108,7 +108,6 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
         ".cursor/mem",
         ".cursor/notes",
         ".cursor/rules",
-        ".devcontainer",
         ".github",
         ".github/actions",
         ".github/actions/setup-python-env",
@@ -157,6 +156,10 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
         expected_dirs.add(".venv")
         ignored_dirs.update({d.relative_to(root) for d in root.glob(".venv/**/*") if d.is_dir()})
 
+    # The devcontainer is kept with the code scaffold and removed without it.
+    if config["include_code_scaffold"] == "Yes":
+        expected_dirs.add(".devcontainer")
+
     # Define scaffold directories that should be verified
     # if config["include_code_scaffold"] == "Yes":
     if True:
@@ -165,13 +168,9 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
 
         # First ignore all subdirectories
         ignored_dirs.update(
-            {
-                d.relative_to(root)
-                for d in root.glob(f"{config['module_name']}/**/*")
-                if d.is_dir()
-            }
+            {d.relative_to(root) for d in root.glob(f"{config['module_name']}/**/*") if d.is_dir()}
         )
-    
+
     # if config["tests"] == "pytest"
     if False:
         expected_dirs.add("tests")
@@ -194,7 +193,7 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
                 # ".git/refs",
             }
         )
-        
+
         # Expected after initial git commit
         ignored_dirs.update(
             {
@@ -225,11 +224,11 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
         "Makefile",
         "README.md",
         "pyproject.toml",
-        "setup.cfg",
         ".env",
         ".gitignore",
-        ".devcontainer/devcontainer.json",
-        ".devcontainer/postCreateCommand.sh",
+        ".python-version",
+        "biome.json",
+        "template.env",
         ".github/PULL_REQUEST_TEMPLATE.md",
         ".github/actions/setup-python-env/action.yml",
         ".github/ISSUE_TEMPLATE/01_BUG_REPORT.md",
@@ -242,7 +241,6 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
         ".github/workflows/main.yml",
         ".github/workflows/on-release-main.yml",
         ".gitattributes",
-        ".pre-commit-config.yaml",
         "logs/.gitkeep",
         "data/external/.gitkeep",
         "data/interim/.gitkeep",
@@ -253,9 +251,7 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
         "docs/CODE_OF_CONDUCT.md",
         "docs/CONTRIBUTING.md",
         "docs/SECURITY.md",
-        "tests/conftest.py",
-        "tests/test_main.py",
-        f"notebooks/0.01_{config['author_name']}_example.ipynb",
+        f"notebooks/0.01_{config['author_name'].lower().replace(' ', '_')}_example.ipynb",
         "notebooks/README.md",
         "secrets/schema/example.env",
         "secrets/schema/ssh/example.config.ssh",
@@ -272,7 +268,6 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
         str(OUT_DIR / "features" / ".gitkeep"),
         str(OUT_DIR / "reports" / "figures" / ".gitkeep"),
         str(OUT_DIR / "models" / ".gitkeep"),
-        "Taskfile.yml",
         f"{config['module_name']}/__init__.py",
     }
 
@@ -283,15 +278,26 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
         expected_files.add("LICENSE")
 
     if config["include_code_scaffold"] == "Yes":
+        # The code scaffold keeps the devcontainer and the module source files.
         expected_files.update(
             [
+                ".devcontainer/devcontainer.json",
+                ".devcontainer/postCreateCommand.sh",
                 f"{config['module_name']}/config.py",
                 f"{config['module_name']}/dataset.py",
                 f"{config['module_name']}/features.py",
                 f"{config['module_name']}/modeling/__init__.py",
                 f"{config['module_name']}/modeling/train.py",
-                f"{config['module_name']}/modeling/predict.py",
                 f"{config['module_name']}/plots.py",
+            ]
+        )
+    else:
+        # Without the code scaffold, the scaffold cleaner keeps both task runners
+        # and the pre-commit config, but drops the devcontainer.
+        expected_files.update(
+            [
+                "Taskfile.yml",
+                ".pre-commit-config.yaml",
             ]
         )
 
@@ -379,7 +385,7 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
 
     checked_files = existing_files - ignored_files
 
-    assert sorted(existing_files) == sorted(expected_files)
+    assert sorted(checked_files) == sorted(expected_files)
 
     # Ignore files where curlies may exist but aren't unrendered jinja tags
     ignore_curly_files = {

@@ -1,3 +1,5 @@
+"""Command-line entry points for downloading and processing the dataset."""
+
 from pathlib import Path
 
 from loguru import logger
