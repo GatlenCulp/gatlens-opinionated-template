@@ -1,3 +1,5 @@
+"""Hook run before the user is prompted for template configuration."""  # noqa: INP001
+
 import warnings
 
 try:
@@ -15,4 +17,5 @@ if __name__ == "__main__":
             "CCDS version 2.0.1 or later with your package manager. "
             "For example, with pip, run: pip install -U cookiecutter-data-science.",
             DeprecationWarning,
+            stacklevel=2,
         )

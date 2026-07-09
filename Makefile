@@ -1,5 +1,5 @@
 ## Phony tells Makefile these aren't files to be rebuilt
-.PHONY: all clean _prep create_environment requirements format lint docs-serve test \
+.PHONY: all clean _prep create_environment requirements format lint docs docs-serve test \
 	test-fastest test-debug-last test-continuous _clean_manual_test manual-test manual-test-debug \
 	print-welcome publish docs-publish publish-all help activate bump
 
@@ -80,6 +80,10 @@ dist: clean ## builds source and wheel package
 ###     DOCS
 
 # Switched to using uv
+docs: ## Build documentation (used by CI)
+	cd docs && \
+	mkdocs build
+
 docs-serve: ## Serve documentation locally on port $(DOCS_PORT)
 	cd docs && \
 	mkdocs build && \

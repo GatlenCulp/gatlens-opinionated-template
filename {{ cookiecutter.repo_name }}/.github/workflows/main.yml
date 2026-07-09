@@ -1,4 +1,4 @@
-# {%- raw -%}
+# {% raw %}
 name: Main
 
 on:
@@ -21,13 +21,11 @@ jobs:
 
       - name: Set up the environment
         uses: ./.github/actions/setup-python-env
-
+# {% endraw %}
+# {% if cookiecutter._qa_tool == "pre-commit" %}
       - name: Run pre-commit
         run: uv run pre-commit run -a --show-diff-on-failure
-
-      - name: Inspect dependencies
-        run: uv run deptry .
-
+# {% endif %}
       - name: Check lock file consistency
         run: uv sync --locked
 
@@ -35,7 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+# Only test Python versions the project actually supports (requires-python is
+# ~={{ cookiecutter.python_version_number }}), derived from the chosen version.
+# {% set _min = cookiecutter.python_version_number.split(".")[1] | int %}
+# {% set _versions = [] %}
+# {% for _v in ["3.9", "3.10", "3.11", "3.12", "3.13"] if _v.split(".")[1] | int >= _min %}{% set _ = _versions.append(_v) %}{% endfor %}
+        python-version: {{ _versions | tojson }}
       fail-fast: false
     defaults:
       run:
@@ -47,18 +50,20 @@ jobs:
       - name: Set up the environment
         uses: ./.github/actions/setup-python-env
         with:
+# {% raw %}
           python-version: ${{matrix.python-version}}
-
+# {% endraw %}
+      - name: Check typing
+        run: uv run pyright
+# {% if cookiecutter.testing_framework != "none" %}
       - name: Run tests
         run: uv run python -m pytest tests --cov --cov-config=pyproject.toml --cov-report=xml
 
-      - name: Check typing
-        run: uv run mypy
-
-      - name: Upload coverage reports to Codecov with GitHub Action on Python 3.11 for Ubuntu
+      - name: Upload coverage reports to Codecov
+        if: matrix.python-version == '{{ cookiecutter.python_version_number }}'
         uses: codecov/codecov-action@v3
-        if: ${{matrix.python-version == '3.11'}}
-
+# {% endif %}
+# {% if cookiecutter.docs == "mkdocs" %}
   check-docs:
     runs-on: ubuntu-latest
     steps:
@@ -69,5 +74,5 @@ jobs:
         uses: ./.github/actions/setup-python-env
 
       - name: Check if documentation can be built
-        run: uv run mkdocs build -s
-# {% endraw %}
+        run: cd docs && uv run mkdocs build -s
+# {% endif %}
