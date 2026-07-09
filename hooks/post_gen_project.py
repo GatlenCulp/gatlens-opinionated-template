@@ -151,8 +151,8 @@ else:
 # Install the virtual environment (uv only for now)
 if gotem_args.environment_manager == "uv":
     os.chdir(Path.cwd())
-    subprocess.run(["make", "create_environment"], check=False)  # noqa: S607
-    subprocess.run(["make", "requirements"], check=False)  # noqa: S607
+    subprocess.run(["make", "create_environment"], check=False)  # noqa: S603, S607
+    subprocess.run(["make", "requirements"], check=False)  # noqa: S603, S607
 
 # ---------------------------------------------------------------------------- #
 #                                Version Control                               #
