@@ -1,0 +1,118 @@
+name: publish-example
+
+# Render this template with its default answers and publish the resulting
+# example project to a public repository. Runs on every push to the default
+# branch so the example always mirrors the latest template output.
+#
+# Setup required (one time):
+#   1. Create the target public repo (default: gatlenculp/gatlens-opinionated-template-example).
+#      Override the name with an Actions *variable* named TEMPLATE_EXAMPLE_REPO.
+#   2. Create a Personal Access Token with write access to that repo and add it
+#      as an Actions *secret* named PUBLISH_TOKEN.
+#        - Classic PAT: needs the `repo` AND `workflow` scopes. `workflow` is
+#          required because the rendered example contains .github/workflows/*.yml.
+#        - Fine-grained PAT: grant "Contents" + "Workflows" read/write on the
+#          target repo.
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - "docs/**"
+      - "README.md"
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: "Override target repo (owner/name) for this run"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-example-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: Render template and publish example
+    runs-on: ubuntu-latest
+    env:
+      TARGET_REPO: >-
+        ${{ github.event.inputs.target_repo
+            || vars.TEMPLATE_EXAMPLE_REPO
+            || 'gatlenculp/gatlens-opinionated-template-example' }}
+      TARGET_BRANCH: main
+
+    steps:
+      - name: Checkout template
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            pyproject.toml
+            dev-requirements.txt
+
+      - name: Install template package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Check publish token is configured
+        env:
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+        run: |
+          if [ -z "${PUBLISH_TOKEN}" ]; then
+            echo "::error::Secret PUBLISH_TOKEN is not set. Add a PAT with write" \
+                 "access to ${TARGET_REPO} (repo + workflow scopes) as an Actions" \
+                 "secret named PUBLISH_TOKEN."
+            exit 1
+          fi
+
+      - name: Render example project (template defaults)
+        id: render
+        run: |
+          set -euo pipefail
+          RENDERED="$(python .github/scripts/render_example.py \
+            --output-dir "${RUNNER_TEMP}/rendered" | tail -n1)"
+          if [ -z "${RENDERED}" ] || [ ! -d "${RENDERED}" ]; then
+            echo "::error::Render did not produce a project directory."
+            exit 1
+          fi
+          echo "path=${RENDERED}" >> "$GITHUB_OUTPUT"
+          echo "Rendered example project at: ${RENDERED}"
+
+      - name: Publish rendered example
+        env:
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          RENDERED_PATH: ${{ steps.render.outputs.path }}
+        run: |
+          set -euo pipefail
+
+          WORKDIR="${RUNNER_TEMP}/publish"
+          rm -rf "${WORKDIR}"
+          cp -a "${RENDERED_PATH}" "${WORKDIR}"
+          cd "${WORKDIR}"
+
+          git init -q
+          git checkout -q -b "${TARGET_BRANCH}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          git commit -q -m "chore: publish rendered example from ${GITHUB_REPOSITORY}@${GITHUB_SHA:0:7}" \
+            -m "Generated automatically by the publish-example workflow." \
+            -m "Source: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+
+          # The example repo is a generated mirror of the template's default
+          # output, so force-push a fresh history each time it changes.
+          git push --force \
+            "https://x-access-token:${PUBLISH_TOKEN}@github.com/${TARGET_REPO}.git" \
+            "${TARGET_BRANCH}"
+
+          echo "Published rendered example to ${TARGET_REPO} (${TARGET_BRANCH})."
