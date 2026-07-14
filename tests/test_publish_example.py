@@ -21,6 +21,7 @@ from pathlib import Path
 from types import ModuleType
 
 import pytest
+from cookiecutter.exceptions import RepositoryNotFound
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_PATH = REPO_ROOT / ".github" / "scripts" / "render_example.py"
@@ -54,8 +55,21 @@ def _dangling_symlinks(root: Path) -> list[Path]:
     return [p for p in root.rglob("*") if p.is_symlink() and not p.exists()]
 
 
+@pytest.fixture
+def template_copy(tmp_path: Path) -> Path:
+    """Copy the repo into an isolated dir so pruning/rendering never touches the real tree.
+
+    ``symlinks=True`` copies symlinks verbatim (rather than following them), so
+    the tracked dangling ``.trunk`` links come along without raising and the copy
+    faithfully mirrors a fresh CI checkout.
+    """
+    dest = tmp_path / "template"
+    shutil.copytree(REPO_ROOT, dest, symlinks=True, ignore=_COPY_IGNORE)
+    return dest
+
+
 def test_prune_dangling_symlinks_removes_only_broken_links(tmp_path: Path) -> None:
-    """Under .trunk, only broken symlinks are removed; valid ones survive."""
+    """Under .trunk, broken symlinks (incl. nested) are removed; valid ones survive."""
     trunk = tmp_path / ".trunk"
     trunk.mkdir()
 
@@ -68,11 +82,18 @@ def test_prune_dangling_symlinks_removes_only_broken_links(tmp_path: Path) -> No
     bad_link = trunk / "bad_link"
     bad_link.symlink_to(trunk / "does_not_exist")
 
+    # A broken symlink nested in a subdirectory must also be pruned (rglob walks
+    # recursively), since real .trunk links live under nested paths.
+    nested_dir = trunk / "plugins" / "trunk"
+    nested_dir.mkdir(parents=True)
+    nested_bad = nested_dir / "nested_bad"
+    nested_bad.symlink_to(trunk / "also_missing")
+
     removed = render_example.prune_dangling_symlinks(tmp_path)
 
-    assert removed == [bad_link]
-    assert not bad_link.exists()
+    assert set(removed) == {bad_link, nested_bad}
     assert not bad_link.is_symlink()
+    assert not nested_bad.is_symlink()
     # Valid symlink and real file are untouched.
     assert good_link.is_symlink()
     assert real_file.read_text() == "hello"
@@ -100,12 +121,8 @@ def test_prune_dangling_symlinks_without_trunk_is_noop(tmp_path: Path) -> None:
     assert render_example.prune_dangling_symlinks(tmp_path) == []
 
 
-def test_render_produces_clean_example_project(tmp_path: Path) -> None:
+def test_render_produces_clean_example_project(tmp_path: Path, template_copy: Path) -> None:
     """Render the real template and assert the example is clean and complete."""
-    # Copy the template into an isolated dir so pruning does not touch the repo.
-    template_copy = tmp_path / "template"
-    shutil.copytree(REPO_ROOT, template_copy, symlinks=True, ignore=_COPY_IGNORE)
-
     # Inject a broken symlink under .trunk like the tracked runtime symlinks
     # that dangle on a fresh checkout, so the render path genuinely relies on
     # pruning it. Without pruning, cookiecutter's temp-dir copy would raise.
@@ -133,11 +150,8 @@ def test_render_produces_clean_example_project(tmp_path: Path) -> None:
     assert _dangling_symlinks(project_dir) == []
 
 
-def test_render_overwrites_existing_output(tmp_path: Path) -> None:
+def test_render_overwrites_existing_output(tmp_path: Path, template_copy: Path) -> None:
     """A pre-existing output directory is cleared, not merged, before rendering."""
-    template_copy = tmp_path / "template"
-    shutil.copytree(REPO_ROOT, template_copy, symlinks=True, ignore=_COPY_IGNORE)
-
     output_dir = tmp_path / "out"
     output_dir.mkdir()
     # Stale content from a previous run should be cleared, not merged.
@@ -147,6 +161,13 @@ def test_render_overwrites_existing_output(tmp_path: Path) -> None:
 
     assert not (output_dir / "stale.txt").exists()
     assert project_dir.is_dir()
+
+
+def test_render_fails_on_missing_template(tmp_path: Path) -> None:
+    """Rendering a non-existent template path raises rather than silently succeeding."""
+    missing = tmp_path / "no_such_template"
+    with pytest.raises(RepositoryNotFound):
+        render_example.render(str(missing), str(tmp_path / "out"))
 
 
 if __name__ == "__main__":
