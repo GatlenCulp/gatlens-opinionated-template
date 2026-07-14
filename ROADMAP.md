@@ -30,6 +30,7 @@ distribution/branching strategy is built on (see §6–7).
 - A real, opinionated, modern stack (uv, Ruff, Typer, Pydantic, Loguru, Polars).
 
 ### What blocks a credible "1.0 / stable"
+
 | Issue | Evidence | Why it matters for 1.0 |
 | --- | --- | --- |
 | README says **"Not yet ready for production…may fail to work between versions"** | `README.md:9-10` | Directly contradicts a v1.0 "stable" claim. Must be resolved. |
@@ -121,11 +122,11 @@ Adapted from `RELEASING.md`, corrected for GOTem's tooling:
 
 - [ ] All M1–M5 exit criteria met; `main`/`master` green.
 - [ ] `version = "1.0.0"` in `pyproject.toml` (single source of truth; `ccds.__version__` reads it).
-- [ ] `CHANGELOG.md` updated (via `cz bump` or by hand) with the `1.0.0` section and date.
+- [ ] `CHANGELOG.md` and version bumped with `cz bump` (the canonical path — see §8; avoid hand-edits so the version/tag/changelog stay in sync).
 - [ ] README maturity banner rewritten; classifier `Development Status :: 5 - Production/Stable` now truthful.
 - [ ] Default-render CI gate passing on Linux + macOS.
 - [ ] Create GitHub Release with tag **`v1.0.0`** (the leading `v` is required — the CLI resolves `--checkout v{version}`).
-- [ ] `release.yml` publishes to TestPyPI, smoke-test `pip install -i test.pypi ... && gotem`, then Prod PyPI.
+- [ ] `release.yml` publishes to TestPyPI, then smoke-tests the **exact built artifact** (`pip install ./dist/<wheel> && gotem`, not a version-based TestPyPI install — see §6.3), then Prod PyPI.
 - [ ] Verify a clean `uvx --from gatlens-opinionated-template gotem` on a fresh machine renders `v1.0.0`.
 - [ ] Announce; open the `dev` line for 1.1 work.
 
@@ -140,16 +141,23 @@ equals `v{ccds.__version__}`, builds, and pushes to TestPyPI then Prod PyPI usin
 **Recommended target state for 1.0:**
 
 1. **Trusted Publishing (OIDC), not passwords.** Configure PyPI + TestPyPI "trusted
-   publisher" for this repo's `release` workflow and drop the `PYPI_*` username/password
-   secrets. Update `pypa/gh-action-pypi-publish` to a current major and remove the
-   deprecated `::set-output` line. This is the single biggest "make releases stable
-   and safe" change.
+   publisher" for this repo's `release` workflow, add `permissions: id-token: write`
+   to the publish job, and **remove the `user`/`password` inputs** from both
+   `pypa/gh-action-pypi-publish` steps (and delete the `PYPI_*` secrets) — otherwise
+   the action falls back to long-lived credentials and "trusted publishing" is not
+   actually in effect. Update `pypa/gh-action-pypi-publish` to a current major and
+   remove the deprecated `::set-output` line. This is the single biggest "make
+   releases stable and safe" change.
 2. **Tag-driven, single source of version truth.** Keep `version` in `pyproject.toml`
    as the only place; the tag `v{version}` gate in `release.yml` already enforces
    consistency — keep it.
 3. **Always TestPyPI first.** Keep the TestPyPI step with `skip_existing: true`, and
-   add an install-smoke-test step against TestPyPI before the Prod publish. This
-   catches broken sdists/wheels before they hit users.
+   add an install-smoke-test step before the Prod publish. Because `skip_existing`
+   means a re-run may *not* upload the new artifact, the smoke test must validate the
+   **exact wheel/sdist this build produced** — install the local artifact from
+   `dist/` (or verify the uploaded artifact's digest) rather than doing a bare
+   `pip install <name>==<version>` from TestPyPI, which can silently pull an older
+   package of the same version. This catches broken sdists/wheels before they hit users.
 4. **Retire `make publish` for real releases.** Manual `uv publish` bypasses the tag
    check and TestPyPI. Keep it only for local scratch/TestPyPI experiments; releases
    go through the workflow.
