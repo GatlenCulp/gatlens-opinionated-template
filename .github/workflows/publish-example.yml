@@ -5,7 +5,7 @@ name: publish-example
 # branch so the example always mirrors the latest template output.
 #
 # Setup required (one time):
-#   1. Create the target public repo (default: gatlenculp/gatlens-opinionated-template-example).
+#   1. Create the target public repo (default: gatlenculp/gotem-example).
 #      Override the name with an Actions *variable* named TEMPLATE_EXAMPLE_REPO.
 #   2. Create a Personal Access Token with write access to that repo and add it
 #      as an Actions *secret* named PUBLISH_TOKEN.
@@ -42,7 +42,7 @@ jobs:
       TARGET_REPO: >-
         ${{ github.event.inputs.target_repo
             || vars.TEMPLATE_EXAMPLE_REPO
-            || 'gatlenculp/gatlens-opinionated-template-example' }}
+            || 'gatlenculp/gotem-example' }}
       TARGET_BRANCH: main
 
     steps:
