@@ -55,15 +55,18 @@ def _dangling_symlinks(root: Path) -> list[Path]:
 
 
 def test_prune_dangling_symlinks_removes_only_broken_links(tmp_path: Path) -> None:
-    """Only broken symlinks are removed; real files and valid links survive."""
-    real_file = tmp_path / "real.txt"
+    """Under .trunk, only broken symlinks are removed; valid ones survive."""
+    trunk = tmp_path / ".trunk"
+    trunk.mkdir()
+
+    real_file = trunk / "real.txt"
     real_file.write_text("hello")
 
-    good_link = tmp_path / "good_link"
+    good_link = trunk / "good_link"
     good_link.symlink_to(real_file)
 
-    bad_link = tmp_path / "bad_link"
-    bad_link.symlink_to(tmp_path / "does_not_exist")
+    bad_link = trunk / "bad_link"
+    bad_link.symlink_to(trunk / "does_not_exist")
 
     removed = render_example.prune_dangling_symlinks(tmp_path)
 
@@ -75,16 +78,40 @@ def test_prune_dangling_symlinks_removes_only_broken_links(tmp_path: Path) -> No
     assert real_file.read_text() == "hello"
 
 
+def test_prune_dangling_symlinks_ignores_paths_outside_trunk(tmp_path: Path) -> None:
+    """Broken symlinks outside .trunk are left alone (scoped to .trunk only)."""
+    (tmp_path / ".trunk").mkdir()
+
+    outside = tmp_path / "elsewhere_broken"
+    outside.symlink_to(tmp_path / "missing")
+    git_broken = tmp_path / ".git"
+    git_broken.mkdir()
+    (git_broken / "broken").symlink_to(tmp_path / "missing")
+
+    removed = render_example.prune_dangling_symlinks(tmp_path)
+
+    assert removed == []
+    assert outside.is_symlink()
+    assert (git_broken / "broken").is_symlink()
+
+
+def test_prune_dangling_symlinks_without_trunk_is_noop(tmp_path: Path) -> None:
+    """A template root with no .trunk directory prunes nothing and does not error."""
+    assert render_example.prune_dangling_symlinks(tmp_path) == []
+
+
 def test_render_produces_clean_example_project(tmp_path: Path) -> None:
     """Render the real template and assert the example is clean and complete."""
     # Copy the template into an isolated dir so pruning does not touch the repo.
     template_copy = tmp_path / "template"
     shutil.copytree(REPO_ROOT, template_copy, symlinks=True, ignore=_COPY_IGNORE)
 
-    # Inject a broken symlink like the tracked .trunk ones that dangle on a
-    # fresh checkout, so the render path genuinely relies on pruning it. Without
-    # pruning, cookiecutter's temp-dir copy would raise on this.
-    (template_copy / "dangling_link").symlink_to(template_copy / "does_not_exist")
+    # Inject a broken symlink under .trunk like the tracked runtime symlinks
+    # that dangle on a fresh checkout, so the render path genuinely relies on
+    # pruning it. Without pruning, cookiecutter's temp-dir copy would raise.
+    trunk_dir = template_copy / ".trunk"
+    trunk_dir.mkdir(exist_ok=True)
+    (trunk_dir / "dangling_link").symlink_to(trunk_dir / "does_not_exist")
 
     output_dir = tmp_path / "out"
     project_dir = render_example.render(str(template_copy), str(output_dir))

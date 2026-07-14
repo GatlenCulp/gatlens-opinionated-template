@@ -48,6 +48,10 @@ jobs:
     steps:
       - name: Checkout template
         uses: actions/checkout@v4
+        with:
+          # This job never pushes with GITHUB_TOKEN (publishing uses
+          # PUBLISH_TOKEN in a separate workdir), so don't persist it.
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5

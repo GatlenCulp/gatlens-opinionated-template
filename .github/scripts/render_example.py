@@ -19,7 +19,7 @@ from ccds.__main__ import api_main
 
 
 def prune_dangling_symlinks(root: Path) -> list[Path]:
-    """Remove broken symlinks under ``root`` and return what was removed.
+    """Remove broken symlinks under ``root/.trunk`` and return what was removed.
 
     Cookiecutter copies the whole template directory into a temp dir before
     running the pre-prompt hook; ``shutil.copytree`` raises on dangling symlinks.
@@ -27,9 +27,16 @@ def prune_dangling_symlinks(root: Path) -> list[Path]:
     template author's local machine, so they are always broken on a fresh
     checkout. They are runtime caches with no bearing on the rendered project,
     so pruning them is safe and lets the render proceed anywhere.
+
+    The walk is scoped to ``.trunk`` so that running this script against a real
+    working tree (the ``--template .`` default) never deletes unrelated broken
+    symlinks elsewhere in the tree, including anything under ``.git``.
     """
+    trunk = root / ".trunk"
     removed: list[Path] = []
-    for path in root.rglob("*"):
+    if not trunk.is_dir():
+        return removed
+    for path in trunk.rglob("*"):
         if path.is_symlink() and not path.exists():
             path.unlink()
             removed.append(path)
