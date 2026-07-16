@@ -62,6 +62,7 @@
 	"_readme_include_acknowledgements": "y",
 	"_readme_table_in_about": "y",
 	"_copy_without_render": [
+		"*{{ cookiecutter.repo_name }}/.claude/**/*",
 		"*{{ cookiecutter.module_name }}/.cursor/rules/**/*",
 		"*{{ cookiecutter.module_name }}/.obsidian/**/*",
 		"*{{ cookiecutter.module_name }}/_backend/**/*",

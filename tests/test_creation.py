@@ -103,6 +103,10 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
     expected_dirs = {
         str(VSCODE_CONFIG_DIR),
         ".",
+        ".claude",
+        ".claude/skills",
+        ".claude/skills/setup-github-repo",
+        ".claude/skills/setup-github-repo/scripts",
         ".cursor",
         ".cursor/artifacts",
         ".cursor/mem",
@@ -368,8 +372,9 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
 
     existing_files = {f.relative_to(root) for f in root.glob("**/*") if f.is_file()}
 
-    # Always ignore Cursor project files, Trunk config, and scaffolded subpackages
+    # Always ignore Claude/Cursor project files, Trunk config, and scaffolded subpackages
     ignored_file_patterns = [
+        ".claude/**/*",
         ".cursor/**/*",
         ".trunk/**/*",
         f"{config['module_name']}/_*/**/*",
