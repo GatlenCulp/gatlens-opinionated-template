@@ -5,7 +5,8 @@ description: >-
   Python project repository from scratch, fully unattended, then verify it end-to-end.
   Use when the user wants to create a new project from the GOTem / gatlens-opinionated-template
   cookiecutter, bootstrap a new repo with this template, or test that GOTem generates a
-  working project. macOS / Linux only.
+  working project. Optionally publishes the new project to GitHub (public or private) using an
+  authenticated gh CLI or a GitHub PAT. macOS / Linux only.
 ---
 
 # GOTem Setup
@@ -96,12 +97,21 @@ uvx --from "git+https://github.com/GatlenCulp/gatlens-opinionated-template" gote
 The resulting project lands at `"$OUTPUT_DIR/<repo_name>"`, where `<repo_name>` is
 `project_name` lowercased with spaces replaced by underscores (e.g. `my_new_project`).
 
-### Keeping it fully offline of GitHub auth
+### Ask the user about GitHub before choosing `version_control`
 
-The **defaults are safe for unattended runs**: `version_control` defaults to `git (local)` and both
-SSH-key options default to `n`, so **no `gh` login, GitHub API call, or SSH key generation happens**.
-Only opt into those by overriding the fields below — and only when the environment is authenticated
-(`gh auth login` done) and the user explicitly wants a GitHub repo created.
+**Always ask the user whether the new project should be pushed to GitHub, and if so whether it
+should be public or private.** Do not create a remote repository without an explicit "yes" — pushing
+to GitHub is an outward-facing, hard-to-undo action. Offer three choices:
+
+1. **No** — keep it local only. Leave `version_control` at its default `git (local)`. This is the
+   safe, fully offline default; **no `gh` login, GitHub API call, or SSH key generation happens**.
+2. **Yes, private** — `version_control="git (github private)"`.
+3. **Yes, public** — `version_control="git (github public)"`.
+
+Only pass a `git (github …)` value once you have confirmed both the user's intent **and** that a
+working credential exists (see the next section). If the user says yes but no credential is
+available, generate locally with `git (local)` and publish afterward once a credential is provided,
+rather than letting generation fail mid-hook.
 
 ### Common overrides (from `ccds.json`)
 
@@ -139,6 +149,81 @@ uvx --from "git+https://github.com/GatlenCulp/gatlens-opinionated-template" gote
   environment_manager="uv" \
   testing_framework="pytest"
 ```
+
+---
+
+## Publishing to GitHub (only if the user opted in)
+
+GOTem's GitHub integration shells out to the **`gh` CLI** and runs
+`gh repo create <repo_name> --<private|public> --source=. --remote=origin --push`. It **requires
+`gh` to be installed and authenticated** (`gh auth status` must succeed); otherwise the post-gen hook
+raises and the run fails. So before choosing a `git (github …)` option, establish a credential.
+
+### Detect what's available (be smart about credentials)
+
+Check, in this order, and pick the first that works:
+
+```bash
+# 1. Is gh already installed AND authenticated? Best case — nothing to do.
+if command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
+  echo "gh: authenticated — GOTem can create the repo directly"
+
+# 2. gh installed but not authed, and a PAT is in the environment? Log in non-interactively.
+elif command -v gh >/dev/null && [ -n "${GITHUB_TOKEN:-${GH_TOKEN:-}}" ]; then
+  printf '%s' "${GITHUB_TOKEN:-$GH_TOKEN}" | gh auth login --with-token && \
+    echo "gh: authenticated via PAT from environment"
+
+# 3. No usable gh credential.
+else
+  echo "No gh credential — generate locally, publish later (see fallback below)"
+fi
+```
+
+Notes on credentials:
+
+- **Prefer an already-authenticated `gh`** — it's the path GOTem itself uses, and it keeps tokens out
+  of your hands entirely.
+- **A PAT** (`GITHUB_TOKEN` / `GH_TOKEN`) needs the `repo` scope (and `read:org` for org repos). Feed it
+  to `gh auth login --with-token` via stdin as above — **never** paste it on a command line or echo it,
+  and never write it into a committed file or the repo's `origin` URL.
+- The PAT belongs to whoever's token it is; the repo is created under **that** account. Confirm that
+  matches the user's intent before pushing.
+
+### Path A — let GOTem create and push (preferred)
+
+Once `gh auth status` succeeds, just pass the GitHub option at generation time:
+
+```bash
+uvx --from "git+https://github.com/GatlenCulp/gatlens-opinionated-template" gotem \
+  --no-input --output-dir "$OUTPUT_DIR" \
+  project_name="My New Project" \
+  version_control="git (github private)"   # or "git (github public)"
+```
+
+GOTem creates the repo under the authenticated account, sets `origin`, and pushes `main` in one shot.
+
+### Path B — generate locally, publish afterward (fallback)
+
+Use this when you'd rather verify the project first, when `gh` couldn't be authenticated at
+generation time, or when you only have a PAT and no `gh`. Generate with `version_control="git (local)"`
+(the default), then publish:
+
+```bash
+cd "$OUTPUT_DIR/my_new_project"   # already a git repo with an initial commit
+
+# If gh is authenticated (directly or via the PAT login above):
+gh repo create my_new_project --private --source=. --remote=origin --push   # or --public
+
+# If you ONLY have a PAT and no gh: create via the API, push over an ephemeral tokened URL,
+# then store the clean remote so the token is never persisted.
+OWNER="$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user | grep -o '"login":[^,]*' | head -1 | cut -d'"' -f4)"
+curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user/repos \
+  -d '{"name":"my_new_project","private":true}' >/dev/null
+git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${OWNER}/my_new_project.git" HEAD:main
+git remote add origin "https://github.com/${OWNER}/my_new_project.git"   # clean URL, no token
+```
+
+Always confirm the resulting repo's visibility and owner match what the user asked for.
 
 ---
 
@@ -192,6 +277,6 @@ echo "GOTem smoke test complete"
 - **`uv: command not found` after install** — the installer added `uv` to `~/.local/bin`; run `export PATH="$HOME/.local/bin:$PATH"` (or `source "$HOME/.local/bin/env"`) in the current shell.
 - **Initial commit fails / "Author identity unknown"** — set `git config --global user.name`/`user.email` (see Prerequisites), or pass `version_control="none"` to skip git entirely.
 - **Post-gen hangs or errors on dependency install** — `environment_manager="uv"` runs `make create_environment` + `make requirements`, which need `make` and network access. Use `environment_manager="none"` to skip it.
-- **A GitHub repo gets created / `gh` errors** — only happens if you pass `version_control="git (github public|private)"`. Leave it at the default `git (local)` for a purely local repo.
+- **A GitHub repo gets created / `gh` errors** — only happens if you pass `version_control="git (github public|private)"`, which needs an authenticated `gh` (see "Publishing to GitHub"). Leave it at the default `git (local)` for a purely local repo. If generation failed because `gh` wasn't authenticated, use Path B to publish after the fact.
 - **Want a specific template version** — pin the tool install: `uvx --from "git+https://github.com/GatlenCulp/gatlens-opinionated-template@v0.5.1" gotem ...`.
 - **Slow first run** — `uvx` downloads and builds the tool the first time; subsequent runs are cached.
