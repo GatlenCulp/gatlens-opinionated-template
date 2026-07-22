@@ -103,6 +103,10 @@ def verify_folders(root: Path, config: dict[str, Any]) -> None:
     expected_dirs = {
         str(VSCODE_CONFIG_DIR),
         ".",
+        ".claude",
+        ".claude/skills",
+        ".claude/skills/setup-github-repo",
+        ".claude/skills/setup-github-repo/scripts",
         ".cursor",
         ".cursor/artifacts",
         ".cursor/mem",
@@ -368,8 +372,9 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
 
     existing_files = {f.relative_to(root) for f in root.glob("**/*") if f.is_file()}
 
-    # Always ignore Cursor project files, Trunk config, and scaffolded subpackages
+    # Always ignore Claude/Cursor project files, Trunk config, and scaffolded subpackages
     ignored_file_patterns = [
+        ".claude/**/*",
         ".cursor/**/*",
         ".trunk/**/*",
         f"{config['module_name']}/_*/**/*",
@@ -394,6 +399,17 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
     }
 
     assert all(no_curlies(root / f) for f in checked_files - ignore_curly_files)
+
+    # The Claude setup-github-repo skill ships verbatim (excluded from the render
+    # comparison above via .claude/**/*), so assert its files exist and kept their
+    # expected content — otherwise a missing skill file would pass silently.
+    skill_dir = root / ".claude" / "skills" / "setup-github-repo"
+    skill_md = skill_dir / "SKILL.md"
+    setup_sh = skill_dir / "scripts" / "setup_github_repo.sh"
+    assert skill_md.is_file(), "setup-github-repo SKILL.md missing from generated project"
+    assert setup_sh.is_file(), "setup_github_repo.sh missing from generated project"
+    assert "name: setup-github-repo" in skill_md.read_text()
+    assert "configure a GOTem-generated project as a new GitHub repo" in setup_sh.read_text()
 
 
 def verify_makefile_commands(root: Path, config: dict[str, Any]) -> bool:
