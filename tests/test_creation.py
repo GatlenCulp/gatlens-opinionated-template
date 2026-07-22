@@ -400,6 +400,17 @@ def verify_files(root: Path, config: dict[str, Any]) -> None:
 
     assert all(no_curlies(root / f) for f in checked_files - ignore_curly_files)
 
+    # The Claude setup-github-repo skill ships verbatim (excluded from the render
+    # comparison above via .claude/**/*), so assert its files exist and kept their
+    # expected content — otherwise a missing skill file would pass silently.
+    skill_dir = root / ".claude" / "skills" / "setup-github-repo"
+    skill_md = skill_dir / "SKILL.md"
+    setup_sh = skill_dir / "scripts" / "setup_github_repo.sh"
+    assert skill_md.is_file(), "setup-github-repo SKILL.md missing from generated project"
+    assert setup_sh.is_file(), "setup_github_repo.sh missing from generated project"
+    assert "name: setup-github-repo" in skill_md.read_text()
+    assert "configure a GOTem-generated project as a new GitHub repo" in setup_sh.read_text()
+
 
 def verify_makefile_commands(root: Path, config: dict[str, Any]) -> bool:
     """Actually shell out to bash and run the make commands for:

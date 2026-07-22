@@ -22,6 +22,7 @@ OWNER=""                    # empty => authenticated user; otherwise an org/user
 DESCRIPTION=""
 HOMEPAGE=""
 DEFAULT_BRANCH="main"
+REQUIRE_CHECKS=""           # comma-separated status-check contexts to require (opt-in)
 DO_PROTECT=1
 DO_LABELS=1
 DO_PAGES=1
@@ -35,6 +36,10 @@ info()  { printf '%s==>%s %s\n' "$c_blue"  "$c_reset" "$*"; }
 ok()    { printf '%s ok %s %s\n' "$c_green" "$c_reset" "$*"; }
 warn()  { printf '%swarn%s %s\n' "$c_yellow" "$c_reset" "$*" >&2; }
 die()   { printf '%serr %s %s\n' "$c_red"   "$c_reset" "$*" >&2; exit 1; }
+
+# Guard value-taking options: with `set -u`, a flag without a value would either
+# crash on an unbound $2 or silently swallow the next option token.
+require_value() { [[ "$2" -ge 2 ]] || die "Option $1 requires a value"; }
 
 run() {
   # Echo the command; execute unless --dry-run.
@@ -56,6 +61,10 @@ Options:
   --org ORG             Create under an organization instead of your user
   --homepage URL        Repo homepage/website
   --default-branch B    Default branch name (default: main)
+  --require-checks LIST  Comma-separated CI status-check contexts to require in the
+                        ruleset (opt-in). Matrix jobs are version-suffixed, e.g.
+                        "quality,tests-and-type-check (3.12),check-docs". Off by
+                        default because requiring a not-yet-existing check blocks merges.
   --no-protect          Skip branch protection / ruleset
   --no-labels           Skip applying .github/labels.yml
   --no-pages            Skip GitHub Pages docs configuration
@@ -69,13 +78,14 @@ EOF
 # ---------------------------------------------------------------------------- #
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --name)           REPO_NAME="$2"; shift 2 ;;
-    --description)    DESCRIPTION="$2"; shift 2 ;;
-    --visibility)     VISIBILITY="$2"; shift 2 ;;
+    --name)           require_value "$1" "$#"; REPO_NAME="$2"; shift 2 ;;
+    --description)    require_value "$1" "$#"; DESCRIPTION="$2"; shift 2 ;;
+    --visibility)     require_value "$1" "$#"; VISIBILITY="$2"; shift 2 ;;
     --public)         VISIBILITY="public"; shift ;;
-    --org)            OWNER="$2"; shift 2 ;;
-    --homepage)       HOMEPAGE="$2"; shift 2 ;;
-    --default-branch) DEFAULT_BRANCH="$2"; shift 2 ;;
+    --org)            require_value "$1" "$#"; OWNER="$2"; shift 2 ;;
+    --homepage)       require_value "$1" "$#"; HOMEPAGE="$2"; shift 2 ;;
+    --default-branch) require_value "$1" "$#"; DEFAULT_BRANCH="$2"; shift 2 ;;
+    --require-checks) require_value "$1" "$#"; REQUIRE_CHECKS="$2"; shift 2 ;;
     --no-protect)     DO_PROTECT=0; shift ;;
     --no-labels)      DO_LABELS=0; shift ;;
     --no-pages)       DO_PAGES=0; shift ;;
@@ -117,6 +127,18 @@ fi
 GH_USER="$(gh api user -q .login)"
 FULL_NAME="${OWNER:-$GH_USER}/$REPO_NAME"
 
+# Resolve the remote URL honoring the user's configured Git transport (ssh/https),
+# so `origin` matches how `gh auth login` was set up and pushes don't fail.
+remote_url_for() {
+  local proto
+  proto="$(gh config get git_protocol --host github.com 2>/dev/null || echo https)"
+  if [[ "$proto" == "ssh" ]]; then
+    gh repo view "$FULL_NAME" --json sshUrl -q .sshUrl
+  else
+    gh repo view "$FULL_NAME" --json url -q .url
+  fi
+}
+
 info "Configuration"
 printf '    repo:        %s\n' "$FULL_NAME"
 printf '    visibility:  %s\n' "$VISIBILITY"
@@ -128,30 +150,36 @@ printf '    branch:      %s\n' "$DEFAULT_BRANCH"
 #                          1. Local git initialization                         #
 # ---------------------------------------------------------------------------- #
 info "Ensuring local git repository"
-if [[ ! -d .git ]]; then
-  run git init -b "$DEFAULT_BRANCH"
+if [[ "$DRY_RUN" -eq 1 ]]; then
+  if [[ -d .git ]]; then
+    ok ".git present (dry-run: would commit any pending changes)"
+  else
+    printf '    (dry-run) would run: git init -b %s && git add -A && git commit\n' "$DEFAULT_BRANCH"
+  fi
 else
-  ok ".git already present"
-fi
+  if [[ ! -d .git ]]; then
+    run git init -b "$DEFAULT_BRANCH"
+  else
+    ok ".git already present"
+  fi
 
-# Make sure the default branch exists / is named correctly.
-if [[ "$DRY_RUN" -eq 0 ]]; then
+  # Make sure the default branch is named correctly.
   current_branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || echo "")"
   if [[ -n "$current_branch" && "$current_branch" != "$DEFAULT_BRANCH" ]]; then
     run git branch -M "$DEFAULT_BRANCH"
   fi
-fi
 
-# Initial commit if there is nothing committed yet or the tree is dirty.
-if [[ "$DRY_RUN" -eq 0 ]] && ! git rev-parse HEAD >/dev/null 2>&1; then
-  run git add -A
-  run git commit -m "Initial commit"
-elif [[ "$DRY_RUN" -eq 0 ]] && [[ -n "$(git status --porcelain)" ]]; then
-  warn "Uncommitted changes present — committing them"
-  run git add -A
-  run git commit -m "Configure project"
-else
-  ok "Working tree is committed"
+  # Initial commit if there is nothing committed yet, or commit a dirty tree.
+  if ! git rev-parse HEAD >/dev/null 2>&1; then
+    run git add -A
+    run git commit -m "Initial commit"
+  elif [[ -n "$(git status --porcelain)" ]]; then
+    warn "Uncommitted changes present — committing them"
+    run git add -A
+    run git commit -m "Configure project"
+  else
+    ok "Working tree is committed"
+  fi
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -160,11 +188,15 @@ fi
 info "Creating GitHub repository (if needed)"
 if gh repo view "$FULL_NAME" >/dev/null 2>&1; then
   warn "Repo $FULL_NAME already exists — reusing it"
-  remote_url="$(gh repo view "$FULL_NAME" --json sshUrl -q .sshUrl)"
-  if git remote get-url origin >/dev/null 2>&1; then
-    run git remote set-url origin "$remote_url"
+  if [[ "$DRY_RUN" -eq 0 ]]; then
+    remote_url="$(remote_url_for)"
+    if git remote get-url origin >/dev/null 2>&1; then
+      run git remote set-url origin "$remote_url"
+    else
+      run git remote add origin "$remote_url"
+    fi
   else
-    run git remote add origin "$remote_url"
+    printf '    (dry-run) would point origin at the existing repo\n'
   fi
 else
   create_args=(repo create "$FULL_NAME" "--$VISIBILITY" --source=. --remote=origin)
@@ -178,11 +210,11 @@ fi
 # ---------------------------------------------------------------------------- #
 info "Pushing to origin"
 run git push -u origin "$DEFAULT_BRANCH"
-if [[ "$DRY_RUN" -eq 0 ]] && git tag | grep -q .; then
-  run git push --tags
-fi
-if git show-ref --verify --quiet refs/heads/dev; then
-  run git push -u origin dev
+if [[ "$DRY_RUN" -eq 0 ]]; then
+  git tag | grep -q . && run git push --tags
+  git show-ref --verify --quiet refs/heads/dev && run git push -u origin dev
+else
+  printf '    (dry-run) would push tags and any dev branch\n'
 fi
 
 # ---------------------------------------------------------------------------- #
@@ -197,9 +229,32 @@ run gh "${edit_args[@]}" || warn "Some repo settings could not be applied"
 # ---------------------------------------------------------------------------- #
 #                             5. Branch protection                             #
 # ---------------------------------------------------------------------------- #
+# NOTE on plans: branch protection and rulesets are available for PUBLIC repos on
+# every plan, but for PRIVATE repos they require GitHub Team or Enterprise. On the
+# Free plan a private repo cannot enforce this — the API call below fails and we
+# warn rather than pretending protection was applied.
 if [[ "$DO_PROTECT" -eq 1 ]]; then
   info "Configuring a branch ruleset for '$DEFAULT_BRANCH'"
-  # Rulesets work on private repos across all plans (unlike classic protection).
+
+  # Optionally require CI status checks. Off by default: matrix jobs report
+  # version-suffixed contexts (e.g. "tests-and-type-check (3.12)") and requiring a
+  # context that never appears would block every merge. Pass --require-checks once
+  # you know the exact contexts (see them under the PR's checks after the first run).
+  checks_rule=""
+  if [[ -n "$REQUIRE_CHECKS" ]]; then
+    contexts=""
+    IFS=',' read -ra _ctx <<< "$REQUIRE_CHECKS"
+    for c in "${_ctx[@]}"; do
+      c="$(printf '%s' "$c" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
+      [[ -z "$c" ]] && continue
+      contexts+="${contexts:+,}{\"context\":\"$c\"}"
+    done
+    [[ -n "$contexts" ]] && checks_rule=",
+    { \"type\": \"required_status_checks\",
+      \"parameters\": { \"strict_required_status_checks_policy\": true,
+                        \"required_status_checks\": [ $contexts ] } }"
+  fi
+
   ruleset_json="$(cat <<JSON
 {
   "name": "protect-$DEFAULT_BRANCH",
@@ -217,19 +272,32 @@ if [[ "$DO_PROTECT" -eq 1 ]]; then
       }
     },
     { "type": "deletion" },
-    { "type": "non_fast_forward" }
+    { "type": "non_fast_forward" }$checks_rule
   ]
 }
 JSON
 )"
-  if [[ "$DRY_RUN" -eq 0 ]]; then
-    if printf '%s' "$ruleset_json" | gh api "repos/$FULL_NAME/rulesets" --input - >/dev/null 2>&1; then
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '    (dry-run) would create/update ruleset protect-%s%s\n' \
+      "$DEFAULT_BRANCH" "${REQUIRE_CHECKS:+ (required checks: $REQUIRE_CHECKS)}"
+  else
+    # Idempotent reconcile: update the existing named ruleset by id if present,
+    # otherwise create it — so repeated runs don't stack duplicate rulesets.
+    existing_id="$(gh api "repos/$FULL_NAME/rulesets" \
+      --jq ".[] | select(.name==\"protect-$DEFAULT_BRANCH\") | .id" 2>/dev/null | head -n1 || true)"
+    if [[ -n "$existing_id" ]]; then
+      if printf '%s' "$ruleset_json" | gh api -X PUT "repos/$FULL_NAME/rulesets/$existing_id" --input - >/dev/null 2>&1; then
+        ok "Ruleset updated for '$DEFAULT_BRANCH'"
+      else
+        warn "Could not update existing ruleset (permissions/plan?). Left unchanged."
+      fi
+    elif printf '%s' "$ruleset_json" | gh api -X POST "repos/$FULL_NAME/rulesets" --input - >/dev/null 2>&1; then
       ok "Ruleset created for '$DEFAULT_BRANCH'"
     else
-      warn "Could not create ruleset (already exists, or insufficient permissions/plan). Skipping."
+      warn "Could not create ruleset. Private repos need GitHub Team/Enterprise for"
+      warn "rulesets & branch protection (public repos work on all plans). Left unprotected."
     fi
-  else
-    printf '    (dry-run) would POST ruleset for %s\n' "$DEFAULT_BRANCH"
   fi
 else
   warn "Skipping branch protection (--no-protect)"
@@ -270,14 +338,33 @@ fi
 # ---------------------------------------------------------------------------- #
 #                            7. GitHub Pages (docs)                            #
 # ---------------------------------------------------------------------------- #
+# Docs deploy on release via .github/workflows/on-release-main.yml (mkdocs gh-deploy),
+# which creates the 'gh-pages' branch. We can only turn on Pages once that branch
+# exists, so configure it when present and defer with guidance otherwise.
 if [[ "$DO_PAGES" -eq 1 && -f docs/mkdocs.yml ]]; then
   info "Configuring GitHub Pages for mkdocs docs"
-  warn "Docs deploy on release via .github/workflows/on-release-main.yml (mkdocs gh-deploy)."
-  warn "After the first release builds the 'gh-pages' branch, enable Pages with:"
-  printf '    gh api -X POST repos/%s/pages -f "source[branch]=gh-pages" -f "source[path]=/"\n' "$FULL_NAME"
-  if [[ -f CNAME ]]; then
-    domain="$(head -n1 CNAME | tr -d '[:space:]')"
-    [[ -n "$domain" ]] && printf '    Custom domain detected in CNAME: %s\n' "$domain"
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '    (dry-run) would enable Pages from gh-pages once that branch exists\n'
+  elif gh api "repos/$FULL_NAME/branches/gh-pages" >/dev/null 2>&1; then
+    if gh api "repos/$FULL_NAME/pages" >/dev/null 2>&1; then
+      ok "GitHub Pages already configured"
+    elif gh api -X POST "repos/$FULL_NAME/pages" \
+           -f "source[branch]=gh-pages" -f "source[path]=/" >/dev/null 2>&1; then
+      ok "GitHub Pages enabled from gh-pages"
+    else
+      warn "Could not enable Pages automatically — enable it in repo Settings > Pages."
+    fi
+    if [[ -f CNAME ]]; then
+      domain="$(head -n1 CNAME | tr -d '[:space:]')"
+      if [[ -n "$domain" ]]; then
+        gh api -X PUT "repos/$FULL_NAME/pages" -f "cname=$domain" >/dev/null 2>&1 \
+          && ok "Pages custom domain set to $domain" \
+          || warn "Could not set Pages custom domain ($domain)"
+      fi
+    fi
+  else
+    warn "No 'gh-pages' branch yet — docs deploy on release via on-release-main.yml."
+    warn "After the first release creates gh-pages, re-run this script to enable Pages."
   fi
 else
   [[ "$DO_PAGES" -eq 1 ]] && warn "No docs/mkdocs.yml — skipping Pages configuration"
@@ -294,6 +381,7 @@ if [[ "$DRY_RUN" -eq 0 ]]; then
   echo "Next steps you may want to take:"
   echo "  - Add optional secrets:  gh secret set CODECOV_TOKEN"
   echo "  - Review Actions runs:   gh run list"
+  echo "  - Require CI checks:     re-run with --require-checks after the first CI run"
   echo "  - Upload a deploy key:   gh repo deploy-key add secrets/<name>.pub --title \"$REPO_NAME-deploy\""
 else
   ok "Dry run complete — re-run without --dry-run to apply."

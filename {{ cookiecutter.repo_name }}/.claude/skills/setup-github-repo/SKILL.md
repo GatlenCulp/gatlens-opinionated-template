@@ -65,8 +65,9 @@ bash .claude/skills/setup-github-repo/scripts/setup_github_repo.sh \
 
 Useful flags: `--org <org>` (create under an organization), `--public`,
 `--default-branch main`, `--no-protect` (skip branch protection), `--no-labels`,
-`--no-pages`, `--homepage <url>`, `--dry-run` (print actions without executing).
-Run with `--help` for the full list.
+`--no-pages`, `--homepage <url>`, `--require-checks "<ctx>,<ctx>"` (require CI
+status checks in the ruleset — see step 5), `--dry-run` (print actions without
+executing). Run with `--help` for the full list.
 
 Read the script's output and relay a concise summary. If a step is skipped
 (e.g. protection needs a plan the account doesn't have), say so explicitly
@@ -90,12 +91,18 @@ judgment or when the user asks.
 4. **Repo settings** — `gh repo edit <owner>/<name> --description "<desc>"
    --homepage "<url>" --add-topic python,gotem,<extras>`. Enable/disable
    features to match the project (issues on; wiki/discussions per the user).
-5. **Branch protection** — protect `main` (and `dev` if present). Prefer a
-   **repository ruleset** (works on private repos on all plans) over classic
-   branch protection (private-repo protection needs GitHub Pro/Team). Require a
-   PR before merging and require the CI status checks from
-   `.github/workflows/main.yml` to pass. If the plan can't enforce it, warn the
-   user instead of silently skipping.
+5. **Branch protection** — protect `main` (and `dev` if present) with a
+   **repository ruleset** that requires a PR before merging and blocks force-push
+   and deletion. **Plan/visibility matters**: branch protection and rulesets work
+   for **public** repos on every plan, but for **private** repos they require
+   GitHub **Team or Enterprise** — a private repo on the Free plan cannot enforce
+   them. The helper attempts the ruleset and *warns* (rather than implying
+   success) if the account/plan can't enforce it; relay that warning to the user.
+   To also require CI to pass, pass `--require-checks` with the exact check
+   contexts. Note matrix jobs report **version-suffixed** contexts (e.g.
+   `tests-and-type-check (3.12)`), and `check-docs` only exists when docs are
+   mkdocs — so requiring guessed names would block merges. Read the real contexts
+   from the PR's checks after the first CI run, then supply them.
 6. **Issue labels** — apply `.github/labels.yml` so the ISSUE_TEMPLATE labels
    resolve. Create/update each label with `gh label create <name>
    --color <hex> --description "<desc>" --force`.
@@ -105,10 +112,11 @@ judgment or when the user asks.
    a PyPI token / trusted publisher. Add with `gh secret set <NAME>`.
 8. **GitHub Pages / docs** (only if the project uses mkdocs — check for
    `docs/mkdocs.yml`) — docs deploy via `on-release-main.yml` on release using
-   `mkdocs gh-deploy`. Ensure Pages serves from the `gh-pages` branch
-   (`gh api -X POST repos/<owner>/<name>/pages -f source[branch]=gh-pages
-   -f source[path]=/` after the first deploy). If a `CNAME` file with a custom
-   domain is present, set the Pages custom domain to match.
+   `mkdocs gh-deploy`, which creates the `gh-pages` branch. Pages can only be
+   turned on once that branch exists, so the helper enables Pages from `gh-pages`
+   (and sets the custom domain from `CNAME`) **when the branch is present**, and
+   otherwise defers with guidance to re-run after the first release. It's
+   idempotent — safe to run again once `gh-pages` shows up.
 9. **Deploy keys (optional)** — GOTem can generate SSH deploy keys under
    `secrets/`. If the user wants CI/CD deploy access, upload the public key with
    `gh repo deploy-key add <path-to>.pub --title "<repo>-deploy"` (add
@@ -131,8 +139,10 @@ After running, confirm the result and report it back:
 - **Org vs. personal**: creating under an org requires membership and the
   `admin:org` (or repo-creation) permission; surface the exact `gh` error if it
   fails rather than guessing.
-- **Private-repo protection**: classic branch protection on private repos needs
-  a paid plan; rulesets do not — prefer rulesets.
+- **Private-repo protection**: both classic branch protection and rulesets need
+  GitHub Team/Enterprise for **private** repos; **public** repos work on any plan.
+  On the Free plan a private repo can't enforce protection — the helper warns
+  instead of pretending it applied.
 - **Git LFS**: GOTem configures `.gitattributes` for LFS. If the first push
   errors on LFS, see the "Known Issues" note in the GOTem README
   (`git lfs install --skip-smudge`).
